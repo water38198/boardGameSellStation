@@ -127,7 +127,9 @@
                           介紹:<br />
                           {{ product.description }}
                         </p>
-                        <h5 class="card-title fs-2">{{ product.title }}</h5>
+                        <h5 class="card-title fs-2 text-truncate">
+                          {{ product.title }}
+                        </h5>
                       </div>
                     </div>
                   </div>
@@ -188,7 +190,9 @@
                         介紹:<br />
                         {{ product.description }}
                       </p>
-                      <h5 class="card-title fs-2">{{ product.title }}</h5>
+                      <h5 class="card-title fs-2 text-truncate">
+                        {{ product.title }}
+                      </h5>
                     </div>
                   </div>
                 </div>
@@ -250,7 +254,9 @@
                     <div
                       class="card-body d-flex flex-column justify-content-center h-100 mx-5"
                     >
-                      <h5 class="card-title fs-2">{{ article.title }}</h5>
+                      <h5 class="card-title fs-2 text-truncate">
+                        {{ article.title }}
+                      </h5>
                       <span class="text-b60">{{
                         timeTransform(article.create_at)
                       }}</span>
@@ -300,7 +306,9 @@
                     <div
                       class="card-body d-flex flex-column justify-content-center h-100 mx-5"
                     >
-                      <h5 class="card-title fs-2">{{ article.title }}</h5>
+                      <h5 class="card-title fs-2 text-truncate">
+                        {{ article.title }}
+                      </h5>
                       <span class="text-b60">{{
                         timeTransform(article.create_at)
                       }}</span>

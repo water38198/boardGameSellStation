@@ -171,7 +171,7 @@ export default {
   display: grid;
   place-items: center;
   width: 80%;
-  padding: 50px 0 50px;
+  padding: 20px 0 20px;
   border-radius: 30px;
   background: #eeeeee;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
