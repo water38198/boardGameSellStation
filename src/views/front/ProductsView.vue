@@ -72,7 +72,7 @@
           <h3 class="h3 text-theme text-center">{{ listTitle }}</h3>
           <template v-if="products.length">
             <div
-              class="col-6 col-lg-4"
+              class="col-6 col-xl-4"
               v-for="(product, i) in products"
               :key="product.id"
               data-aos="fade-up"
@@ -107,17 +107,18 @@
                       >元
                     </div>
                   </div>
-                  <div class="text-center mt-2 d-flex justify-content-between">
+                  <div
+                    class="text-center mt-2 d-flex flex-column flex-sm-row justify-content-between"
+                  >
                     <RouterLink
                       :to="`/product/${product.id}`"
-                      class="btn btn-outline-theme"
-                      style="width: 45%"
+                      class="btn btn-outline-theme d-block"
                       >查看更多</RouterLink
                     >
 
                     <button
                       type="button"
-                      class="btn btn-outline-danger w-50"
+                      class="btn btn-outline-danger  d-block"
                       :disabled="loadingItem === product.id"
                       @click="addToCart(product)"
                     >

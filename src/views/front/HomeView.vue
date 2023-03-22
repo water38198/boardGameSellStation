@@ -22,47 +22,47 @@
         style="background: linear-gradient(90deg, white 50%, transparent 50%)"
       >
         <div class="container py-7 bg-white" style="margin-top: -100px">
-          <div class="row justify-content-end g-5">
+          <div class="row justify-content-end">
             <div
               class="d-none d-lg-block col-lg-6"
-              style="
-                background-image: url(src/assets/home-news.jpg);
-                background-size: cover;
-              "
+              style="background-size: cover"
+              :style="{ backgroundImage: 'url(' + newsImage + ')' }"
             ></div>
-            <div class="col-12 col-lg-6">
+            <div class="col-lg-6">
               <template v-if="news">
-                <table class="table table-hover caption-top align-middle">
-                  <caption class="fs-2 text-theme mb-4">
-                    最新消息
-                  </caption>
-                  <thead>
-                    <tr>
-                      <th colspan="3"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="article in news"
-                      :key="article.id"
-                      data-aos="fade-up"
+                <h2 class="fs-2 text-theme ps-2 mb-4">最新消息</h2>
+                <ul class="list-group list-group-flush">
+                  <li
+                    v-for="(article, index) in news.slice(0, 5)"
+                    :key="article.id"
+                    class="list-group-item py-3"
+                    data-aos="fade-up"
+                    :data-aos-duration="1000 + 250 * index"
+                  >
+                    <RouterLink
+                      :to="`/article/${article.id}`"
+                      class="link-theme text-decoration-none fs-4 d-block"
                     >
-                      <td class="text-b60 fs-5 py-6">
-                        {{ timeTransform(article.create_at) }}
-                      </td>
-                      <td class="w-50 fs-4" :title="article.description">
-                        {{ article.title }}
-                      </td>
-                      <td>
-                        <RouterLink
-                          :to="`/article/${article.id}`"
-                          class="link-theme text-decoration-none fs-4"
-                          >more</RouterLink
-                        >
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                      <span
+                        class="me-4 bg-theme text-white fw-bold"
+                        style="
+                          font-size: 80%;
+                          padding: 3px 8px;
+                          border-radius: 3px;
+                        "
+                        >{{ index + 1 }}</span
+                      >
+                      <span class="text-b60 fs-5 me-3">{{
+                        timeTransform(article.create_at)
+                      }}</span>
+                      <span
+                        class="w-50 fs-4 text-truncate"
+                        :title="article.description"
+                        >{{ article.title }}</span
+                      >
+                    </RouterLink>
+                  </li>
+                </ul>
                 <div class="text-center my-5">
                   <RouterLink
                     :to="`/articles/news`"
@@ -90,10 +90,10 @@
           <div class="row g-3">
             <div
               class="col-12 col-lg-4"
-              v-for="(product, i) in newestProducts"
+              v-for="(product, index) in newestProducts"
               :key="product.id"
-              data-aos="fade-left"
-              :data-aos-duration="`${1000 + i * 250}`"
+              data-aos="zoom-in"
+              :data-aos-duration="1000 + 250 * index"
             >
               <RouterLink
                 :to="`/product/${product.id}`"
@@ -123,7 +123,7 @@
                             product.condition
                           }}</span>
                         </div>
-                        <p class="mb-auto d-lg-none mt-3">
+                        <p class="mb-auto d-lg-none mt-3 multi-text-truncate">
                           介紹:<br />
                           {{ product.description }}
                         </p>
@@ -151,10 +151,10 @@
         <div class="row g-3">
           <div
             class="col-12 col-lg-4"
-            v-for="(product, i) in changedProducts"
+            v-for="product in changedProducts"
             :key="product.id"
-            data-aos="fade-left"
-            :data-aos-duration="`${1000 + i * 250}`"
+            data-aos="zoom-in"
+            :data-aos-duration="1000 + 250 * index"
           >
             <RouterLink
               :to="`/product/${product.id}`"
@@ -171,7 +171,7 @@
                   </div>
                   <div class="col-6 col-lg-12">
                     <div
-                      class="card-body d-flex flex-column-reverse flex-lg-column h-100"
+                      class="card-body d-flex flex-column-reverse flex-lg-column"
                     >
                       <div class="fs-4 mb-3 d-none d-md-block">
                         <span class="badge bg-theme me-3">{{
@@ -184,7 +184,7 @@
                           product.condition
                         }}</span>
                       </div>
-                      <p class="mb-auto d-lg-none mt-3">
+                      <p class="mb-auto d-lg-none mt-3 multi-text-truncate">
                         介紹:<br />
                         {{ product.description }}
                       </p>
@@ -201,18 +201,23 @@
 
       <section
         style="
-          background: linear-gradient(
-              0deg,
-              rgba(0, 0, 0, 0.5),
-              rgba(0, 0, 0, 0.5)
-            ),
-            url(src/assets/section-image.jpg);
+          background-color: linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.5),
+            rgba(0, 0, 0, 0.5)
+          );
           background-size: cover;
           background-position: center;
           padding-top: 100px;
           padding-bottom: 100px;
           padding-left: 30%;
         "
+        :style="{
+          background:
+            'linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) center center / cover,url(' +
+            articleBanner +
+            ')',
+        }"
       >
         <div>
           <p class="text-white fs-2 mb-4">還在猶豫嗎?</p>
@@ -227,9 +232,10 @@
             <div class="col-12">
               <div
                 class="card mb-5 border-0 bg-b10"
-                data-aos="fade-up"
                 v-for="article in reviews.slice(0, 5)"
                 :key="article.id"
+                data-aos="fade-up"
+                :data-aos-duration="1000 + 250 * index"
               >
                 <div class="row g-0">
                   <div class="col-md-4">
@@ -248,7 +254,7 @@
                       <span class="text-b60">{{
                         timeTransform(article.create_at)
                       }}</span>
-                      <p class="card-text mt-3 fs-5">
+                      <p class="card-text mt-3 fs-5 multi-text-truncate">
                         {{ article.description }}
                       </p>
                       <div class="text-center text-md-start">
@@ -279,6 +285,7 @@
                 v-for="article in unboxings.slice(0, 5)"
                 :key="article.id"
                 data-aos="fade-up"
+                :data-aos-duration="1000 + 250 * index"
               >
                 <div class="row g-0">
                   <div class="col-md-4">
@@ -297,7 +304,7 @@
                       <span class="text-b60">{{
                         timeTransform(article.create_at)
                       }}</span>
-                      <p class="card-text mt-3 fs-5">
+                      <p class="card-text mt-3 fs-5 multi-text-truncate">
                         {{ article.description }}
                       </p>
                       <div class="text-center text-md-start">
@@ -420,8 +427,16 @@ import { mapActions, mapState } from "pinia";
 import utilities from "../../stores/utilities";
 import frontStore from "../../stores/frontStore";
 import articleStore from "../../stores/articleStore";
+import newsImage from "@/assets/home-news.jpg";
+import articleBanner from "@/assets/section-image.jpg";
 
 export default {
+  data() {
+    return {
+      newsImage,
+      articleBanner,
+    };
+  },
   methods: {
     ...mapActions(utilities, ["timeTransform"]),
     ...mapActions(frontStore, ["getArticles"]),
@@ -453,5 +468,11 @@ export default {
     height: 400px;
     object-fit: cover;
   }
+}
+.multi-text-truncate {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
 }
 </style>

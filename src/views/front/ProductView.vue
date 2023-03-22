@@ -35,6 +35,24 @@
         </div>
       </div>
       <div class="col-8 col-md-6 col-lg-7">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <RouterLink to="/" class="text-decoration-none text-theme"
+                >首頁</RouterLink
+              >
+            </li>
+            <li class="breadcrumb-item">
+              <RouterLink to="/products" class="text-decoration-none text-theme"
+                >全部商品</RouterLink
+              >
+            </li>
+
+            <li class="breadcrumb-item active" aria-current="page">
+              {{ product.title }}
+            </li>
+          </ol>
+        </nav>
         <div class="row h-100">
           <div class="col-12">
             <div class="h3">商品敘述:</div>

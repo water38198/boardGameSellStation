@@ -2,10 +2,10 @@
   <div class="container">
     <h2 class="text-center text-theme py-5">關於我們</h2>
     <section>
-      <ul style="list-style-type: none">
+      <ul style="list-style-type: none; padding-left: 0">
         <li data-aos="fade-up">
-          <div class="d-flex">
-            <div class="w-60 lh-lg px-5 align-self-center">
+          <div class="d-block d-sm-flex">
+            <div class="about-text lh-lg px-5 align-self-center">
               <h3>什麼是桌遊?</h3>
               <p>
                 桌遊（Tabletop game or Board
@@ -13,7 +13,7 @@
                 桌遊具有社交性，玩家們可以一起體驗遊戲的樂趣，互相合作或對抗，增進彼此之間的關係。同時，桌遊還可以培養玩家們的策略思考能力、創意能力、邏輯思維能力等等，並且可以提高玩家們的社交技能和團隊協作能力。
               </p>
             </div>
-            <div class="w-40">
+            <div class="about-img align-self-center">
               <img
                 src="https://images.unsplash.com/photo-1552985190-626af207368d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80"
                 alt=""
@@ -23,14 +23,14 @@
           </div>
         </li>
         <li data-aos="fade-up">
-          <div class="d-flex flex-row-reverse my-5">
-            <div class="w-60 lh-lg p-5 align-self-center">
+          <div class="d-block d-sm-flex flex-row-reverse my-5">
+            <div class="about-text lh-lg p-5 align-self-center">
               <h3>為什麼建立桌遊販電?</h3>
               <p>
                 我(PayRoom)熱衷於桌遊，不只玩桌桌遊也買了很多新的桌遊，無奈人的時間有限，很多新的、幾乎沒碰過或者沒有機會打開來遊玩的桌遊只能在櫃子裡面積灰塵，對桌遊有愛的我，實在不忍心看他們的年華老去，希望能它們在下一位主人的手上發光發熱。
               </p>
             </div>
-            <div class="w-40">
+            <div class="about-img align-self-center">
               <img
                 src="https://images.unsplash.com/photo-1553481187-be93c21490a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
                 alt=""
@@ -40,8 +40,8 @@
           </div>
         </li>
         <li data-aos="fade-up">
-          <div class="d-flex">
-            <div class="w-60 lh-lg px-5 align-self-center">
+          <div class="d-block d-sm-flex">
+            <div class="about-text lh-lg px-5 align-self-center">
               <h3>桌遊販電提供什麼服務呢</h3>
               <p>
                 桌遊販電會將二手桌遊以比市價便宜許多的價格出售，數量通常不多(1~2盒)，且會顯示商品本身的資訊(損傷、語言)，如果不介意二手商品的話，桌遊販電一定是您省錢的好選擇。
@@ -50,7 +50,7 @@
                 註:二手桌遊指的是桌遊本身已經拆封且沒有留外膜，遊玩的次數不會超過3次
               </p>
             </div>
-            <div class="w-40">
+            <div class="about-img align-self-center">
               <img
                 src="https://images.unsplash.com/photo-1521790797524-b2497295b8a0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80"
                 alt=""
@@ -64,4 +64,16 @@
   </div>
 </template>
 
-<style></style>
+<style>
+.about-img {
+  margin: 0 auto;
+}
+@media (max-width>375px) {
+  .about-text {
+    width: 60%;
+  }
+  .about-img {
+    width: 40%;
+  }
+}
+</style>

@@ -136,7 +136,7 @@
       class="btn"
     >
       <img :src="DiceIcon" alt="" />
-      <span class="text-theme"> 點我拿優惠券!!</span>
+      <span class="text-theme d-none d-md-inline"> 點我拿優惠券!!</span>
     </button>
     <!-- Modal -->
     <DiceRoll></DiceRoll>
