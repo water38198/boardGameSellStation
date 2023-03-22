@@ -1,0 +1,1 @@
+import{_ as o,e as t,r as n,o as s,c as a,g as r,w as c,F as _,a as p,b as u}from"./index-f7e34bef.js";const d={components:{RouterLink:t}},l=p("h1",null,"錯誤發生",-1);function i(m,f,k,x,h,N){const e=n("RouterLink");return s(),a(_,null,[l,r(e,{to:"/"},{default:c(()=>[u("回首頁")]),_:1})],64)}const B=o(d,[["render",i]]);export{B as default};
