@@ -7,7 +7,7 @@
     >
     </VLoading>
   </div>
-  <div class="bg-b20">
+  <div class="bg-b20 min-vh-100">
     <nav
       class="navbar navbar-expand-lg bg-transparent sticky-top"
       style="

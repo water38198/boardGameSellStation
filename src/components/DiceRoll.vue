@@ -19,7 +19,7 @@
           ></button>
         </div>
         <div class="modal-body">
-          <p>規則:只要擲出比對手大的骰子ˊ點數即可獲勝</p>
+          <p>規則:只要擲出比對手大的骰子點數即可獲勝</p>
           <div class="game">
             <div class="dice-container">
               對手的骰子:
