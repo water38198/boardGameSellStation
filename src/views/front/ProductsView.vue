@@ -72,7 +72,7 @@
           <h3 class="h3 text-theme text-center">{{ listTitle }}</h3>
           <template v-if="products.length">
             <div
-              class="col-6 col-xl-4"
+              class="col-md-6 col-xl-4"
               v-for="(product, i) in products"
               :key="product.id"
               data-aos="fade-up"
