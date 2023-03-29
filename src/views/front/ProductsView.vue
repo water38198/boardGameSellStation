@@ -2,7 +2,7 @@
   <div class="container bg-white py-5">
     <div class="row g-3">
       <div class="col-lg-3">
-        <div class="sticky-top" style="top: 90px">
+        <div class="product-category">
           <h3 class="text-theme text-center h3">商品類別</h3>
           <div
             class="list-group text-center fs-5 flex-row flex-lg-column list-group-flush"
@@ -206,5 +206,10 @@ export default {
 .list-group-flush > .list-group-item:last-child {
   border-bottom: var(--bs-list-group-border-width) solid
     var(--bs-list-group-border-color);
+}
+.product-category{
+  position: sticky;
+  top: 90px;
+  z-index: 1020;
 }
 </style>

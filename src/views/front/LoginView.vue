@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="row justify-content-center">
+  <div class="container min-vh-100">
+    <div class="row justify-content-center pt-5">
       <div class="col-4">
         <h2 class="text-center">登入</h2>
 

@@ -196,7 +196,7 @@ export default {
 </script>
 <style>
 .navbar {
-  z-index: 10;
+  z-index: 2000;
 }
 @media (min-width: 992px) {
   a.active {
