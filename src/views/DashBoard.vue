@@ -72,6 +72,7 @@ export default {
           }
         })
         .catch(() => {
+          alert("錯誤，請重新登入");
           this.$router.push("/login");
         });
     },

@@ -1,4 +1,6 @@
 <template>
+  <VLoading v-model:active="isLoading" :can-cancel="false" :is-full-page="true">
+  </VLoading>
   <div class="container bg-white py-4 px-5" v-if="article.title">
     <nav aria-label="breadcrumb" class="mb-4">
       <ol class="breadcrumb">
@@ -31,6 +33,11 @@
       />
     </div>
     <div v-html="article.content" class="mb-5"></div>
+    <div class="text-center">
+      <button type="button" class="btn btn-theme" @click="this.$router.go(-1)">
+        返回上一頁
+      </button>
+    </div>
   </div>
 </template>
 
@@ -43,14 +50,23 @@ export default {
   data() {
     return {
       article: {},
+      isLoading: false,
     };
   },
   methods: {
     getArticle() {
+      this.isLoading = true;
       this.$http
         .get(`${VITE_URL}/v2/api/${VITE_PATH}/article/${this.$route.params.id}`)
         .then((res) => {
           this.article = res.data.article;
+        })
+        .catch(() => {
+          alert("錯誤發生");
+          this.$router.go(-1);
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
     breadCrumbSort(category) {
