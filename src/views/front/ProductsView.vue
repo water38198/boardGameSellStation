@@ -118,7 +118,7 @@
 
                     <button
                       type="button"
-                      class="btn btn-outline-danger  d-block"
+                      class="btn btn-outline-danger d-block"
                       :disabled="loadingItem === product.id"
                       @click="addToCart(product)"
                     >
@@ -207,7 +207,7 @@ export default {
   border-bottom: var(--bs-list-group-border-width) solid
     var(--bs-list-group-border-color);
 }
-.product-category{
+.product-category {
   position: sticky;
   top: 90px;
   z-index: 1020;

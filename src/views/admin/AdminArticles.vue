@@ -160,9 +160,6 @@ export default {
                   this.getArticles();
                 },
               });
-            })
-            .catch((err) => {
-              console.log(err);
             });
         }
       });

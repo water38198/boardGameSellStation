@@ -153,7 +153,7 @@
         <div class="row g-3">
           <div
             class="col-12 col-lg-4"
-            v-for="product in changedProducts"
+            v-for="(product, index) in changedProducts"
             :key="product.id"
             data-aos="zoom-in"
             :data-aos-duration="1000 + 250 * index"
@@ -236,7 +236,7 @@
             <div class="col-12">
               <div
                 class="card mb-5 border-0 bg-b10"
-                v-for="article in reviews.slice(0, 5)"
+                v-for="(article, index) in reviews.slice(0, 5)"
                 :key="article.id"
                 data-aos="fade-up"
                 :data-aos-duration="1000 + 250 * index"
@@ -288,7 +288,7 @@
             <div class="col-12">
               <div
                 class="card mb-5 border-0 bg-b10"
-                v-for="article in unboxings.slice(0, 5)"
+                v-for="(article, index) in unboxings.slice(0, 5)"
                 :key="article.id"
                 data-aos="fade-up"
                 :data-aos-duration="1000 + 250 * index"

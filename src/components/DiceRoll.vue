@@ -40,7 +40,9 @@
                 <div class="face right"></div>
                 <div class="face left"></div>
               </div>
-              <button class="roll" @click="randomDice()">Roll Dice</button>
+              <button class="roll" @click="randomDice()" type="button">
+                Roll Dice
+              </button>
             </div>
           </div>
         </div>
