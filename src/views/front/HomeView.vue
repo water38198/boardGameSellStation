@@ -435,8 +435,8 @@ import { mapActions, mapState } from "pinia";
 import utilities from "../../stores/utilities";
 import frontStore from "../../stores/frontStore";
 import articleStore from "../../stores/articleStore";
-import newsImage from "@/assets/home-news.jpg";
-import articleBanner from "@/assets/section-image.jpg";
+import newsImage from "@/assets/home/home-news.jpg";
+import articleBanner from "@/assets/home/section-image.jpg";
 
 export default {
   data() {
@@ -459,7 +459,7 @@ export default {
 <style>
 .banner {
   background: linear-gradient(rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.2) 100%),
-    url(../../assets/banner-image.jpg);
+    url(../../assets/home/banner-image.jpg);
   background-size: cover;
   margin-top: -600px;
   height: 1300px;
