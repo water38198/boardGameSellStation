@@ -129,9 +129,6 @@ export default {
           this.products = res.data.products;
           this.page = res.data.pagination;
         })
-        .catch((err) => {
-          console.log(err);
-        })
         .finally(() => {
           this.isLoading = false;
         });
@@ -186,9 +183,6 @@ export default {
                   this.getProducts();
                 },
               });
-            })
-            .catch((err) => {
-              console.log(err);
             });
         }
       });

@@ -80,8 +80,7 @@ export default {
             },
           });
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
           alert("登入失敗");
         })
         .finally(() => {

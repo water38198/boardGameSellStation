@@ -160,7 +160,7 @@ export default {
           this.product = res.data.product;
           this.isLoading = false;
         })
-        .catch((err) => console.log(err));
+        .catch(() => alert("發生錯誤"));
     },
     ...mapActions(cartStore, ["addToCart"]),
   },

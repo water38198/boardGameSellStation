@@ -109,9 +109,6 @@ export default {
           this.coupons = res.data.coupons;
           this.page = res.data.pagination;
         })
-        .catch((err) => {
-          console.log(err);
-        })
         .finally(() => {
           this.isLoading = false;
         });
@@ -157,9 +154,6 @@ export default {
                   this.getCoupons();
                 },
               });
-            })
-            .catch((err) => {
-              console.log(err);
             });
         }
       });
