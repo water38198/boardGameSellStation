@@ -156,6 +156,7 @@
 import { mapActions, mapState } from "pinia";
 import cartStore from "../../stores/cartStore";
 import PaginationComponent from "../../components/PaginationComponent.vue";
+import Swal from "sweetalert2";
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
@@ -192,6 +193,18 @@ export default {
         .then((res) => {
           this.products = res.data.products;
           this.page = res.data.pagination;
+        })
+        .catch(() => {
+          Swal.fire({
+            icon: "error",
+            title: "發生錯誤",
+            text: "即將回到首頁，如果錯誤持續發生，請通知我們，感謝!!",
+            didClose: () => {
+              this.$router.push("/");
+            },
+          });
+        })
+        .finally(() => {
           this.productIsLoading = false;
         });
     },

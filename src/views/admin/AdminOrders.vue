@@ -114,6 +114,9 @@ export default {
           this.orders = res.data.orders;
           this.page = res.data.pagination;
         })
+        .catch((err) => {
+          console.log(err);
+        })
         .finally(() => {
           this.isLoading = false;
         });

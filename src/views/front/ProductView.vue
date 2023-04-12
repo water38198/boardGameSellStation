@@ -128,6 +128,7 @@
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import { mapActions, mapState } from "pinia";
 import cartStore from "../../stores/cartStore";
+import Swal from "sweetalert2";
 
 //Swiper
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -160,7 +161,16 @@ export default {
           this.product = res.data.product;
           this.isLoading = false;
         })
-        .catch(() => alert("發生錯誤"));
+        .catch(() => {
+          Swal.fire({
+            icon: "error",
+            title: "發生錯誤",
+            text: "即將回到首頁，如果錯誤持續發生，請通知我們，感謝!!",
+            didClose: () => {
+              this.$router.push("/");
+            },
+          });
+        });
     },
     ...mapActions(cartStore, ["addToCart"]),
   },
