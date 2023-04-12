@@ -37,7 +37,7 @@
               <td class="text-center" style="width: 20%">
                 <img
                   :src="item.product.imageUrl"
-                  alt=""
+                  :alt="item.product.title + ' image'"
                   class="cart-product-image"
                 />
               </td>

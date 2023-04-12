@@ -27,7 +27,7 @@
     <div class="my-4 text-center">
       <img
         :src="article.image"
-        alt=""
+        alt="article image"
         class="w-50"
         style="max-height: 500px; object-fit: cover"
       />

@@ -24,11 +24,15 @@
             class="mySwiper"
           >
             <SwiperSlide>
-              <img :src="product.imageUrl" alt="" class="img-fluid" />
+              <img
+                :src="product.imageUrl"
+                alt="product image"
+                class="img-fluid"
+              />
             </SwiperSlide>
             <template v-if="product.imagesUrl">
               <SwiperSlide v-for="i in product.imagesUrl" :key="i + 'image'"
-                ><img :src="i" alt="" class="img-fluid"
+                ><img :src="i" alt="product images" class="img-fluid"
               /></SwiperSlide>
             </template>
           </Swiper>

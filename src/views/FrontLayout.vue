@@ -108,16 +108,24 @@
           <p class="fs-2 w-100">聯絡我們</p>
           <ul class="list-unstyled d-flex justify-content-center">
             <li class="mx-1">
-              <a href="#"><img src="../assets/footer/twitter.png" alt="" /></a>
+              <a href="#"
+                ><img src="../assets/footer/twitter.png" alt="twitter"
+              /></a>
             </li>
             <li class="mx-1">
-              <a href="#"><img src="../assets/footer/FB.png" alt="" /></a>
+              <a href="#"
+                ><img src="../assets/footer/FB.png" alt="facebook"
+              /></a>
             </li>
             <li class="mx-1">
-              <a href="#"><img src="../assets/footer/mail.png" alt="" /></a>
+              <a href="#"
+                ><img src="../assets/footer/mail.png" alt="email"
+              /></a>
             </li>
             <li class="mx-1">
-              <a href="#"><img src="../assets/footer/IG.png" alt="" /></a>
+              <a href="#"
+                ><img src="../assets/footer/IG.png" alt="instagram"
+              /></a>
             </li>
           </ul>
         </div>
@@ -135,7 +143,7 @@
       style="position: fixed; bottom: 20px; right: 20px"
       class="btn"
     >
-      <img :src="DiceIcon" alt="" />
+      <img :src="DiceIcon" alt="dice" />
       <span class="text-theme d-none d-md-inline"> 點我拿優惠券!!</span>
     </button>
     <!-- Modal -->

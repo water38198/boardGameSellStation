@@ -69,7 +69,7 @@
               <div class="position-relative link-image">
                 <img
                   :src="article.image"
-                  alt=""
+                  alt="article image"
                   style="width: 100px; height: 100px; object-fit: cover"
                   class="rounded-3"
                   onerror="this.onerror=null;this.src='/src/assets/no_image_icon.png'"
