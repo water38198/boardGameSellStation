@@ -43,7 +43,7 @@
 
 <script>
 import { mapActions } from "pinia";
-import utilities from "../../stores/utilities";
+import utilities from "@/stores/utilities";
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {

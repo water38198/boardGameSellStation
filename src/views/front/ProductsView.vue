@@ -154,8 +154,8 @@
 
 <script>
 import { mapActions, mapState } from "pinia";
-import cartStore from "../../stores/cartStore";
-import PaginationComponent from "../../components/PaginationComponent.vue";
+import cartStore from "@/stores/cartStore";
+import PaginationComponent from "@/components/PaginationComponent.vue";
 import Swal from "sweetalert2";
 const { VITE_URL, VITE_PATH } = import.meta.env;
 

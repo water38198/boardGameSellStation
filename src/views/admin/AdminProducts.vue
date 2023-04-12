@@ -98,8 +98,8 @@
 </template>
 
 <script>
-import PaginationComponent from "../../components/PaginationComponent.vue";
-import ProductModal from "../../components/ProductModal.vue";
+import PaginationComponent from "@/components/PaginationComponent.vue";
+import ProductModal from "@/components/ProductModal.vue";
 import * as bootstrap from "bootstrap";
 import Swal from "sweetalert2";
 const { VITE_URL, VITE_PATH } = import.meta.env;

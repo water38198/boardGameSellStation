@@ -94,8 +94,8 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import utilities from "../../stores/utilities";
-import articleStore from "../../stores/articleStore";
+import utilities from "@/stores/utilities";
+import articleStore from "@/stores/articleStore";
 
 export default {
   data() {

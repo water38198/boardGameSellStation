@@ -148,8 +148,8 @@
 </template>
 
 <script>
-import OrderForm from "../../components/OrderForm.vue";
-import cartStore from "../../stores/cartStore";
+import OrderForm from "@/components/OrderForm.vue";
+import cartStore from "@/stores/cartStore";
 import { mapState, mapActions } from "pinia";
 
 export default {

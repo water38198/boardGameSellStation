@@ -95,10 +95,10 @@
 </template>
 
 <script>
-import PaginationComponent from "../../components/PaginationComponent.vue";
-import ArticleModal from "../../components/ArticleModal.vue";
+import PaginationComponent from "@/components/PaginationComponent.vue";
+import ArticleModal from "@/components/ArticleModal.vue";
 import { mapActions } from "pinia";
-import utilities from "../../stores/utilities";
+import utilities from "@/stores/utilities";
 import Swal from "sweetalert2";
 import notFound from "@/assets/image-not-found.svg";
 import * as bootstrap from "bootstrap";

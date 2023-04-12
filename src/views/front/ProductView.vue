@@ -131,7 +131,7 @@
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import { mapActions, mapState } from "pinia";
-import cartStore from "../../stores/cartStore";
+import cartStore from "@/stores/cartStore";
 import Swal from "sweetalert2";
 
 //Swiper

@@ -79,10 +79,10 @@
 </template>
 
 <script>
-import PaginationComponent from "../../components/PaginationComponent.vue";
-import CouponModal from "../../components/CouponModal.vue";
+import PaginationComponent from "@/components/PaginationComponent.vue";
+import CouponModal from "@/components/CouponModal.vue";
 import { mapActions } from "pinia";
-import utilities from "../../stores/utilities";
+import utilities from "@/stores/utilities";
 import * as bootstrap from "bootstrap";
 import Swal from "sweetalert2";
 
