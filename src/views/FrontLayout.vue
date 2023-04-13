@@ -95,7 +95,7 @@
       </div>
     </nav>
 
-    <RouterView></RouterView>
+    <RouterView />
     <footer class="bg-themeDark text-light">
       <div
         class="d-md-flex container justify-content-between"
@@ -147,7 +147,7 @@
       <span class="text-theme d-none d-md-inline"> 點我拿優惠券!!</span>
     </button>
     <!-- Modal -->
-    <DiceRoll></DiceRoll>
+    <DiceRoll />
   </div>
 </template>
 

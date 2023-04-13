@@ -39,7 +39,7 @@
   </nav>
   <hr />
   <div class="container">
-    <RouterView></RouterView>
+    <RouterView />
   </div>
 </template>
 
