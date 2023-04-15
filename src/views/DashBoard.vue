@@ -1,3 +1,43 @@
+<script>
+import { RouterView, RouterLink } from "vue-router";
+const { VITE_URL } = import.meta.env;
+
+export default {
+  components: {
+    RouterView,
+    RouterLink,
+  },
+  methods: {
+    logout() {
+      document.cookie = `myToken=; expires=}`;
+      this.$router.push("/login");
+    },
+    loginCheck() {
+      const myToken = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("myToken="))
+        ?.split("=")[1];
+      // axios header
+      this.$http.defaults.headers.common["Authorization"] = myToken;
+      this.$http
+        .post(`${VITE_URL}/v2/api/user/check`)
+        .then((res) => {
+          if (!res.data.success) {
+            this.$router.push("/login");
+          }
+        })
+        .catch(() => {
+          alert("錯誤，請重新登入");
+          this.$router.push("/login");
+        });
+    },
+  },
+  mounted() {
+    this.loginCheck();
+  },
+};
+</script>
+
 <template>
   <h1 class="text-center">後台</h1>
   <hr />
@@ -42,43 +82,3 @@
     <RouterView />
   </div>
 </template>
-
-<script>
-import { RouterView, RouterLink } from "vue-router";
-const { VITE_URL } = import.meta.env;
-
-export default {
-  components: {
-    RouterView,
-    RouterLink,
-  },
-  methods: {
-    logout() {
-      document.cookie = `myToken=; expires=}`;
-      this.$router.push("/login");
-    },
-    loginCheck() {
-      const myToken = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("myToken="))
-        ?.split("=")[1];
-      // axios header
-      this.$http.defaults.headers.common["Authorization"] = myToken;
-      this.$http
-        .post(`${VITE_URL}/v2/api/user/check`)
-        .then((res) => {
-          if (!res.data.success) {
-            this.$router.push("/login");
-          }
-        })
-        .catch(() => {
-          alert("錯誤，請重新登入");
-          this.$router.push("/login");
-        });
-    },
-  },
-  mounted() {
-    this.loginCheck();
-  },
-};
-</script>

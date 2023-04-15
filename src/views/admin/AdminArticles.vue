@@ -1,99 +1,3 @@
-<template>
-  <!-- Loading Layout -->
-  <div class="vl-parent">
-    <VLoading
-      v-model:active="isLoading"
-      :can-cancel="false"
-      :is-full-page="true"
-    ></VLoading>
-  </div>
-  <h2 class="h2 text-center">文章管理</h2>
-  <div class="text-end">
-    <button type="button" class="btn btn-primary" @click="openModal('new')">
-      建立文章
-    </button>
-  </div>
-  <template v-if="articles">
-    <table class="table align-middle">
-      <thead>
-        <tr>
-          <th scope="col">編號</th>
-          <th scope="col">封面</th>
-          <th scope="col">標題</th>
-          <th scope="col">分類</th>
-          <th scope="col">描述</th>
-          <th scope="col">作者</th>
-          <th scope="col">日期</th>
-          <th scope="col">狀態</th>
-          <th scope="col">管理</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="article in articles" :key="article.key">
-          <th scope="row">{{ article.num }}</th>
-          <td>
-            <img
-              :src="article.image"
-              alt="articleImage"
-              @error="defaultSrc"
-              class="article-image"
-            />
-          </td>
-          <td>{{ article.title }}</td>
-          <td>{{ article.category }}</td>
-          <td>
-            <p class="text-truncate" style="width: 200px">
-              {{ article.description }}
-            </p>
-          </td>
-          <td>{{ article.author }}</td>
-          <td>{{ timeTransform(article.create_at) }}</td>
-          <td>
-            <span v-if="article.isPublic" class="text-success">公開</span>
-            <span v-else class="text-danger">隱藏</span>
-          </td>
-          <td>
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-primary me-2"
-              @click="openModal('edit', article.id)"
-            >
-              修改
-            </button>
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-danger"
-              @click="deleteArticle(article.id)"
-            >
-              刪除
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <PaginationComponent
-      :pages="page"
-      :get-Method="getArticles"
-    ></PaginationComponent>
-    <!-- ArticleModal -->
-    <div
-      class="modal fade"
-      id="articleModal"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="articleModalLabel"
-      aria-hidden="true"
-    >
-      <ArticleModal
-        :temp-Article-Id="tempArticleId"
-        :is-new="isNew"
-        :close-Modal="closeModal"
-        :get-Articles="getArticles"
-      ></ArticleModal>
-    </div>
-  </template>
-</template>
-
 <script>
 import PaginationComponent from "@/components/PaginationComponent.vue";
 import ArticleModal from "@/components/ArticleModal.vue";
@@ -201,7 +105,104 @@ export default {
   components: { PaginationComponent, ArticleModal },
 };
 </script>
-<style>
+
+<template>
+  <!-- Loading Layout -->
+  <div class="vl-parent">
+    <VLoading
+      v-model:active="isLoading"
+      :can-cancel="false"
+      :is-full-page="true"
+    ></VLoading>
+  </div>
+  <h2 class="h2 text-center">文章管理</h2>
+  <div class="text-end">
+    <button type="button" class="btn btn-primary" @click="openModal('new')">
+      建立文章
+    </button>
+  </div>
+  <template v-if="articles">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th scope="col">編號</th>
+          <th scope="col">封面</th>
+          <th scope="col">標題</th>
+          <th scope="col">分類</th>
+          <th scope="col">描述</th>
+          <th scope="col">作者</th>
+          <th scope="col">日期</th>
+          <th scope="col">狀態</th>
+          <th scope="col">管理</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="article in articles" :key="article.key">
+          <th scope="row">{{ article.num }}</th>
+          <td>
+            <img
+              :src="article.image"
+              alt="articleImage"
+              @error="defaultSrc"
+              class="article-image"
+            />
+          </td>
+          <td>{{ article.title }}</td>
+          <td>{{ article.category }}</td>
+          <td>
+            <p class="text-truncate" style="width: 200px">
+              {{ article.description }}
+            </p>
+          </td>
+          <td>{{ article.author }}</td>
+          <td>{{ timeTransform(article.create_at) }}</td>
+          <td>
+            <span v-if="article.isPublic" class="text-success">公開</span>
+            <span v-else class="text-danger">隱藏</span>
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary me-2"
+              @click="openModal('edit', article.id)"
+            >
+              修改
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-danger"
+              @click="deleteArticle(article.id)"
+            >
+              刪除
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <PaginationComponent
+      :pages="page"
+      :get-Method="getArticles"
+    ></PaginationComponent>
+    <!-- ArticleModal -->
+    <div
+      class="modal fade"
+      id="articleModal"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="articleModalLabel"
+      aria-hidden="true"
+    >
+      <ArticleModal
+        :temp-Article-Id="tempArticleId"
+        :is-new="isNew"
+        :close-Modal="closeModal"
+        :get-Articles="getArticles"
+      ></ArticleModal>
+    </div>
+  </template>
+</template>
+
+<style scoped>
 .article-image {
   width: 50px;
   height: 50px;

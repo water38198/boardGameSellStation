@@ -1,83 +1,3 @@
-<template>
-  <!-- Loading Layout -->
-  <div class="vl-parent">
-    <VLoading
-      v-model:active="isLoading"
-      :can-cancel="false"
-      :is-full-page="true"
-    />
-  </div>
-  <h2 class="text-center">優惠券</h2>
-  <div class="text-end">
-    <button type="button" class="btn btn-primary" @click="openModal('new')">
-      建立優惠券
-    </button>
-  </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">名稱</th>
-        <th scope="col">是否啟用</th>
-        <th scope="col">比例</th>
-        <th scope="col">到期日</th>
-        <th scope="col">折扣碼</th>
-        <th scope="col">管理</th>
-      </tr>
-    </thead>
-    <tbody>
-      <template v-if="coupons.length">
-        <tr v-for="coupon in coupons" :key="coupon.id">
-          <td>{{ coupon.title }}</td>
-          <td>
-            <span class="text-success" v-if="coupon.is_enabled">啟用</span>
-            <span class="text-danger" v-else>未啟用</span>
-          </td>
-          <td>{{ coupon.percent }}</td>
-          <td>{{ timeTransform(coupon.due_date) }}</td>
-          <td>{{ coupon.code }}</td>
-          <td>
-            <button
-              type="button"
-              class="btn btn-outline-primary btn-sm me-2"
-              @click="openModal('edit', coupon)"
-            >
-              編輯
-            </button>
-            <button
-              type="button"
-              class="btn btn-outline-danger btn-sm"
-              @click="deleteCoupon(coupon.id)"
-            >
-              刪除
-            </button>
-          </td>
-        </tr>
-      </template>
-    </tbody>
-  </table>
-  <PaginationComponent
-    :pages="page"
-    :get-Method="getCoupons"
-  ></PaginationComponent>
-  <!-- couponModal -->
-  <div
-    class="modal fade"
-    id="couponModal"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="couponModalLabel"
-    aria-hidden="true"
-  >
-    <CouponModal
-      :is-new="isNew"
-      :temp-Coupon="tempCoupon"
-      :close-modal="closeModal"
-      :get-coupons="getCoupons"
-    ></CouponModal>
-  </div>
-</template>
-
 <script>
 import PaginationComponent from "@/components/PaginationComponent.vue";
 import CouponModal from "@/components/CouponModal.vue";
@@ -176,3 +96,83 @@ export default {
   },
 };
 </script>
+
+<template>
+  <!-- Loading Layout -->
+  <div class="vl-parent">
+    <VLoading
+      v-model:active="isLoading"
+      :can-cancel="false"
+      :is-full-page="true"
+    />
+  </div>
+  <h2 class="text-center">優惠券</h2>
+  <div class="text-end">
+    <button type="button" class="btn btn-primary" @click="openModal('new')">
+      建立優惠券
+    </button>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">名稱</th>
+        <th scope="col">是否啟用</th>
+        <th scope="col">比例</th>
+        <th scope="col">到期日</th>
+        <th scope="col">折扣碼</th>
+        <th scope="col">管理</th>
+      </tr>
+    </thead>
+    <tbody>
+      <template v-if="coupons.length">
+        <tr v-for="coupon in coupons" :key="coupon.id">
+          <td>{{ coupon.title }}</td>
+          <td>
+            <span class="text-success" v-if="coupon.is_enabled">啟用</span>
+            <span class="text-danger" v-else>未啟用</span>
+          </td>
+          <td>{{ coupon.percent }}</td>
+          <td>{{ timeTransform(coupon.due_date) }}</td>
+          <td>{{ coupon.code }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm me-2"
+              @click="openModal('edit', coupon)"
+            >
+              編輯
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-danger btn-sm"
+              @click="deleteCoupon(coupon.id)"
+            >
+              刪除
+            </button>
+          </td>
+        </tr>
+      </template>
+    </tbody>
+  </table>
+  <PaginationComponent
+    :pages="page"
+    :get-Method="getCoupons"
+  ></PaginationComponent>
+  <!-- couponModal -->
+  <div
+    class="modal fade"
+    id="couponModal"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="couponModalLabel"
+    aria-hidden="true"
+  >
+    <CouponModal
+      :is-new="isNew"
+      :temp-Coupon="tempCoupon"
+      :close-modal="closeModal"
+      :get-coupons="getCoupons"
+    ></CouponModal>
+  </div>
+</template>

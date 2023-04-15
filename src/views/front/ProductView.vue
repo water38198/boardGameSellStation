@@ -1,3 +1,64 @@
+<script>
+import { mapActions, mapState } from "pinia";
+import cartStore from "@/stores/cartStore";
+import Swal from "sweetalert2";
+
+const { VITE_URL, VITE_PATH } = import.meta.env;
+
+//Swiper
+import { Swiper, SwiperSlide } from "swiper/vue";
+
+// Import Swiper styles
+import "swiper/css";
+
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+// import required modules
+import { Autoplay, Pagination, Navigation } from "swiper";
+
+export default {
+  data() {
+    return {
+      product: {},
+      qty: 1,
+      isLoading: false,
+      modules: [Autoplay, Pagination, Navigation],
+    };
+  },
+  methods: {
+    getProduct() {
+      this.isLoading = true;
+      const { id } = this.$route.params;
+      this.$http
+        .get(`${VITE_URL}/v2/api/${VITE_PATH}/product/${id}`)
+        .then((res) => {
+          this.product = res.data.product;
+          this.isLoading = false;
+        })
+        .catch(() => {
+          Swal.fire({
+            icon: "error",
+            title: "發生錯誤",
+            text: "即將回到首頁，如果錯誤持續發生，請通知我們，感謝!!",
+            didClose: () => {
+              this.$router.push("/");
+            },
+          });
+        });
+    },
+    ...mapActions(cartStore, ["addToCart"]),
+  },
+  components: { Swiper, SwiperSlide },
+  computed: {
+    ...mapState(cartStore, ["loadingItem"]),
+  },
+  mounted() {
+    this.getProduct();
+  },
+};
+</script>
+
 <template>
   <!-- Loading Layout -->
   <div class="vl-parent">
@@ -127,68 +188,3 @@
     </div>
   </div>
 </template>
-
-<script>
-const { VITE_URL, VITE_PATH } = import.meta.env;
-import { mapActions, mapState } from "pinia";
-import cartStore from "@/stores/cartStore";
-import Swal from "sweetalert2";
-
-//Swiper
-import { Swiper, SwiperSlide } from "swiper/vue";
-
-// Import Swiper styles
-import "swiper/css";
-
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-
-// import required modules
-import { Autoplay, Pagination, Navigation } from "swiper";
-
-export default {
-  data() {
-    return {
-      product: {},
-      qty: 1,
-      isLoading: false,
-      modules: [Autoplay, Pagination, Navigation],
-    };
-  },
-  methods: {
-    getProduct() {
-      this.isLoading = true;
-      const { id } = this.$route.params;
-      this.$http
-        .get(`${VITE_URL}/v2/api/${VITE_PATH}/product/${id}`)
-        .then((res) => {
-          this.product = res.data.product;
-          this.isLoading = false;
-        })
-        .catch(() => {
-          Swal.fire({
-            icon: "error",
-            title: "發生錯誤",
-            text: "即將回到首頁，如果錯誤持續發生，請通知我們，感謝!!",
-            didClose: () => {
-              this.$router.push("/");
-            },
-          });
-        });
-    },
-    ...mapActions(cartStore, ["addToCart"]),
-  },
-  components: { Swiper, SwiperSlide },
-  computed: {
-    ...mapState(cartStore, ["loadingItem"]),
-  },
-  mounted() {
-    this.getProduct();
-  },
-};
-</script>
-<style>
-.product-images {
-  width: 150px;
-}
-</style>

@@ -64,7 +64,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 .about-img {
   margin: 0 auto;
 }

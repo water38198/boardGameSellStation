@@ -1,3 +1,68 @@
+<script>
+import { mapActions, mapState } from "pinia";
+import cartStore from "@/stores/cartStore";
+import PaginationComponent from "@/components/PaginationComponent.vue";
+import Swal from "sweetalert2";
+
+const { VITE_URL, VITE_PATH } = import.meta.env;
+
+export default {
+  data() {
+    return {
+      products: [],
+      page: {},
+      productIsLoading: false,
+      category: "all",
+      listTitle: "全部",
+    };
+  },
+  computed: {
+    ...mapState(cartStore, ["loadingItem"]),
+  },
+  components: {
+    PaginationComponent,
+  },
+  methods: {
+    changeCategory(category, event) {
+      this.listTitle = event.target.textContent;
+      this.category = category;
+      this.getProducts(1, this.category);
+    },
+    getProducts(page = 1, category = "") {
+      this.productIsLoading = true;
+      if (category === "all") {
+        category = "";
+      }
+      this.$http
+        .get(
+          `${VITE_URL}/v2/api/${VITE_PATH}/products?page=${page}&category=${category}`
+        )
+        .then((res) => {
+          this.products = res.data.products;
+          this.page = res.data.pagination;
+        })
+        .catch(() => {
+          Swal.fire({
+            icon: "error",
+            title: "發生錯誤",
+            text: "即將回到首頁，如果錯誤持續發生，請通知我們，感謝!!",
+            didClose: () => {
+              this.$router.push("/");
+            },
+          });
+        })
+        .finally(() => {
+          this.productIsLoading = false;
+        });
+    },
+    ...mapActions(cartStore, ["addToCart"]),
+  },
+  mounted() {
+    this.getProducts();
+  },
+};
+</script>
+
 <template>
   <div class="container bg-white py-5">
     <div class="row g-3">
@@ -152,70 +217,7 @@
   <!-- 產品列表 -->
 </template>
 
-<script>
-import { mapActions, mapState } from "pinia";
-import cartStore from "@/stores/cartStore";
-import PaginationComponent from "@/components/PaginationComponent.vue";
-import Swal from "sweetalert2";
-const { VITE_URL, VITE_PATH } = import.meta.env;
-
-export default {
-  data() {
-    return {
-      products: [],
-      page: {},
-      productIsLoading: false,
-      category: "all",
-      listTitle: "全部",
-    };
-  },
-  computed: {
-    ...mapState(cartStore, ["loadingItem"]),
-  },
-  components: {
-    PaginationComponent,
-  },
-  methods: {
-    changeCategory(category, event) {
-      this.listTitle = event.target.textContent;
-      this.category = category;
-      this.getProducts(1, this.category);
-    },
-    getProducts(page = 1, category = "") {
-      this.productIsLoading = true;
-      if (category === "all") {
-        category = "";
-      }
-      this.$http
-        .get(
-          `${VITE_URL}/v2/api/${VITE_PATH}/products?page=${page}&category=${category}`
-        )
-        .then((res) => {
-          this.products = res.data.products;
-          this.page = res.data.pagination;
-        })
-        .catch(() => {
-          Swal.fire({
-            icon: "error",
-            title: "發生錯誤",
-            text: "即將回到首頁，如果錯誤持續發生，請通知我們，感謝!!",
-            didClose: () => {
-              this.$router.push("/");
-            },
-          });
-        })
-        .finally(() => {
-          this.productIsLoading = false;
-        });
-    },
-    ...mapActions(cartStore, ["addToCart"]),
-  },
-  mounted() {
-    this.getProducts();
-  },
-};
-</script>
-<style>
+<style scoped>
 .list-group-flush > .list-group-item:last-child {
   border-bottom: var(--bs-list-group-border-width) solid
     var(--bs-list-group-border-color);

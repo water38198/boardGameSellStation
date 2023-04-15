@@ -1,3 +1,30 @@
+<script>
+import { mapActions, mapState } from "pinia";
+import utilities from "@/stores/utilities";
+import frontStore from "@/stores/frontStore";
+import articleStore from "@/stores/articleStore";
+import newsImage from "@/assets/home/home-news.jpg";
+import articleBanner from "@/assets/home/section-image.jpg";
+
+export default {
+  data() {
+    return {
+      newsImage,
+      articleBanner,
+    };
+  },
+  methods: {
+    ...mapActions(utilities, ["timeTransform"]),
+    ...mapActions(frontStore, ["getArticles"]),
+  },
+
+  computed: {
+    ...mapState(frontStore, ["products", "newestProducts", "changedProducts"]),
+    ...mapState(articleStore, ["news", "reviews", "unboxings"]),
+  },
+};
+</script>
+
 <template>
   <div class="bg-b20">
     <div class="banner">
@@ -430,33 +457,7 @@
   </div>
 </template>
 
-<script>
-import { mapActions, mapState } from "pinia";
-import utilities from "@/stores/utilities";
-import frontStore from "@/stores/frontStore";
-import articleStore from "@/stores/articleStore";
-import newsImage from "@/assets/home/home-news.jpg";
-import articleBanner from "@/assets/home/section-image.jpg";
-
-export default {
-  data() {
-    return {
-      newsImage,
-      articleBanner,
-    };
-  },
-  methods: {
-    ...mapActions(utilities, ["timeTransform"]),
-    ...mapActions(frontStore, ["getArticles"]),
-  },
-
-  computed: {
-    ...mapState(frontStore, ["products", "newestProducts", "changedProducts"]),
-    ...mapState(articleStore, ["news", "reviews", "unboxings"]),
-  },
-};
-</script>
-<style>
+<style scoped>
 .banner {
   background: linear-gradient(rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.2) 100%),
     url(@/assets/home/banner-image.jpg);

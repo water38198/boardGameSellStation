@@ -1,3 +1,54 @@
+<script>
+import { RouterView, RouterLink } from "vue-router";
+import { mapActions, mapState } from "pinia";
+import frontStore from "../stores/frontStore";
+import cartStore from "../stores/cartStore";
+import articleStore from "../stores/articleStore";
+import DiceRoll from "../components/DiceRoll.vue";
+import DiceIcon from "@/assets/dice-icon.png";
+export default {
+  data() {
+    return {
+      DiceIcon,
+    };
+  },
+  components: {
+    RouterView,
+    RouterLink,
+    DiceRoll,
+  },
+  methods: {
+    ...mapActions(frontStore, ["getProducts", "frontInit"]),
+    ...mapActions(cartStore, ["getCarts"]),
+    ...mapActions(articleStore, ["getAllArticles", "getArticles"]),
+  },
+  computed: {
+    ...mapState(cartStore, ["cart"]),
+    ...mapState(frontStore, ["isLoading"]),
+    cartNum() {
+      let num = 0;
+      if (this.cart.carts) {
+        this.cart.carts.forEach((cart) => {
+          num += cart.qty;
+        });
+      }
+      return num;
+    },
+  },
+  mounted() {
+    this.frontInit();
+    this.getCarts();
+    this.getAllArticles();
+    this.getArticles();
+  },
+  watch: {
+    $route() {
+      this.$refs.navbarCollapse.classList.remove("show");
+    },
+  },
+};
+</script>
+
 <template>
   <div class="vl-parent">
     <VLoading
@@ -77,7 +128,6 @@
                 >後台</RouterLink
               >
             </li>
-
             <li class="nav-item mx-3 ms-lg-auto navbar-expand">
               <RouterLink
                 to="/cart"
@@ -94,7 +144,6 @@
         </div>
       </div>
     </nav>
-
     <RouterView />
     <footer class="bg-themeDark text-light">
       <div
@@ -130,7 +179,6 @@
           </ul>
         </div>
       </div>
-
       <div class="bg-black text-center py-5">
         <span>本網站僅供練習使用，不具商業用途</span>
       </div>
@@ -151,58 +199,7 @@
   </div>
 </template>
 
-<script>
-import { RouterView, RouterLink } from "vue-router";
-import { mapActions, mapState } from "pinia";
-import frontStore from "../stores/frontStore";
-import cartStore from "../stores/cartStore";
-import articleStore from "../stores/articleStore";
-import DiceRoll from "../components/DiceRoll.vue";
-import DiceIcon from "@/assets/dice-icon.png";
-export default {
-  data() {
-    return {
-      DiceIcon,
-    };
-  },
-  components: {
-    RouterView,
-    RouterLink,
-    DiceRoll,
-  },
-  methods: {
-    ...mapActions(frontStore, ["getProducts", "frontInit"]),
-    ...mapActions(cartStore, ["getCarts"]),
-    ...mapActions(articleStore, ["getAllArticles", "getArticles"]),
-  },
-  computed: {
-    ...mapState(cartStore, ["cart"]),
-    ...mapState(frontStore, ["isLoading"]),
-    cartNum() {
-      let num = 0;
-      if (this.cart.carts) {
-        this.cart.carts.forEach((cart) => {
-          num += cart.qty;
-        });
-      }
-
-      return num;
-    },
-  },
-  mounted() {
-    this.frontInit();
-    this.getCarts();
-    this.getAllArticles();
-    this.getArticles();
-  },
-  watch: {
-    $route() {
-      this.$refs.navbarCollapse.classList.remove("show");
-    },
-  },
-};
-</script>
-<style>
+<style scoped>
 .navbar {
   z-index: 2000;
 }
@@ -224,10 +221,5 @@ export default {
     left: 25px;
     font-size: 1rem;
   }
-}
-.dice-game {
-  position: fixed;
-  bottom: 3%;
-  right: 3%;
 }
 </style>

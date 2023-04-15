@@ -1,3 +1,30 @@
+<script>
+import OrderForm from "@/components/OrderForm.vue";
+import cartStore from "@/stores/cartStore";
+import { mapState, mapActions } from "pinia";
+
+export default {
+  data() {
+    return {
+      code: "",
+    };
+  },
+  computed: {
+    ...mapState(cartStore, ["cart", "cartLoading", "loadingItem"]),
+  },
+  methods: {
+    ...mapActions(cartStore, [
+      "updateItemNum",
+      "deleteCartItem",
+      "deleteCartAll",
+      "getCarts",
+      "useCoupon",
+    ]),
+  },
+  components: { OrderForm },
+};
+</script>
+
 <template>
   <!-- Loading Layout -->
   <div class="vl-parent">
@@ -147,33 +174,7 @@
   </div>
 </template>
 
-<script>
-import OrderForm from "@/components/OrderForm.vue";
-import cartStore from "@/stores/cartStore";
-import { mapState, mapActions } from "pinia";
-
-export default {
-  data() {
-    return {
-      code: "",
-    };
-  },
-  computed: {
-    ...mapState(cartStore, ["cart", "cartLoading", "loadingItem"]),
-  },
-  methods: {
-    ...mapActions(cartStore, [
-      "updateItemNum",
-      "deleteCartItem",
-      "deleteCartAll",
-      "getCarts",
-      "useCoupon",
-    ]),
-  },
-  components: { OrderForm },
-};
-</script>
-<style>
+<style scoped>
 .cart-product-image {
   width: 200px;
   height: 150px;

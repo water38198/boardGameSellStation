@@ -1,9 +1,51 @@
+<script>
+import Swal from "sweetalert2";
+const { VITE_URL } = import.meta.env;
+
+export default {
+  data() {
+    return {
+      user: {},
+      loadingItem: "",
+    };
+  },
+  methods: {
+    login() {
+      this.loadingItem = "login";
+      this.$http
+        .post(`${VITE_URL}/v2/admin/signin`, {
+          username: this.user.account,
+          password: this.user.password,
+        })
+        .then((res) => {
+          const { expired, token } = res.data;
+          document.cookie = `myToken=${token}; expires=${new Date(expired)}`;
+          Swal.fire({
+            icon: "success",
+            title: "登入成功",
+            showConfirmButton: false,
+            timer: 1000,
+            didClose: () => {
+              this.$router.push("/admin/products");
+            },
+          });
+        })
+        .catch(() => {
+          alert("登入失敗");
+        })
+        .finally(() => {
+          this.loadingItem = "";
+        });
+    },
+  },
+};
+</script>
+
 <template>
   <div class="container min-vh-100">
     <div class="row justify-content-center pt-5">
       <div class="col-4">
         <h2 class="text-center">登入</h2>
-
         <VForm v-slot="{ errors }" @submit="login" class="my-5">
           <div class="mb-3">
             <label for="account" class="h5">帳號:</label>
@@ -47,46 +89,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import Swal from "sweetalert2";
-const { VITE_URL } = import.meta.env;
-
-export default {
-  data() {
-    return {
-      user: {},
-      loadingItem: "",
-    };
-  },
-  methods: {
-    login() {
-      this.loadingItem = "login";
-      this.$http
-        .post(`${VITE_URL}/v2/admin/signin`, {
-          username: this.user.account,
-          password: this.user.password,
-        })
-        .then((res) => {
-          const { expired, token } = res.data;
-          document.cookie = `myToken=${token}; expires=${new Date(expired)}`;
-          Swal.fire({
-            icon: "success",
-            title: "登入成功",
-            showConfirmButton: false,
-            timer: 1000,
-            didClose: () => {
-              this.$router.push("/admin/products");
-            },
-          });
-        })
-        .catch(() => {
-          alert("登入失敗");
-        })
-        .finally(() => {
-          this.loadingItem = "";
-        });
-    },
-  },
-};
-</script>

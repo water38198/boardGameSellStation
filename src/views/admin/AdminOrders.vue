@@ -1,3 +1,98 @@
+<script>
+import PaginationComponent from "@/components/PaginationComponent.vue";
+import OrderModal from "@/components/OrderModal.vue";
+import * as bootstrap from "bootstrap";
+import Swal from "sweetalert2";
+import { mapActions } from "pinia";
+import utilities from "@/stores/utilities";
+
+const { VITE_URL, VITE_PATH } = import.meta.env;
+let orderModal = {};
+
+export default {
+  data() {
+    return {
+      orders: [],
+      tempOrder: {},
+      page: {},
+      isLoading: false,
+    };
+  },
+  components: { PaginationComponent, OrderModal },
+  methods: {
+    getOrders(page = 1) {
+      this.isLoading = true;
+      this.$http
+        .get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/orders?page=${page}`)
+        .then((res) => {
+          this.orders = res.data.orders;
+          this.page = res.data.pagination;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    openModal(order) {
+      this.tempOrder = { ...order };
+
+      orderModal.show();
+    },
+    closeModal() {
+      this.tempOrder = {
+        user: {},
+        products: {},
+      };
+      orderModal.hide();
+    },
+    deleteOrder(id) {
+      Swal.fire({
+        title: `確定刪除嗎?`,
+        text: "刪除後不可復原，確定嗎",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "確定",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "取消",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.isLoading = true;
+          this.$http
+            .delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${id}`)
+            .then(() => {
+              this.isLoading = false;
+              Swal.fire({
+                icon: "success",
+                title: `訂單刪除成功`,
+                showConfirmButton: false,
+                timer: 1000,
+                didClose: () => {
+                  this.getOrders();
+                },
+              });
+            });
+        }
+      });
+    },
+    ...mapActions(utilities, ["timeTransform"]),
+  },
+  mounted() {
+    const myToken = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("myToken="))
+      ?.split("=")[1];
+    // axios header
+    this.$http.defaults.headers.common["Authorization"] = myToken;
+    this.getOrders();
+    // Modal建立
+    orderModal = new bootstrap.Modal("#orderModal");
+  },
+};
+</script>
+
 <template>
   <!-- Loading Layout -->
   <div class="vl-parent">
@@ -84,99 +179,3 @@
     ></OrderModal>
   </div>
 </template>
-
-<script>
-import PaginationComponent from "@/components/PaginationComponent.vue";
-import OrderModal from "@/components/OrderModal.vue";
-import * as bootstrap from "bootstrap";
-import Swal from "sweetalert2";
-import { mapActions } from "pinia";
-import utilities from "@/stores/utilities";
-const { VITE_URL, VITE_PATH } = import.meta.env;
-let orderModal = {};
-
-export default {
-  data() {
-    return {
-      orders: [],
-      tempOrder: {},
-      page: {},
-      isLoading: false,
-    };
-  },
-  components: { PaginationComponent, OrderModal },
-  methods: {
-    getOrders(page = 1) {
-      this.isLoading = true;
-      this.$http
-        .get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/orders?page=${page}`)
-        .then((res) => {
-          this.orders = res.data.orders;
-          this.page = res.data.pagination;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    openModal(order) {
-      this.tempOrder = { ...order };
-
-      orderModal.show();
-    },
-    closeModal() {
-      this.tempOrder = {
-        user: {},
-        products: {},
-      };
-      orderModal.hide();
-    },
-
-    deleteOrder(id) {
-      Swal.fire({
-        title: `確定刪除嗎?`,
-        text: "刪除後不可復原，確定嗎",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "確定",
-        cancelButtonColor: "#d33",
-        cancelButtonText: "取消",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.isLoading = true;
-          this.$http
-            .delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${id}`)
-            .then(() => {
-              this.isLoading = false;
-              Swal.fire({
-                icon: "success",
-                title: `訂單刪除成功`,
-                showConfirmButton: false,
-                timer: 1000,
-                didClose: () => {
-                  this.getOrders();
-                },
-              });
-            });
-        }
-      });
-    },
-    ...mapActions(utilities, ["timeTransform"]),
-  },
-  mounted() {
-    const myToken = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("myToken="))
-      ?.split("=")[1];
-    // axios header
-    this.$http.defaults.headers.common["Authorization"] = myToken;
-    this.getOrders();
-
-    // Modal建立
-    orderModal = new bootstrap.Modal("#orderModal");
-  },
-};
-</script>
