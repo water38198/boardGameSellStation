@@ -47,7 +47,7 @@ export default {
   },
   components: { Swiper, SwiperSlide },
   computed: {
-    ...mapState(cartStore, ["loadingItem"]),
+    ...mapState(cartStore, ["loadingItem", "cart"]),
   },
   mounted() {
     this.getProduct();
@@ -145,28 +145,48 @@ export default {
           </div>
           <div class="col-12 mt-auto">
             <div class="input-group mb-3 w-75">
-              <template v-if="product.stock">
-                <select class="form-select" v-model="qty">
-                  <option v-for="i in product.stock * 1" :key="i" :value="i">
-                    {{ i }}
-                  </option>
-                </select></template
-              >
-              <template v-else>
-                <select class="form-select" v-model="qty">
-                  <option v-for="i in 5" :key="i" :value="i">
+              <template v-if="cart.carts && product.stock">
+                <select
+                  class="form-select"
+                  v-model="qty"
+                  :disabled="
+                    product.stock ===
+                    cart.carts.find((el) => el.product.id === product.id)?.qty
+                  "
+                >
+                  <option
+                    v-for="i in product.stock -
+                    (cart.carts.find((el) => el.product.id === product.id)
+                      ? cart.carts.find((el) => el.product.id === product.id)
+                          .qty
+                      : 0)"
+                    :key="i"
+                    :value="i"
+                  >
                     {{ i }}
                   </option>
                 </select>
+
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  :disabled="
+                    this.loadingItem === product.id ||
+                    product.stock ===
+                      cart.carts.find((el) => el.product.id === product.id)?.qty
+                  "
+                  @click="addToCart(product, qty)"
+                >
+                  <span
+                    v-if="
+                      product.stock ===
+                      cart.carts.find((el) => el.product.id === product.id)?.qty
+                    "
+                    >目前無庫存</span
+                  >
+                  <span v-else>加入購物車</span>
+                </button>
               </template>
-              <button
-                type="button"
-                class="btn btn-danger"
-                :disabled="this.loadingItem === product.id"
-                @click="addToCart(product, qty)"
-              >
-                加入購物車
-              </button>
             </div>
           </div>
           <div class="col-12">

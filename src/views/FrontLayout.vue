@@ -123,11 +123,6 @@ export default {
                 >關於我們</RouterLink
               >
             </li>
-            <li class="nav-item">
-              <RouterLink to="/admin" class="me-3 nav-link link-light"
-                >後台</RouterLink
-              >
-            </li>
             <li class="nav-item mx-3 ms-lg-auto navbar-expand">
               <RouterLink
                 to="/cart"

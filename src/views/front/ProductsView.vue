@@ -17,7 +17,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(cartStore, ["loadingItem"]),
+    ...mapState(cartStore, ["loadingItem", "cart"]),
   },
   components: {
     PaginationComponent,
@@ -180,15 +180,34 @@ export default {
                       class="btn btn-outline-theme d-block"
                       >查看更多</RouterLink
                     >
-
-                    <button
-                      type="button"
-                      class="btn btn-outline-danger d-block"
-                      :disabled="loadingItem === product.id"
-                      @click="addToCart(product)"
-                    >
-                      加入購物車
-                    </button>
+                    <template v-if="cart.carts">
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger d-block"
+                        disabled
+                        v-if="
+                          cart.carts.find(
+                            (el) => el.product.id === product.id
+                          ) &&
+                          cart.carts.find((el) => el.product.id === product.id)
+                            .product.stock ===
+                            cart.carts.find(
+                              (el) => el.product.id === product.id
+                            ).qty
+                        "
+                      >
+                        目前無庫存
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger d-block"
+                        :disabled="loadingItem === product.id"
+                        @click="addToCart(product)"
+                        v-else
+                      >
+                        加入購物車
+                      </button>
+                    </template>
                   </div>
                 </div>
               </div>
