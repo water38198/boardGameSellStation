@@ -154,6 +154,7 @@ export default {
                     cart.carts.find((el) => el.product.id === product.id)?.qty
                   "
                 >
+                  <!-- 如果購物車內有本商品則扣掉購物車內的數量，沒有就-0 -->
                   <option
                     v-for="i in product.stock -
                     (cart.carts.find((el) => el.product.id === product.id)
