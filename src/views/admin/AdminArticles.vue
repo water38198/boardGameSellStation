@@ -38,9 +38,9 @@ export default {
           this.isLoading = false;
         });
     },
-    deleteArticle(id) {
+    deleteArticle(article) {
       Swal.fire({
-        title: `確定刪除嗎?`,
+        title: `確定刪除 ${article.title} 嗎?`,
         text: "刪除後不可復原，確定嗎",
         icon: "warning",
         showCancelButton: true,
@@ -52,7 +52,7 @@ export default {
         if (result.isConfirmed) {
           this.isLoading = true;
           this.$http
-            .delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/article/${id}`)
+            .delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/article/${article.id}`)
             .then(() => {
               this.isLoading = false;
               Swal.fire({
@@ -171,7 +171,7 @@ export default {
             <button
               type="button"
               class="btn btn-sm btn-outline-danger"
-              @click="deleteArticle(article.id)"
+              @click="deleteArticle(article)"
             >
               刪除
             </button>

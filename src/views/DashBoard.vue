@@ -9,7 +9,7 @@ export default {
   },
   methods: {
     logout() {
-      document.cookie = `myToken=; expires=}`;
+      document.cookie = `myToken=; expires=`;
       this.$router.push("/login");
     },
     loginCheck() {

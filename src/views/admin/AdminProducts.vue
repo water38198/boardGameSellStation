@@ -61,7 +61,7 @@ export default {
     },
     deleteProduct(title, id) {
       Swal.fire({
-        title: `確定刪除${title}嗎?`,
+        title: `確定刪除 ${title} 嗎?`,
         text: "刪除後不可復原，確定嗎?",
         icon: "warning",
         showCancelButton: true,

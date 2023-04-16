@@ -47,9 +47,9 @@ export default {
       };
       orderModal.hide();
     },
-    deleteOrder(id) {
+    deleteOrder(order) {
       Swal.fire({
-        title: `確定刪除嗎?`,
+        title: `確定刪除 ${order.id} 嗎?`,
         text: "刪除後不可復原，確定嗎",
         icon: "warning",
         showCancelButton: true,
@@ -61,7 +61,7 @@ export default {
         if (result.isConfirmed) {
           this.isLoading = true;
           this.$http
-            .delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${id}`)
+            .delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${order.id}`)
             .then(() => {
               this.isLoading = false;
               Swal.fire({
@@ -141,7 +141,7 @@ export default {
                 <button
                   type="button"
                   class="btn btn-outline-danger btn-sm"
-                  @click="deleteOrder(order.id)"
+                  @click="deleteOrder(order)"
                 >
                   刪除
                 </button>
