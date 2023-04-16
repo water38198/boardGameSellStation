@@ -2,20 +2,16 @@
 import { mapActions, mapState } from "pinia";
 import cartStore from "@/stores/cartStore";
 import Swal from "sweetalert2";
-
-const { VITE_URL, VITE_PATH } = import.meta.env;
-
 //Swiper
 import { Swiper, SwiperSlide } from "swiper/vue";
-
 // Import Swiper styles
 import "swiper/css";
-
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
 // import required modules
 import { Autoplay, Pagination, Navigation } from "swiper";
+
+const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
   data() {

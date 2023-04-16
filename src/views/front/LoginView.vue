@@ -1,5 +1,6 @@
 <script>
 import Swal from "sweetalert2";
+
 const { VITE_URL } = import.meta.env;
 
 export default {

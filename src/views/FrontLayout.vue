@@ -167,7 +167,7 @@ export default {
               /></a>
             </li>
             <li class="mx-1">
-              <a href="#"
+              <a href="mailto:water38198@gmail.ocm"
                 ><img src="../assets/footer/mail.png" alt="email"
               /></a>
             </li>
