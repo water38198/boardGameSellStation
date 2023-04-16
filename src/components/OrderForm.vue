@@ -1,3 +1,57 @@
+<script>
+import Swal from "sweetalert2";
+import utilities from "../stores/utilities";
+import { mapActions } from "pinia";
+
+const { VITE_URL, VITE_PATH } = import.meta.env;
+
+export default {
+  data() {
+    return {
+      user: {},
+    };
+  },
+  methods: {
+    sentOrder() {
+      const data = { user: this.user };
+      this.$http
+        .post(`${VITE_URL}/v2/api/${VITE_PATH}/order`, { data })
+        .then((res) => {
+          Swal.fire({
+            title: res.data.message,
+            html: `<div class='container'><div class="row text-start">
+      <div class="col-4">
+        <p class="text-theme">訂單ID:</p>
+        <p class="text-theme">建立時間:</p>
+        <p class="text-theme">總金額:</p>
+      </div>
+      <div class="col-8">
+        <p>${res.data.orderId}</p>
+        <p>${this.timeTransform(res.data.create_at)}</p>
+        <p>$${res.data.total}</p>
+      </div>
+    </div></div>  
+              `,
+            confirmButtonColor: "#0FB99B",
+          });
+          this.getCarts();
+          this.$refs.userForm.resetForm();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    isPhone(value) {
+      //電話驗證
+      const phoneNumber = /^(09)[0-9]{8}$/;
+      return phoneNumber.test(value) ? true : "需要09開頭的手機號碼十碼";
+    },
+    ...mapActions(utilities, ["timeTransform"]),
+  },
+  props: ["getCarts", "cart"],
+};
+</script>
+
 <template>
   <div class="bg-white">
     <h3 class="h3 text-center pt-5 text-theme">顧客資訊</h3>
@@ -98,55 +152,3 @@
     </div>
   </div>
 </template>
-
-<script>
-const { VITE_URL, VITE_PATH } = import.meta.env;
-import Swal from "sweetalert2";
-import utilities from "../stores/utilities";
-import { mapActions } from "pinia";
-export default {
-  data() {
-    return {
-      user: {},
-    };
-  },
-  methods: {
-    sentOrder() {
-      const data = { user: this.user };
-      this.$http
-        .post(`${VITE_URL}/v2/api/${VITE_PATH}/order`, { data })
-        .then((res) => {
-          Swal.fire({
-            title: res.data.message,
-            html: `<div class='container'><div class="row text-start">
-      <div class="col-4">
-        <p class="text-theme">訂單ID:</p>
-        <p class="text-theme">建立時間:</p>
-        <p class="text-theme">總金額:</p>
-      </div>
-      <div class="col-8">
-        <p>${res.data.orderId}</p>
-        <p>${this.timeTransform(res.data.create_at)}</p>
-        <p>$${res.data.total}</p>
-      </div>
-    </div></div>  
-              `,
-            confirmButtonColor: "#0FB99B",
-          });
-          this.getCarts();
-          this.$refs.userForm.resetForm();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    isPhone(value) {
-      //電話驗證
-      const phoneNumber = /^(09)[0-9]{8}$/;
-      return phoneNumber.test(value) ? true : "需要正確的電話號碼";
-    },
-    ...mapActions(utilities, ["timeTransform"]),
-  },
-  props: ["getCarts", "cart"],
-};
-</script>

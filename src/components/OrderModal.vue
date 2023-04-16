@@ -1,3 +1,70 @@
+<script>
+import { mapActions } from "pinia";
+import utilities from "../stores/utilities";
+import Swal from "sweetalert2";
+
+const { VITE_URL, VITE_PATH } = import.meta.env;
+
+export default {
+  props: ["tempOrder", "closeModal", "getOrders"],
+  data() {
+    return {
+      newOrder: {
+        user: {},
+        products: {},
+      },
+      loadingItem: "",
+    };
+  },
+  methods: {
+    deleteOrderItem(key) {
+      if (Object.keys(this.newOrder.products).length === 1) {
+        Swal.fire({
+          icon: "error",
+          title: "商品不得為空",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        return;
+      }
+      this.newOrder.total -= this.newOrder.products[key].final_total;
+      delete this.newOrder.products[key];
+    },
+    updateOrder(order, id) {
+      this.loadingItem = id;
+      let changedOrder = { ...order };
+      let orderData = {
+        data: { ...changedOrder },
+      };
+      this.$http
+        .put(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${id}`, orderData)
+        .then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "修改成功!",
+            showConfirmButton: false,
+            timer: 1000,
+            didClose: () => {
+              this.closeModal();
+              this.getOrders();
+              this.loadingItem = "";
+            },
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    ...mapActions(utilities, ["timeTransform"]),
+  },
+  watch: {
+    tempOrder() {
+      this.newOrder = JSON.parse(JSON.stringify(this.tempOrder));
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable"
@@ -195,71 +262,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import { mapActions } from "pinia";
-import utilities from "../stores/utilities";
-import Swal from "sweetalert2";
-const { VITE_URL, VITE_PATH } = import.meta.env;
-
-export default {
-  props: ["tempOrder", "closeModal", "getOrders"],
-  data() {
-    return {
-      newOrder: {
-        user: {},
-        products: {},
-      },
-      loadingItem: "",
-    };
-  },
-  methods: {
-    deleteOrderItem(key) {
-      if (Object.keys(this.newOrder.products).length === 1) {
-        Swal.fire({
-          icon: "error",
-          title: "商品不得為空",
-          showConfirmButton: false,
-          timer: 1000,
-        });
-        return;
-      }
-      this.newOrder.total -= this.newOrder.products[key].final_total;
-      delete this.newOrder.products[key];
-    },
-    updateOrder(order, id) {
-      this.loadingItem = id;
-
-      let changedOrder = { ...order };
-      let orderData = {
-        data: { ...changedOrder },
-      };
-      this.$http
-        .put(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${id}`, orderData)
-        .then(() => {
-          Swal.fire({
-            icon: "success",
-            title: "修改成功!",
-            showConfirmButton: false,
-            timer: 1000,
-            didClose: () => {
-              this.closeModal();
-              this.getOrders();
-              this.loadingItem = "";
-            },
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-
-    ...mapActions(utilities, ["timeTransform"]),
-  },
-  watch: {
-    tempOrder() {
-      this.newOrder = JSON.parse(JSON.stringify(this.tempOrder));
-    },
-  },
-};
-</script>

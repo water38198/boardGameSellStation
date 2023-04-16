@@ -1,3 +1,14 @@
+<script>
+export default {
+  data() {
+    return {
+      currentPage: 1,
+    };
+  },
+  props: ["pages", "getMethod"],
+};
+</script>
+
 <template>
   <nav aria-label="Page navigation" class="mt-5">
     <ul class="pagination justify-content-center">
@@ -38,17 +49,7 @@
   </nav>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      currentPage: 1,
-    };
-  },
-  props: ["pages", "getMethod"],
-};
-</script>
-<style>
+<style scoped>
 .page-link {
   color: #0fb99b;
 }

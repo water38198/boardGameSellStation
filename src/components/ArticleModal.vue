@@ -1,3 +1,102 @@
+<script>
+import Swal from "sweetalert2";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+const { VITE_URL, VITE_PATH } = import.meta.env;
+
+export default {
+  props: ["tempArticleId", "isNew", "closeModal", "getArticles"],
+  data() {
+    return {
+      newArticle: {
+        isPublic: false,
+      },
+      loadingItem: "",
+      isLoading: false,
+      editor: ClassicEditor,
+      editorConfig: {
+        toolbar: ["heading", "|", "bold", "italic", "link"],
+      },
+    };
+  },
+  methods: {
+    updateArticle() {
+      this.loadingItem = "confirmButton";
+      this.isLoading = true;
+      let method = "post";
+      let apiUrl = `${VITE_URL}/v2/api/${VITE_PATH}/admin/article`;
+      if (!this.isNew) {
+        apiUrl += `/${this.tempArticleId}`;
+        method = "put";
+      } else {
+        this.newArticle.create_at = new Date().getTime();
+      }
+      this.$http[method](apiUrl, {
+        data: this.newArticle,
+      })
+        .then((res) => {
+          console.log(res);
+          Swal.fire({
+            icon: "success",
+            title: `${method === "put" ? "修改成功" : "新增成功"}`,
+            showConfirmButton: false,
+            timer: 1500,
+            didClose: () => {
+              this.closeModal();
+              this.getArticles();
+              this.isLoading = false;
+            },
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.loadingItem = "";
+        });
+    },
+    uploadImage() {
+      let file = document.querySelector("#uploadImage");
+      this.loadingItem = "uploadImage";
+      const formData = new FormData();
+      formData.append("file-to-upload", file.files[0]);
+      this.$http
+        .post(`${VITE_URL}/v2/api/${VITE_PATH}/admin/upload`, formData)
+        .then((res) => {
+          if (!res.data.imageUrl) {
+            alert(res.data.message);
+          } else {
+            this.newArticle.image = res.data.imageUrl;
+          }
+          this.loadingItem = "";
+          file.value = "";
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    },
+  },
+  watch: {
+    tempArticleId() {
+      if (this.isNew) {
+        this.newArticle = {
+          isPublic: false,
+        };
+        return;
+      }
+      this.isLoading = true;
+      this.$http
+        .get(
+          `${VITE_URL}/v2/api/${VITE_PATH}/admin/article/${this.tempArticleId}`
+        )
+        .then((res) => {
+          this.newArticle = res.data.article;
+          this.isLoading = false;
+        });
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable"
@@ -182,105 +281,7 @@
   </div>
 </template>
 
-<script>
-import Swal from "sweetalert2";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-const { VITE_URL, VITE_PATH } = import.meta.env;
-
-export default {
-  props: ["tempArticleId", "isNew", "closeModal", "getArticles"],
-  data() {
-    return {
-      newArticle: {
-        isPublic: false,
-      },
-      loadingItem: "",
-      isLoading: false,
-      editor: ClassicEditor,
-      editorConfig: {
-        toolbar: ["heading", "|", "bold", "italic", "link"],
-      },
-    };
-  },
-  methods: {
-    updateArticle() {
-      this.loadingItem = "confirmButton";
-      this.isLoading = true;
-      let method = "post";
-      let apiUrl = `${VITE_URL}/v2/api/${VITE_PATH}/admin/article`;
-      if (!this.isNew) {
-        apiUrl += `/${this.tempArticleId}`;
-        method = "put";
-      } else {
-        this.newArticle.create_at = new Date().getTime();
-      }
-      this.$http[method](apiUrl, {
-        data: this.newArticle,
-      })
-        .then((res) => {
-          console.log(res);
-          Swal.fire({
-            icon: "success",
-            title: `${method === "put" ? "修改成功" : "新增成功"}`,
-            showConfirmButton: false,
-            timer: 1500,
-            didClose: () => {
-              this.closeModal();
-              this.getArticles();
-              this.isLoading = false;
-            },
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          this.loadingItem = "";
-        });
-    },
-    uploadImage() {
-      let file = document.querySelector("#uploadImage");
-      this.loadingItem = "uploadImage";
-      const formData = new FormData();
-      formData.append("file-to-upload", file.files[0]);
-      this.$http
-        .post(`${VITE_URL}/v2/api/${VITE_PATH}/admin/upload`, formData)
-        .then((res) => {
-          if (!res.data.imageUrl) {
-            alert(res.data.message);
-          } else {
-            this.newArticle.image = res.data.imageUrl;
-          }
-          this.loadingItem = "";
-          file.value = "";
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    },
-  },
-  watch: {
-    tempArticleId() {
-      if (this.isNew) {
-        this.newArticle = {
-          isPublic: false,
-        };
-        return;
-      }
-      this.isLoading = true;
-      this.$http
-        .get(
-          `${VITE_URL}/v2/api/${VITE_PATH}/admin/article/${this.tempArticleId}`
-        )
-        .then((res) => {
-          this.newArticle = res.data.article;
-          this.isLoading = false;
-        });
-    },
-  },
-};
-</script>
-<style>
+<style scoped>
 .articleCover {
   max-height: 250px;
 }

@@ -1,3 +1,99 @@
+<script>
+import Swal from "sweetalert2";
+
+const { VITE_URL, VITE_PATH } = import.meta.env;
+
+export default {
+  props: ["tempProduct", "isNew", "closeModal", "getProducts"],
+  data() {
+    return {
+      newProduct: {},
+      loadingItem: "",
+      tempPrice: 0,
+    };
+  },
+  methods: {
+    updateProduct() {
+      this.loadingItem = "confirmButton";
+      let method = "post";
+      let apiUrl = `${VITE_URL}/v2/api/${VITE_PATH}/admin/product`;
+      if (!this.isNew) {
+        apiUrl += `/${this.tempProduct.id}`;
+        method = "put";
+      }
+      this.setPriceHistory();
+      this.$http[method](apiUrl, {
+        data: this.newProduct,
+      })
+        .then(() => {
+          Swal.fire({
+            icon: "success",
+            title: `${method === "put" ? "修改成功" : "新增成功"}`,
+            showConfirmButton: false,
+            timer: 1500,
+            didClose: () => {
+              this.closeModal();
+              this.getProducts();
+            },
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.loadingItem = "";
+        });
+    },
+    setPriceHistory() {
+      let newPrice = {};
+      let time = new Date().getTime();
+      newPrice[time] = this.newProduct.price;
+
+      if (this.isNew) {
+        this.newProduct.history = [];
+        this.newProduct.history.push(newPrice);
+      } else if (this.tempPrice > this.newProduct.price) {
+        this.newProduct.history.push(newPrice);
+      }
+    },
+    uploadImage(target) {
+      let file = document.querySelector("#formFile");
+      this.loadingItem = "images";
+      if (target === "main") {
+        file = document.querySelector("#mainImage");
+        this.loadingItem = "mainImage";
+      }
+      const formData = new FormData();
+      formData.append("file-to-upload", file.files[0]);
+      this.$http
+        .post(`${VITE_URL}/v2/api/${VITE_PATH}/admin/upload`, formData)
+        .then((res) => {
+          if (!res.data.imageUrl) {
+            alert(res.data.message);
+          } else {
+            if (target === "main") {
+              this.newProduct.imageUrl = res.data.imageUrl;
+            } else if (target === "multi") {
+              this.newProduct.imagesUrl.push(res.data.imageUrl);
+            }
+          }
+          file.value = "";
+          this.loadingItem = "";
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    },
+  },
+  watch: {
+    tempProduct() {
+      this.newProduct = { ...this.tempProduct };
+      this.tempPrice = this.tempProduct.price;
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable"
@@ -211,7 +307,6 @@
                   class="invalid-feedback"
                 ></ErrorMessage>
               </div>
-
               <div class="col-4">
                 <label for="productLanguage" class="form-label">語言</label>
                 <select
@@ -289,99 +384,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import Swal from "sweetalert2";
-
-const { VITE_URL, VITE_PATH } = import.meta.env;
-
-export default {
-  props: ["tempProduct", "isNew", "closeModal", "getProducts"],
-  data() {
-    return {
-      newProduct: {},
-      loadingItem: "",
-      tempPrice: 0,
-    };
-  },
-  methods: {
-    updateProduct() {
-      this.loadingItem = "confirmButton";
-      let method = "post";
-      let apiUrl = `${VITE_URL}/v2/api/${VITE_PATH}/admin/product`;
-      if (!this.isNew) {
-        apiUrl += `/${this.tempProduct.id}`;
-        method = "put";
-      }
-      this.setPriceHistory();
-      this.$http[method](apiUrl, {
-        data: this.newProduct,
-      })
-        .then(() => {
-          Swal.fire({
-            icon: "success",
-            title: `${method === "put" ? "修改成功" : "新增成功"}`,
-            showConfirmButton: false,
-            timer: 1500,
-            didClose: () => {
-              this.closeModal();
-              this.getProducts();
-            },
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          this.loadingItem = "";
-        });
-    },
-    setPriceHistory() {
-      let newPrice = {};
-      let time = new Date().getTime();
-      newPrice[time] = this.newProduct.price;
-
-      if (this.isNew) {
-        this.newProduct.history = [];
-        this.newProduct.history.push(newPrice);
-      } else if (this.tempPrice > this.newProduct.price) {
-        this.newProduct.history.push(newPrice);
-      }
-    },
-    uploadImage(target) {
-      let file = document.querySelector("#formFile");
-      this.loadingItem = "images";
-      if (target === "main") {
-        file = document.querySelector("#mainImage");
-        this.loadingItem = "mainImage";
-      }
-      const formData = new FormData();
-      formData.append("file-to-upload", file.files[0]);
-      this.$http
-        .post(`${VITE_URL}/v2/api/${VITE_PATH}/admin/upload`, formData)
-        .then((res) => {
-          if (!res.data.imageUrl) {
-            alert(res.data.message);
-          } else {
-            if (target === "main") {
-              this.newProduct.imageUrl = res.data.imageUrl;
-            } else if (target === "multi") {
-              this.newProduct.imagesUrl.push(res.data.imageUrl);
-            }
-          }
-          file.value = "";
-          this.loadingItem = "";
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    },
-  },
-  watch: {
-    tempProduct() {
-      this.newProduct = { ...this.tempProduct };
-      this.tempPrice = this.tempProduct.price;
-    },
-  },
-};
-</script>

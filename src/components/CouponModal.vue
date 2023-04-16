@@ -1,3 +1,57 @@
+<script>
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
+import Swal from "sweetalert2";
+
+const { VITE_URL, VITE_PATH } = import.meta.env;
+
+export default {
+  props: ["isNew", "tempCoupon", "closeModal", "getCoupons"],
+  data() {
+    return {
+      newCoupon: {},
+      loadingItem: "",
+    };
+  },
+  methods: {
+    updateCoupon() {
+      this.loadingItem = "confirmButton";
+      let method = "post";
+      let apiUrl = `${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon`;
+      if (!this.isNew) {
+        apiUrl += `/${this.newCoupon.id}`;
+        method = "put";
+      }
+      this.newCoupon.is_enabled -= 0;
+      this.newCoupon.percent -= 0;
+      this.$http[method](apiUrl, { data: this.newCoupon })
+        .then(() => {
+          Swal.fire({
+            icon: "success",
+            title: `${method === "put" ? "修改成功!!" : "新增成功!!"}`,
+            showConfirmButton: false,
+            timer: 1500,
+            didClose: () => {
+              this.closeModal();
+              this.loadingItem = "";
+              this.getCoupons();
+            },
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  components: { VueDatePicker },
+  watch: {
+    tempCoupon() {
+      this.newCoupon = { ...this.tempCoupon };
+    },
+  },
+};
+</script>
+
 <template>
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
@@ -120,57 +174,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import VueDatePicker from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
-import Swal from "sweetalert2";
-
-const { VITE_URL, VITE_PATH } = import.meta.env;
-
-export default {
-  props: ["isNew", "tempCoupon", "closeModal", "getCoupons"],
-  data() {
-    return {
-      newCoupon: {},
-      loadingItem: "",
-    };
-  },
-  methods: {
-    updateCoupon() {
-      this.loadingItem = "confirmButton";
-      let method = "post";
-      let apiUrl = `${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon`;
-      if (!this.isNew) {
-        apiUrl += `/${this.newCoupon.id}`;
-        method = "put";
-      }
-      this.newCoupon.is_enabled -= 0;
-      this.newCoupon.percent -= 0;
-      this.$http[method](apiUrl, { data: this.newCoupon })
-        .then(() => {
-          Swal.fire({
-            icon: "success",
-            title: `${method === "put" ? "修改成功!!" : "新增成功!!"}`,
-            showConfirmButton: false,
-            timer: 1500,
-            didClose: () => {
-              this.closeModal();
-              this.loadingItem = "";
-              this.getCoupons();
-            },
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-  },
-  components: { VueDatePicker },
-  watch: {
-    tempCoupon() {
-      this.newCoupon = { ...this.tempCoupon };
-    },
-  },
-};
-</script>
