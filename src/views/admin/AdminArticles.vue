@@ -52,7 +52,9 @@ export default {
         if (result.isConfirmed) {
           this.isLoading = true;
           this.$http
-            .delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/article/${article.id}`)
+            .delete(
+              `${VITE_URL}/v2/api/${VITE_PATH}/admin/article/${article.id}`
+            )
             .then(() => {
               this.isLoading = false;
               Swal.fire({

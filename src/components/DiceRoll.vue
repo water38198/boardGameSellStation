@@ -96,7 +96,7 @@ export default {
 <template>
   <!-- Modal -->
   <div
-    class="modal fade"
+    class="modal fade mt-5"
     id="exampleModal"
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
@@ -114,10 +114,10 @@ export default {
           ></button>
         </div>
         <div class="modal-body">
-          <p>規則:只要擲出比對手大的骰子點數即可獲勝</p>
+          <p>規則：只要擲出比對手大的骰子點數即可獲勝</p>
           <div class="game">
             <div class="dice-container">
-              對手的骰子:
+              對手的骰子：
               <div class="dice1 my-3" ref="dice1">
                 <div class="face front"></div>
                 <div class="face back"></div>
@@ -126,7 +126,7 @@ export default {
                 <div class="face right"></div>
                 <div class="face left"></div>
               </div>
-              你的骰子:
+              你的骰子：
               <div class="dice2 my-3" ref="dice2">
                 <div class="face front"></div>
                 <div class="face back"></div>
@@ -136,7 +136,7 @@ export default {
                 <div class="face left"></div>
               </div>
               <button class="roll" @click="randomDice()" type="button">
-                Roll Dice
+                扔骰子!
               </button>
             </div>
           </div>
@@ -146,7 +146,8 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style>
+/* 加上scoped會無法顯示骰子轉動的動畫，不知原因 */
 .game {
   height: 80vh;
   display: flex;

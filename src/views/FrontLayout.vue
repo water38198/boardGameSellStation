@@ -58,7 +58,7 @@ export default {
     >
     </VLoading>
   </div>
-  <div class="bg-b20 min-vh-100">
+  <div class="bg-b20 min-vh-100 d-flex flex-column">
     <nav
       class="navbar navbar-expand-lg bg-transparent sticky-top"
       style="
@@ -139,8 +139,9 @@ export default {
         </div>
       </div>
     </nav>
-    <RouterView />
-    <footer class="bg-themeDark text-light">
+
+    <div class="flex-grow-1"><RouterView /></div>
+    <footer class="bg-themeDark text-light flex-grow-0">
       <div
         class="d-md-flex container justify-content-between"
         style="padding-top: 50px; padding-bottom: 50px"
@@ -179,16 +180,21 @@ export default {
       </div>
     </footer>
     <!-- Button trigger modal -->
-    <button
-      type="button"
-      data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
+    <div
       style="position: fixed; bottom: 20px; right: 20px"
-      class="btn"
+      class="bg-themeDark rounded-3"
     >
-      <img :src="DiceIcon" alt="dice" />
-      <span class="text-theme d-none d-md-inline"> 點我拿優惠券!!</span>
-    </button>
+      <button
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+        class="btn"
+      >
+        <img :src="DiceIcon" alt="dice" />
+        <span class="text-white d-none d-md-inline"> 點我拿優惠券!!</span>
+      </button>
+    </div>
+
     <!-- Modal -->
     <DiceRoll />
   </div>
