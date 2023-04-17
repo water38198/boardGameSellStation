@@ -128,14 +128,14 @@ export default {
               >
                 <div class="card">
                   <div class="row">
-                    <div class="col-6 col-lg-12">
+                    <div class="col-md-6 col-lg-12">
                       <img
                         :src="product.imageUrl"
                         class="card-img-top img-fluid home-product-image"
                         alt="productImage"
                       />
                     </div>
-                    <div class="col-6 col-lg-12">
+                    <div class="col-md-6 col-lg-12">
                       <div
                         class="card-body d-flex flex-column-reverse flex-lg-column h-100"
                       >
@@ -154,7 +154,7 @@ export default {
                           介紹:<br />
                           {{ product.description }}
                         </p>
-                        <h5 class="card-title fs-2 text-truncate">
+                        <h5 class="card-title fs-2">
                           {{ product.title }}
                         </h5>
                       </div>
@@ -191,14 +191,14 @@ export default {
             >
               <div class="card">
                 <div class="row">
-                  <div class="col-6 col-lg-12">
+                  <div class="col-md-6 col-lg-12">
                     <img
                       :src="product.imageUrl"
                       class="card-img-top img-fluid home-product-image"
                       alt="productImage"
                     />
                   </div>
-                  <div class="col-6 col-lg-12">
+                  <div class="col-md-6 col-lg-12">
                     <div
                       class="card-body d-flex flex-column-reverse flex-lg-column"
                     >
@@ -217,7 +217,7 @@ export default {
                         介紹:<br />
                         {{ product.description }}
                       </p>
-                      <h5 class="card-title fs-2 text-truncate">
+                      <h5 class="card-title fs-2">
                         {{ product.title }}
                       </h5>
                     </div>
@@ -229,7 +229,6 @@ export default {
         </div>
       </div>
       <!-- 價格更新 -->
-
       <section
         style="
           background-color: linear-gradient(
@@ -255,107 +254,101 @@ export default {
           <p class="text-white fs-2">看看我的心得與開箱吧!</p>
         </div>
       </section>
-
       <section class="bg-white py-5">
         <div class="container">
+          <h3 class="text-theme fs-1 text-center mb-5">心得</h3>
           <div class="row">
-            <h3 class="text-theme fs-1 text-center mb-5">心得</h3>
-            <div class="col-12">
-              <div
-                class="card mb-5 border-0 bg-b10"
-                v-for="(article, index) in reviews.slice(0, 5)"
-                :key="article.id"
-                data-aos="fade-up"
-                :data-aos-duration="1000 + 250 * index"
+            <div
+              class="col-12"
+              v-for="(article, index) in reviews.slice(0, 5)"
+              :key="article.id"
+              data-aos="fade-up"
+              :data-aos-duration="1000 + 250 * index"
+            >
+              <RouterLink
+                :to="`/article/${article.id}`"
+                class="text-decoration-none text-black"
               >
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img
-                      :src="article.image"
-                      class="rounded-start"
-                      alt="articleImage"
-                      style="object-fit: cover; width: 100%; height: 300px"
-                    />
-                  </div>
-                  <div class="col-12 col-md-8">
-                    <div
-                      class="card-body d-flex flex-column justify-content-center h-100 mx-5"
-                    >
-                      <h5 class="card-title fs-2 text-truncate">
-                        {{ article.title }}
-                      </h5>
-                      <span class="text-b60">{{
-                        timeTransform(article.create_at)
-                      }}</span>
-                      <p class="card-text mt-3 fs-5 multi-text-truncate">
-                        {{ article.description }}
-                      </p>
-                      <div class="text-center text-md-start">
-                        <RouterLink
-                          :to="`/article/${article.id}`"
-                          class="btn btn-theme btn-lg text-white fs-6 rounded-0"
-                          style="padding-left: 60px; padding-right: 60px"
-                          >更多內容</RouterLink
-                        >
+                <div class="card mb-5 border-0 bg-b10">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img
+                        :src="article.image"
+                        class="rounded-start"
+                        alt="articleImage"
+                        style="object-fit: cover; width: 100%; height: 300px"
+                      />
+                    </div>
+                    <div class="col-12 col-md-8">
+                      <div
+                        class="card-body d-flex flex-column justify-content-center h-100 mx-md-5"
+                      >
+                        <h5 class="card-title fs-2">
+                          {{ article.title }}
+                        </h5>
+                        <span class="text-b60">{{
+                          timeTransform(article.create_at)
+                        }}</span>
+                        <p class="card-text mt-3 fs-5 multi-text-truncate">
+                          {{ article.description }}
+                        </p>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div class="text-center my-5">
-                <RouterLink
-                  to="/articles/reviews"
-                  class="btn btn-lg btn-be4 text-b60 rounded-0"
-                >
-                  更多心得</RouterLink
-                >
-              </div>
-            </div>
-            <h3 class="text-theme fs-1 text-center mb-5">開箱</h3>
-            <div class="col-12">
-              <div
-                class="card mb-5 border-0 bg-b10"
-                v-for="(article, index) in unboxings.slice(0, 5)"
-                :key="article.id"
-                data-aos="fade-up"
-                :data-aos-duration="1000 + 250 * index"
+                </div></RouterLink
               >
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img
-                      :src="article.image"
-                      class="rounded-start"
-                      alt="articleImage"
-                      style="object-fit: cover; width: 100%; height: 300px"
-                    />
-                  </div>
-                  <div class="col-md-8">
-                    <div
-                      class="card-body d-flex flex-column justify-content-center h-100 mx-5"
-                    >
-                      <h5 class="card-title fs-2 text-truncate">
-                        {{ article.title }}
-                      </h5>
-                      <span class="text-b60">{{
-                        timeTransform(article.create_at)
-                      }}</span>
-                      <p class="card-text mt-3 fs-5 multi-text-truncate">
-                        {{ article.description }}
-                      </p>
-                      <div class="text-center text-md-start">
-                        <RouterLink
-                          :to="`/article/${article.id}`"
-                          class="btn btn-theme btn-lg text-white fs-6 rounded-0"
-                          style="padding-left: 60px; padding-right: 60px"
-                          >更多內容</RouterLink
-                        >
+            </div>
+            <div class="text-center my-5">
+              <RouterLink
+                to="/articles/reviews"
+                class="btn btn-lg btn-be4 text-b60 rounded-0"
+              >
+                更多心得</RouterLink
+              >
+            </div>
+          </div>
+          <h3 class="text-theme fs-1 text-center mb-5">開箱</h3>
+          <div class="row">
+            <div
+              class="col-12"
+              v-for="(article, index) in unboxings.slice(0, 5)"
+              :key="article.id"
+              data-aos="fade-up"
+              :data-aos-duration="1000 + 250 * index"
+            >
+              <RouterLink
+                :to="`/article/${article.id}`"
+                class="text-decoration-none text-black"
+              >
+                <div class="card mb-5 border-0 bg-b10">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img
+                        :src="article.image"
+                        class="rounded-start"
+                        alt="articleImage"
+                        style="object-fit: cover; width: 100%; height: 300px"
+                      />
+                    </div>
+                    <div class="col-12 col-md-8">
+                      <div
+                        class="card-body d-flex flex-column justify-content-center h-100 mx-md-5"
+                      >
+                        <h5 class="card-title fs-2">
+                          {{ article.title }}
+                        </h5>
+                        <span class="text-b60">{{
+                          timeTransform(article.create_at)
+                        }}</span>
+                        <p class="card-text mt-3 fs-5 multi-text-truncate">
+                          {{ article.description }}
+                        </p>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </div></RouterLink
+              >
             </div>
-
             <div class="text-center my-5">
               <RouterLink
                 to="/articles/unboxings"
