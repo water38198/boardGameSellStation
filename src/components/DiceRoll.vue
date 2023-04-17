@@ -85,6 +85,17 @@ export default {
             title: "恭喜，你獲勝了",
             html: "<p>八折優惠券:<span class='text-themeDark'>DiceGameWinner</span></p>",
             confirmButtonColor: "#0fb99b",
+            confirmButtonText: "複製",
+          }).then((resault) => {
+            if (resault.isConfirmed) {
+              navigator.clipboard.writeText("DiceGameWinner");
+              Swal.fire({
+                icon: "success",
+                title: "已複製到剪貼簿",
+                showConfirmButton: false,
+                timer: 1000,
+              });
+            }
           });
         }
       }, totalTime);
