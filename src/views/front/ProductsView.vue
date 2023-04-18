@@ -143,74 +143,77 @@ export default {
               data-aos="fade-up"
               :data-aos-duration="`${1000 + i * 200}`"
             >
-              <div class="card h-100">
-                <img
-                  :src="product.imageUrl"
-                  class="card-img-top"
-                  :alt="`${product.title}圖片`"
-                  style="height: 250px; object-fit: cover; object-position: top"
-                />
-                <div class="card-body d-flex flex-column">
-                  <h4 class="card-title">{{ product.title }}</h4>
-                  <p class="card-text text-truncate my-3">
-                    {{ product.description }}
-                  </p>
-                  <div
-                    class="h4 mt-auto text-end"
-                    v-if="product.origin_price === product.price"
-                  >
-                    {{ product.price }}元
-                  </div>
-                  <div v-else class="mt-auto d-flex justify-content-between">
-                    <div>
-                      <del class="h6">原價{{ product.origin_price }}元</del>
-                    </div>
-                    <div class="h4">
-                      現在只要<span class="text-danger">{{
-                        product.price
-                      }}</span
-                      >元
-                    </div>
-                  </div>
-                  <div
-                    class="text-center mt-2 d-flex flex-column flex-sm-row justify-content-between"
-                  >
-                    <RouterLink
-                      :to="`/product/${product.id}`"
-                      class="btn btn-outline-theme d-block"
-                      >查看更多</RouterLink
+              <RouterLink
+                :to="`/product/${product.id}`"
+                class="text-reset text-decoration-none"
+              >
+                <div class="card h-100">
+                  <img
+                    :src="product.imageUrl"
+                    class="card-img-top"
+                    :alt="`${product.title}圖片`"
+                    style="
+                      height: 250px;
+                      object-fit: cover;
+                      object-position: top;
+                    "
+                  />
+                  <div class="card-body d-flex flex-column">
+                    <h4 class="card-title">{{ product.title }}</h4>
+                    <p class="card-text text-truncate my-3">
+                      {{ product.description }}
+                    </p>
+                    <div
+                      class="h4 mt-auto text-end"
+                      v-if="product.origin_price === product.price"
                     >
-                    <template v-if="cart.carts">
-                      <button
-                        type="button"
-                        class="btn btn-outline-danger d-block"
-                        disabled
-                        v-if="
-                          cart.carts.find(
-                            (el) => el.product.id === product.id
-                          ) &&
-                          cart.carts.find((el) => el.product.id === product.id)
-                            .product.stock ===
+                      {{ product.price }}元
+                    </div>
+                    <div v-else class="mt-auto d-flex justify-content-between">
+                      <div>
+                        <del class="h6">原價{{ product.origin_price }}元</del>
+                      </div>
+                      <div class="h4">
+                        現在只要<span class="text-danger">{{
+                          product.price
+                        }}</span
+                        >元
+                      </div>
+                    </div>
+                    <div class="text-center mt-2 text-center">
+                      <template v-if="cart.carts">
+                        <button
+                          type="button"
+                          class="btn btn-outline-danger"
+                          disabled
+                          v-if="
                             cart.carts.find(
                               (el) => el.product.id === product.id
-                            ).qty
-                        "
-                      >
-                        目前無庫存
-                      </button>
-                      <button
-                        type="button"
-                        class="btn btn-outline-danger d-block"
-                        :disabled="loadingItem === product.id"
-                        @click="addToCart(product)"
-                        v-else
-                      >
-                        加入購物車
-                      </button>
-                    </template>
+                            ) &&
+                            cart.carts.find(
+                              (el) => el.product.id === product.id
+                            ).product.stock ===
+                              cart.carts.find(
+                                (el) => el.product.id === product.id
+                              ).qty
+                          "
+                        >
+                          目前無庫存
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-outline-danger"
+                          :disabled="loadingItem === product.id"
+                          @click.prevent="addToCart(product)"
+                          v-else
+                        >
+                          加入購物車
+                        </button>
+                      </template>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </div></RouterLink
+              >
             </div>
           </template>
           <template v-else>

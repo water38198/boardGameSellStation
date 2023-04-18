@@ -139,9 +139,8 @@ export default {
         </div>
       </div>
     </nav>
-
     <div class="flex-grow-1"><RouterView /></div>
-    <footer class="bg-themeDark text-light flex-grow-0">
+    <footer class="bg-themeDark text-light flex-grow-0 mt-5">
       <div
         class="d-md-flex container justify-content-between"
         style="padding-top: 50px; padding-bottom: 50px"
@@ -194,7 +193,6 @@ export default {
         <span class="text-white d-none d-md-inline"> 點我拿優惠券!!</span>
       </button>
     </div>
-
     <!-- Modal -->
     <DiceRoll />
   </div>

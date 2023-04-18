@@ -5,12 +5,16 @@ import Swal from "sweetalert2";
 //Swiper
 import { Swiper, SwiperSlide } from "swiper/vue";
 // Import Swiper styles
+// import "swiper/css";
+// import "swiper/css/pagination";
+// import "swiper/css/navigation";
 import "swiper/css";
-import "swiper/css/pagination";
+
+import "swiper/css/free-mode";
 import "swiper/css/navigation";
 // import required modules
-import { Autoplay, Pagination, Navigation } from "swiper";
-
+// import { Autoplay, Pagination, Navigation } from "swiper";
+import { FreeMode, Navigation, Pagination } from "swiper";
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
@@ -19,7 +23,7 @@ export default {
       product: {},
       qty: 1,
       isLoading: false,
-      modules: [Autoplay, Pagination, Navigation],
+      modules: [FreeMode, Navigation, Pagination],
     };
   },
   methods: {
@@ -65,16 +69,33 @@ export default {
     />
   </div>
   <div class="container-lg">
-    <h1 class="h1 text-center my-3">{{ product.title }}</h1>
+    <nav aria-label="breadcrumb" class="my-3">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <RouterLink to="/" class="text-decoration-none text-theme"
+            >首頁</RouterLink
+          >
+        </li>
+        <li class="breadcrumb-item">
+          <RouterLink to="/products" class="text-decoration-none text-theme"
+            >全部商品</RouterLink
+          >
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ product.title }}
+        </li>
+      </ol>
+    </nav>
     <div class="row g-3 mb-5 justify-content-center">
       <div class="col-8 col-md-6 col-lg-5">
-        <div class="text-center">
+        <div class="text-center h-100">
           <Swiper
             :spaceBetween="30"
             :centeredSlides="true"
             :autoHeight="true"
             :pagination="{
-              clickable: true,
+              type: 'fraction',
             }"
             :navigation="true"
             :modules="modules"
@@ -96,48 +117,35 @@ export default {
         </div>
       </div>
       <div class="col-8 col-md-6 col-lg-7">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <RouterLink to="/" class="text-decoration-none text-theme"
-                >首頁</RouterLink
-              >
-            </li>
-            <li class="breadcrumb-item">
-              <RouterLink to="/products" class="text-decoration-none text-theme"
-                >全部商品</RouterLink
-              >
-            </li>
-
-            <li class="breadcrumb-item active" aria-current="page">
-              {{ product.title }}
-            </li>
-          </ol>
-        </nav>
         <div class="row h-100">
+          <h1 class="h1 mb-3">{{ product.title }}</h1>
+          <div class="fs-4 mb-3 d-none d-md-block">
+            <span class="badge bg-theme me-3">{{ product.category }}</span>
+            <span class="badge bg-theme me-3">{{ product.language }}</span>
+            <span class="badge bg-theme me-3">{{ product.condition }}</span>
+          </div>
           <div class="col-12">
             <div class="h3">商品敘述:</div>
             <p class="p-2">{{ product.description }}</p>
           </div>
           <div class="col-6 col-md-12">
-            <div class="h3">內容物:</div>
-            <p class="p-2">{{ product.content }}</p>
+            <div class="fs-3">內容物:</div>
+            <p>{{ product.content }}</p>
           </div>
-
           <div class="col-6 col-md-12">
-            <div class="h3">剩餘數量:</div>
-            <p class="p-2">{{ product.stock }} {{ product.unit }}</p>
+            <div class="fs-3">剩餘數量:</div>
+            <p>{{ product.stock }} {{ product.unit }}</p>
           </div>
           <div class="col-12">
-            <div class="h3">價格:</div>
-            <div class="h5 p-2" v-if="product.origin_price === product.price">
+            <div class="fs-3">價格:</div>
+            <div class="fs-5" v-if="product.origin_price === product.price">
               {{ product.price }}元
             </div>
             <div v-else class="p-2">
               <del class="h6 text-secondary"
                 >原價{{ product.origin_price }}元</del
               >
-              <div class="h4">
+              <div class="fs-4">
                 現在只要<span class="text-danger">{{ product.price }}</span
                 >元
               </div>
@@ -167,7 +175,6 @@ export default {
                     {{ i }}
                   </option>
                 </select>
-
                 <button
                   type="button"
                   class="btn btn-danger"
@@ -190,18 +197,17 @@ export default {
               </template>
             </div>
           </div>
-          <div class="col-12">
-            <div class="text-start">
-              <button
-                class="btn btn-outline-secondary w-25"
-                @click="this.$router.go(-1)"
-              >
-                返回
-              </button>
-            </div>
+          <div class="text-start">
+            <button
+              class="btn btn-outline-secondary w-25"
+              @click="this.$router.go(-1)"
+            >
+              返回
+            </button>
           </div>
         </div>
       </div>
     </div>
+    <h3>類似商品</h3>
   </div>
 </template>
