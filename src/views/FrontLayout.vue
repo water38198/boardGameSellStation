@@ -131,6 +131,7 @@ export default {
                 <i class="bi bi-cart fs-3 link-light"></i>
                 <span
                   class="position-absolute translate-middle bg-theme badge rounded-pill cart-number"
+                  v-if="cartNum"
                   >{{ cartNum }}</span
                 >
               </RouterLink>
