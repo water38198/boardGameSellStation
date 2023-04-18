@@ -5,16 +5,12 @@ import Swal from "sweetalert2";
 //Swiper
 import { Swiper, SwiperSlide } from "swiper/vue";
 // Import Swiper styles
-// import "swiper/css";
-// import "swiper/css/pagination";
-// import "swiper/css/navigation";
 import "swiper/css";
-
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 // import required modules
-// import { Autoplay, Pagination, Navigation } from "swiper";
 import { FreeMode, Navigation, Pagination } from "swiper";
+
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
