@@ -71,7 +71,7 @@ export default {
                       class="link-theme text-decoration-none fs-4 d-block"
                     >
                       <span
-                        class="me-4 bg-theme text-white fw-bold"
+                        class="me-2 me-sm-4 bg-theme text-white fw-bold"
                         style="
                           font-size: 80%;
                           padding: 3px 8px;
@@ -79,7 +79,7 @@ export default {
                         "
                         >{{ index + 1 }}</span
                       >
-                      <span class="text-b60 fs-5 me-3">{{
+                      <span class="text-b60 fs-6 me-2 me-sm-3">{{
                         timeTransform(article.create_at)
                       }}</span>
                       <span
@@ -240,7 +240,6 @@ export default {
           background-position: center;
           padding-top: 100px;
           padding-bottom: 100px;
-          padding-left: 30%;
         "
         :style="{
           background:
@@ -249,7 +248,7 @@ export default {
             ')',
         }"
       >
-        <div>
+        <div class="container text-center">
           <p class="text-white fs-2 mb-4">還在猶豫嗎?</p>
           <p class="text-white fs-2">看看我的心得與開箱吧!</p>
         </div>

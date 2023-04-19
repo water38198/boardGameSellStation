@@ -128,16 +128,5 @@ export default defineStore("cartStore", {
         }
       });
     },
-    useCoupon(code) {
-      const data = { data: { code } };
-      console.log(data);
-      axios
-        .post(`${VITE_URL}/v2/api/${VITE_PATH}/coupon`, data)
-        .then((res) => {
-          alert(res.data.message);
-          this.getCarts();
-        })
-        .catch((err) => console.log(err));
-    },
   },
 });

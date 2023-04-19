@@ -48,7 +48,7 @@ export default {
 <template>
   <VLoading v-model:active="isLoading" :can-cancel="false" :is-full-page="true">
   </VLoading>
-  <div class="container bg-white py-4 px-5" v-if="article.title">
+  <div class="container bg-white py-4  px-sm-5" v-if="article.title">
     <nav aria-label="breadcrumb" class="mb-4">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -87,3 +87,11 @@ export default {
     </div>
   </div>
 </template>
+
+<style scoped>
+@media (max-width: 375px) {
+  .breadcrumb {
+    font-size: 12px;
+  }
+}
+</style>

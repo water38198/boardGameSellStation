@@ -10,6 +10,7 @@ export default {
   data() {
     return {
       DiceIcon,
+      navbarIsExpand: false,
     };
   },
   components: {
@@ -58,17 +59,9 @@ export default {
     >
     </VLoading>
   </div>
-  <div class="bg-b20 min-vh-100 d-flex flex-column">
-    <nav
-      class="navbar navbar-expand-lg bg-transparent sticky-top"
-      style="
-        background: linear-gradient(
-          rgba(0, 0, 0, 0.4) 0%,
-          rgba(0, 0, 0, 0.4) 100%
-        );
-      "
-    >
-      <div class="container-fluid container-lg px-5 px-lg-0 py-2">
+  <div class="bg-b20 min-vh-100 d-flex flex-column bg-white">
+    <nav class="navbar navbar-expand-lg sticky-top nav-bg">
+      <div class="container-fluid container-lg px-sm-5 px-lg-0 py-2">
         <RouterLink to="/" class="btn btn-theme me-3 navbar-brand link-light"
           ><i class="bi bi-dice-5-fill me-2"></i>桌遊販電</RouterLink
         >
@@ -85,10 +78,10 @@ export default {
         </button>
         <div
           class="collapse navbar-collapse"
-          id="navbarSupportedContent"
           ref="navbarCollapse"
+          id="navbarSupportedContent"
         >
-          <ul class="navbar-nav me-auto mb-3 mb-lg-0 w-100">
+          <ul class="navbar-nav me-auto mb-3 mb-lg-0 w-100 d-none d-lg-flex">
             <li class="nav-item">
               <RouterLink to="/" class="me-3 nav-link link-light"
                 >首頁</RouterLink
@@ -123,12 +116,58 @@ export default {
                 >關於我們</RouterLink
               >
             </li>
-            <li class="nav-item mx-3 ms-lg-auto navbar-expand">
+            <li class="nav-item mx-lg-3 ms-lg-auto navbar-expand">
               <RouterLink
                 to="/cart"
                 class="text-dark position-relative d-block"
               >
                 <i class="bi bi-cart fs-3 link-light"></i>
+                <span
+                  class="position-absolute translate-middle bg-theme badge rounded-pill cart-number"
+                  v-if="cartNum"
+                  >{{ cartNum }}</span
+                >
+              </RouterLink>
+            </li>
+          </ul>
+          <!-- collapseContent -->
+          <ul
+            class="navbar-nav me-auto mb-3 mb-lg-0 px-3 w-100 d-lg-none bg-white"
+          >
+            <li class="nav-item border-bottom ">
+              <RouterLink to="/" class="my-2 nav-link">首頁</RouterLink>
+            </li>
+            <li class="nav-item border-bottom">
+              <RouterLink to="/articles/news" class="my-2 nav-link"
+                >最新消息</RouterLink
+              >
+            </li>
+            <li class="nav-item border-bottom">
+              <RouterLink to="/products" class="my-2 nav-link"
+                >所有商品</RouterLink
+              >
+            </li>
+            <li class="nav-item border-bottom">
+              <RouterLink to="/articles/reviews" class="my-2 nav-link"
+                >心得評價</RouterLink
+              >
+            </li>
+            <li class="nav-item border-bottom">
+              <RouterLink to="/articles/unboxings" class="my-2 nav-link"
+                >開箱文章</RouterLink
+              >
+            </li>
+            <li class="nav-item border-bottom">
+              <RouterLink to="/about" class="my-2 nav-link"
+                >關於我們</RouterLink
+              >
+            </li>
+            <li class="nav-item mx-lg-3 ms-lg-auto navbar-expand">
+              <RouterLink
+                to="/cart"
+                class="text-dark position-relative d-block my-3"
+              >
+                <i class="bi bi-cart fs-3"></i>
                 <span
                   class="position-absolute translate-middle bg-theme badge rounded-pill cart-number"
                   v-if="cartNum"
@@ -202,6 +241,9 @@ export default {
 <style scoped>
 .navbar {
   z-index: 2000;
+}
+.nav-bg {
+  background: linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%);
 }
 @media (min-width: 992px) {
   a.active {
