@@ -158,7 +158,6 @@ export default {
 </template>
 
 <style>
-/* 加上scoped會無法顯示骰子轉動的動畫，不知原因 */
 .game {
   height: 80vh;
   display: flex;

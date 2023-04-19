@@ -131,7 +131,7 @@ export default {
                 />
               </div>
               <div class="ms-3" style="flex: 1; min-width: 0">
-                <h3 class="fs-4  text-truncate">{{ article.title }}</h3>
+                <h3 class="fs-4 text-truncate">{{ article.title }}</h3>
                 <span class="text-b60">{{
                   timeTransform(article.create_at)
                 }}</span>
