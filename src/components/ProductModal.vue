@@ -38,7 +38,7 @@ export default {
           });
         })
         .catch((err) => {
-          console.log(err);
+          alert(err);
         })
         .finally(() => {
           this.loadingItem = "";
@@ -138,7 +138,11 @@ export default {
                   :disabled="loadingItem === 'mainImage'"
                 />
               </div>
-              <img :src="newProduct.imageUrl" alt="" class="img-fluid" />
+              <img
+                :src="newProduct.imageUrl"
+                alt="main product image"
+                class="img-fluid"
+              />
             </div>
             <div>
               <h4>多圖新增</h4>
@@ -166,7 +170,11 @@ export default {
                     v-model="newProduct.imagesUrl[key]"
                     :id="image"
                   />
-                  <img :src="image" alt="" class="img-fluid mb-4" />
+                  <img
+                    :src="image"
+                    alt="product images"
+                    class="img-fluid mb-4"
+                  />
                 </template>
                 <div
                   v-if="

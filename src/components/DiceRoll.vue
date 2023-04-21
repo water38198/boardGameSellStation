@@ -8,7 +8,6 @@ export default {
       const random2 = Math.floor(Math.random() * 10);
       if (random1 >= 1 && random1 <= 6 && random2 >= 1 && random2 <= 6) {
         this.rollDice(random1, random2);
-        console.log(random1, random2);
       } else {
         this.randomDice();
       }

@@ -38,7 +38,7 @@ export default {
           this.$refs.userForm.resetForm();
         })
         .catch((err) => {
-          console.log(err);
+          alert(err);
         });
     },
     isPhone(value) {

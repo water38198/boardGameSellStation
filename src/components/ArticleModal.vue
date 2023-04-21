@@ -33,8 +33,7 @@ export default {
       this.$http[method](apiUrl, {
         data: this.newArticle,
       })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: `${method === "put" ? "修改成功" : "新增成功"}`,
@@ -48,7 +47,7 @@ export default {
           });
         })
         .catch((err) => {
-          console.log(err);
+          alert(err);
         })
         .finally(() => {
           this.loadingItem = "";
@@ -148,7 +147,7 @@ export default {
               <div class="text-center">
                 <img
                   :src="newArticle.image"
-                  alt=""
+                  alt="article image"
                   class="img-fluid articleCover"
                 />
               </div>

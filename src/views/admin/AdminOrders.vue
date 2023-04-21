@@ -29,7 +29,7 @@ export default {
           this.page = res.data.pagination;
         })
         .catch((err) => {
-          console.log(err);
+          alert(err);
         })
         .finally(() => {
           this.isLoading = false;

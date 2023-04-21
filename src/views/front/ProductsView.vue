@@ -220,7 +220,7 @@ export default {
             <div class="text-center">
               <img
                 src="https://images.unsplash.com/photo-1660922771242-c598e0808188?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80"
-                alt=""
+                alt="sorry, there is no items in this category"
                 class="w-50"
               />
             </div>

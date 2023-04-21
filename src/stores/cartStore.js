@@ -54,7 +54,7 @@ export default defineStore("cartStore", {
           });
         })
         .catch((err) => {
-          console.log(err);
+          alert(err);
         });
     },
     updateItemNum(item) {
@@ -78,7 +78,7 @@ export default defineStore("cartStore", {
           });
         })
         .catch((err) => {
-          console.log(err.response.data.message);
+          alert(err.response.data.message);
         });
     },
     deleteCartItem(id) {
@@ -97,7 +97,7 @@ export default defineStore("cartStore", {
           });
         })
         .catch((err) => {
-          console.log(err);
+          alert(err);
         });
     },
     deleteCartAll() {
@@ -123,7 +123,7 @@ export default defineStore("cartStore", {
               this.getCarts();
             })
             .catch((err) => {
-              console.log(err);
+              alert(err);
             });
         }
       });

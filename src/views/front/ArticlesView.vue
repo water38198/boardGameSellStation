@@ -45,6 +45,7 @@ export default {
             button.classList.remove("active");
           });
           const newEl = document.querySelector(`#${category}`);
+          this.listTitle = newEl.textContent;
           newEl.classList.add("active");
           this.category = category;
         }
