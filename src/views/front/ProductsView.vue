@@ -55,6 +55,11 @@ export default {
           this.productIsLoading = false;
         });
     },
+    goProduct(id) {
+      if (!this.loadingItem) {
+        this.$router.push(`/product/${id}`);
+      }
+    },
     ...mapActions(cartStore, ["addToCart"]),
   },
   mounted() {
@@ -143,21 +148,23 @@ export default {
               data-aos="fade-up"
               :data-aos-duration="`${1000 + i * 200}`"
             >
-              <RouterLink
-                :to="`/product/${product.id}`"
-                class="text-reset text-decoration-none"
+              <a
+                @click.prevent="goProduct(product.id)"
+                class="text-reset text-decoration-none product-card"
               >
                 <div class="card h-100">
-                  <img
-                    :src="product.imageUrl"
-                    class="card-img-top"
-                    :alt="`${product.title}圖片`"
-                    style="
-                      height: 250px;
-                      object-fit: cover;
-                      object-position: top;
-                    "
-                  />
+                  <div class="product-image">
+                    <img
+                      :src="product.imageUrl"
+                      class="card-img-top"
+                      :alt="`${product.title}圖片`"
+                      style="
+                        height: 250px;
+                        object-fit: cover;
+                        object-position: top;
+                      "
+                    />
+                  </div>
                   <div class="card-body d-flex flex-column">
                     <h4 class="card-title">{{ product.title }}</h4>
                     <p class="card-text text-truncate my-3">
@@ -204,7 +211,7 @@ export default {
                           type="button"
                           class="btn btn-outline-danger"
                           :disabled="loadingItem === product.id"
-                          @click.prevent="addToCart(product)"
+                          @click.stop="addToCart(product)"
                           v-else
                         >
                           加入購物車
@@ -212,7 +219,7 @@ export default {
                       </template>
                     </div>
                   </div>
-                </div></RouterLink
+                </div></a
               >
             </div>
           </template>
@@ -248,5 +255,25 @@ export default {
   position: sticky;
   top: 90px;
   z-index: 1020;
+}
+a:hover {
+  cursor: pointer;
+}
+.product-card .product-image:before {
+  content: "";
+  width: 100%;
+  height: 250px;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 8px;
+}
+.product-card:hover .product-image:before {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.product-card:hover .card-title {
+  color: #0fb99b;
 }
 </style>

@@ -12,7 +12,7 @@ export default defineStore("frontStore", {
       this.isLoading = true;
       Promise.all([
         axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/articles`),
-        axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/products`),
+        axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/products/all`),
       ]).then((res) => {
         this.articles = res[0].data.articles;
         this.products = res[1].data.products;

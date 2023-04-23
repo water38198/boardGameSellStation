@@ -83,11 +83,6 @@ export default {
         >
           <ul class="navbar-nav me-auto mb-3 mb-lg-0 w-100 d-none d-lg-flex">
             <li class="nav-item">
-              <RouterLink to="/" class="me-3 nav-link link-light"
-                >首頁</RouterLink
-              >
-            </li>
-            <li class="nav-item">
               <RouterLink to="/articles/news" class="me-3 nav-link link-light"
                 >最新消息</RouterLink
               >
@@ -134,7 +129,7 @@ export default {
           <ul
             class="navbar-nav me-auto mb-3 mb-lg-0 px-3 w-100 d-lg-none bg-white"
           >
-            <li class="nav-item border-bottom ">
+            <li class="nav-item border-bottom">
               <RouterLink to="/" class="my-2 nav-link">首頁</RouterLink>
             </li>
             <li class="nav-item border-bottom">
