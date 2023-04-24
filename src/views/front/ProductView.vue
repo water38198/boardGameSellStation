@@ -143,11 +143,11 @@ export default {
             <div class="h3">商品敘述:</div>
             <p class="p-2">{{ product.description }}</p>
           </div>
-          <div class="col-6 col-md-12">
+          <div class="col-12">
             <div class="fs-3">內容物:</div>
             <p>{{ product.content }}</p>
           </div>
-          <div class="col-6 col-md-12">
+          <div class="col-12">
             <div class="fs-3">剩餘數量:</div>
             <p>{{ product.stock }} {{ product.unit }}</p>
           </div>

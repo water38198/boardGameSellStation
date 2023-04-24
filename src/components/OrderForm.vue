@@ -55,6 +55,7 @@ export default {
 <template>
   <div class="bg-white">
     <h3 class="h3 text-center pt-5 text-theme">顧客資訊</h3>
+    <p class="text-center">*為必填</p>
     <div class="row justify-content-center">
       <div class="col-10 col-md-8 col-lg-6">
         <VForm
@@ -65,7 +66,7 @@ export default {
         >
           <div class="row">
             <div class="mb-3 col-md-6">
-              <label for="name" class="h5">姓名:</label>
+              <label for="name" class="h5">*姓名:</label>
               <VField
                 id="name"
                 name="姓名"
@@ -79,7 +80,7 @@ export default {
               <ErrorMessage name="姓名" class="invalid-feedback"></ErrorMessage>
             </div>
             <div class="mb-3 col-md-6">
-              <label for="tel" class="h5">電話:</label>
+              <label for="tel" class="h5">*電話:</label>
               <VField
                 id="tel"
                 name="電話"
@@ -93,7 +94,7 @@ export default {
               <ErrorMessage name="電話" class="invalid-feedback"></ErrorMessage>
             </div>
             <div class="mb-3 col-md-6">
-              <label for="email" class="h5">電子郵件:</label>
+              <label for="email" class="h5">*電子郵件:</label>
               <VField
                 id="email"
                 name="電子郵件"
@@ -110,7 +111,7 @@ export default {
               ></ErrorMessage>
             </div>
             <div class="mb-3 col-md-6">
-              <label for="address" class="h5">地址:</label>
+              <label for="address" class="h5">*地址:</label>
               <VField
                 id="address"
                 name="地址"
@@ -124,7 +125,7 @@ export default {
               <ErrorMessage name="地址" class="invalid-feedback"></ErrorMessage>
             </div>
             <div class="mb-3">
-              <label for="message" class="h5">附註（非必填）:</label>
+              <label for="message" class="h5">附註:</label>
               <VField
                 id="message"
                 name="附註"
