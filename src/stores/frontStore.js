@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import axios from "axios";
+
 export default defineStore("frontStore", {
   state: () => ({
     articles: [],
@@ -22,15 +23,5 @@ export default defineStore("frontStore", {
   },
   getters: {
     newestProducts: ({ products }) => products.slice(0, 3),
-    changedProducts: ({ products }) => {
-      return [...products]
-        .sort((a, b) => {
-          return (
-            Object.keys(b.history[b.history.length - 1]) -
-            Object.keys(a.history[a.history.length - 1])
-          );
-        })
-        .slice(0, 3);
-    },
   },
 });

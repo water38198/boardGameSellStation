@@ -168,67 +168,6 @@ export default {
       </div>
       <!-- 最新上架 -->
       <!-- 價格更新 -->
-      <div class="container py-5 my-xl-5">
-        <h2 class="fs-1 mb-5">
-          價格更新
-          <RouterLink
-            :to="`/products`"
-            class="btn btn-be4 text-b60 fs-4 float-end"
-            >更多商品</RouterLink
-          >
-        </h2>
-        <div class="row g-3">
-          <div
-            class="col-12 col-lg-4"
-            v-for="(product, index) in changedProducts"
-            :key="product.id"
-            data-aos="zoom-in"
-            :data-aos-duration="1000 + 250 * index"
-          >
-            <RouterLink
-              :to="`/product/${product.id}`"
-              class="text-decoration-none text-black"
-            >
-              <div class="card">
-                <div class="row">
-                  <div class="col-md-6 col-lg-12">
-                    <img
-                      :src="product.imageUrl"
-                      class="card-img-top img-fluid home-product-image"
-                      alt="productImage"
-                    />
-                  </div>
-                  <div class="col-md-6 col-lg-12">
-                    <div
-                      class="card-body d-flex flex-column-reverse flex-lg-column"
-                    >
-                      <div class="fs-4 mb-3 d-none d-md-block">
-                        <span class="badge bg-theme me-3">{{
-                          product.category
-                        }}</span>
-                        <span class="badge bg-theme me-3">{{
-                          product.language
-                        }}</span>
-                        <span class="badge bg-theme me-3">{{
-                          product.condition
-                        }}</span>
-                      </div>
-                      <p class="mb-auto d-lg-none mt-3 multi-text-truncate">
-                        介紹:<br />
-                        {{ product.description }}
-                      </p>
-                      <h5 class="card-title fs-2">
-                        {{ product.title }}
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </RouterLink>
-          </div>
-        </div>
-      </div>
-      <!-- 價格更新 -->
       <section
         style="
           background-color: linear-gradient(
@@ -294,8 +233,8 @@ export default {
                       </div>
                     </div>
                   </div>
-                </div></RouterLink
-              >
+                </div>
+              </RouterLink>
             </div>
             <div class="text-center my-5">
               <RouterLink
@@ -345,8 +284,8 @@ export default {
                       </div>
                     </div>
                   </div>
-                </div></RouterLink
-              >
+                </div>
+              </RouterLink>
             </div>
             <div class="text-center my-5">
               <RouterLink
@@ -459,17 +398,20 @@ export default {
   padding-top: 800px;
   width: 100%;
 }
+
 .home-product-image {
   height: 250px;
   object-fit: cover;
   object-position: 50% top;
 }
+
 @media (min-width: 992px) {
   .home-product-image {
     height: 400px;
     object-fit: cover;
   }
 }
+
 .multi-text-truncate {
   display: -webkit-box;
   -webkit-box-orient: vertical;
