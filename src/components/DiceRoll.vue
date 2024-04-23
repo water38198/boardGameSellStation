@@ -70,8 +70,8 @@ export default {
           ? (random1 / 2) * 1000 + 50 + 1500
           : (random2 / 2) * 1000 + 50 + 1500;
       setTimeout(() => {
-        const resault = random1 >= random2;
-        if (resault) {
+        const result = random1 >= random2;
+        if (result) {
           Swal.fire({
             icon: "error",
             title: "哇...",
@@ -85,8 +85,8 @@ export default {
             html: "<p>八折優惠券:<span class='text-themeDark'>DiceGameWinner</span></p>",
             confirmButtonColor: "#0fb99b",
             confirmButtonText: "複製",
-          }).then((resault) => {
-            if (resault.isConfirmed) {
+          }).then((result) => {
+            if (result.isConfirmed) {
               navigator.clipboard.writeText("DiceGameWinner");
               Swal.fire({
                 icon: "success",
@@ -106,7 +106,7 @@ export default {
 <template>
   <!-- Modal -->
   <div
-    class="modal fade mt-5"
+    class="modal fade game-modal"
     id="exampleModal"
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
@@ -128,7 +128,7 @@ export default {
           <div class="game">
             <div class="dice-container">
               對手的骰子：
-              <div class="dice1 my-3" ref="dice1">
+              <div class="dice1 my-0 my-md-3" ref="dice1">
                 <div class="face front"></div>
                 <div class="face back"></div>
                 <div class="face top"></div>
@@ -137,7 +137,7 @@ export default {
                 <div class="face left"></div>
               </div>
               你的骰子：
-              <div class="dice2 my-3" ref="dice2">
+              <div class="dice2 my-0 my-md-3" ref="dice2">
                 <div class="face front"></div>
                 <div class="face back"></div>
                 <div class="face top"></div>
@@ -156,11 +156,15 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
+.game-modal {
+  margin-top: 80px;
+}
 .game {
-  height: 80vh;
+  height: min(75vh, 400px);
   display: flex;
-  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
   justify-content: center;
   background: #0fb99b;
 }
@@ -168,7 +172,7 @@ export default {
   display: grid;
   place-items: center;
   width: 80%;
-  padding: 20px 0 20px;
+  padding-bottom: 10px;
   border-radius: 30px;
   background: #eeeeee;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -273,7 +277,6 @@ export default {
 .roll {
   cursor: pointer;
   color: #0fb99b;
-  margin-top: 60px;
   padding: 6px 12px;
   border-radius: 3px;
   font: 700 16px "Montserrat";
