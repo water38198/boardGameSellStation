@@ -41,11 +41,13 @@ export default {
 
 <template>
   <div class="vl-parent">
-    <VLoading v-model:active="isLoading" :can-cancel="false"> </VLoading>
+    <VLoading v-model:active="isLoading" />
   </div>
   <div class="bg-b20 min-vh-100 d-flex flex-column bg-white">
     <FrontNavbar />
-    <div class="flex-grow-1"><RouterView /></div>
+    <div class="flex-grow-1">
+      <RouterView />
+    </div>
     <FrontFooter />
     <!-- Button trigger modal -->
     <div

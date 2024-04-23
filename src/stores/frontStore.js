@@ -21,7 +21,4 @@ export default defineStore("frontStore", {
       });
     },
   },
-  getters: {
-    newestProducts: ({ products }) => products.slice(0, 3),
-  },
 });

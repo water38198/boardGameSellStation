@@ -1,26 +1,43 @@
 <script>
-import { mapActions, mapState } from "pinia";
+import { mapActions } from "pinia";
 import utilities from "@/stores/utilities";
-import frontStore from "@/stores/frontStore";
-import articleStore from "@/stores/articleStore";
 import newsImage from "@/assets/home/home-news.jpg";
 import articleBanner from "@/assets/home/section-image.jpg";
+import axios from "axios";
 
 export default {
   data() {
     return {
       newsImage,
       articleBanner,
+      products: [],
+      articles: [],
     };
   },
   methods: {
+    getProducts() {
+      const { VITE_URL, VITE_PATH } = import.meta.env;
+      axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/products/all`).then((res) => {
+        this.products = res.data.products;
+      });
+    },
+    getArticles() {
+      const { VITE_URL, VITE_PATH } = import.meta.env;
+      this.$http.get(`${VITE_URL}/v2/api/${VITE_PATH}/articles`).then((res) => {
+        this.articles = res.data.articles;
+      });
+    },
+    filterArticles(category, number) {
+      const array = [...this.articles];
+      return array
+        .filter((article) => article.category === category)
+        .slice(0, number);
+    },
     ...mapActions(utilities, ["timeTransform"]),
-    ...mapActions(frontStore, ["getArticles"]),
   },
-
-  computed: {
-    ...mapState(frontStore, ["products", "newestProducts", "changedProducts"]),
-    ...mapState(articleStore, ["news", "reviews", "unboxings"]),
+  mounted() {
+    this.getProducts();
+    this.getArticles();
   },
 };
 </script>
@@ -48,7 +65,10 @@ export default {
       <div
         style="background: linear-gradient(90deg, white 50%, transparent 50%)"
       >
-        <div class="container py-7 bg-white" style="margin-top: -100px">
+        <div
+          class="container py-7 bg-white rounded-2"
+          style="margin-top: -100px"
+        >
           <div class="row justify-content-end">
             <div
               class="d-none d-lg-block col-lg-6"
@@ -56,11 +76,11 @@ export default {
               :style="{ backgroundImage: 'url(' + newsImage + ')' }"
             ></div>
             <div class="col-lg-6">
-              <template v-if="news">
+              <template v-if="articles">
                 <h2 class="fs-2 text-theme ps-2 mb-4">最新消息</h2>
                 <ul class="list-group list-group-flush">
                   <li
-                    v-for="(article, index) in news.slice(0, 5)"
+                    v-for="(article, index) in filterArticles('新聞', 5)"
                     :key="article.id"
                     class="list-group-item py-3"
                     data-aos="fade-up"
@@ -90,7 +110,7 @@ export default {
                     </RouterLink>
                   </li>
                 </ul>
-                <div class="text-center my-5">
+                <div class="text-center my-4 my-xl-5">
                   <RouterLink
                     :to="`/articles/news`"
                     class="btn btn-be4 text-b60 fs-4"
@@ -106,18 +126,16 @@ export default {
       <!-- 最新上架 -->
       <div style="background: linear-gradient(transparent 50%, #0fb99b 50%)">
         <div class="container py-5 my-xl-5">
-          <h2 class="fs-1 mb-5">
+          <h2 class="fs-1 mb-5 d-flex justify-content-between">
             最新上架
-            <RouterLink
-              :to="`/products`"
-              class="btn btn-be4 text-b60 fs-4 float-end"
+            <RouterLink :to="`/products`" class="btn btn-be4 text-b60 fs-4"
               >更多商品</RouterLink
             >
           </h2>
           <div class="row g-3">
             <div
               class="col-12 col-lg-4"
-              v-for="(product, index) in newestProducts"
+              v-for="(product, index) in products.slice(0, 3)"
               :key="product.id"
               data-aos="zoom-in"
               :data-aos-duration="1000 + 250 * index"
@@ -198,7 +216,7 @@ export default {
           <div class="row">
             <div
               class="col-12"
-              v-for="(article, index) in reviews.slice(0, 5)"
+              v-for="(article, index) in filterArticles('心得', 3)"
               :key="article.id"
               data-aos="fade-up"
               :data-aos-duration="1000 + 250 * index"
@@ -236,7 +254,7 @@ export default {
                 </div>
               </RouterLink>
             </div>
-            <div class="text-center my-5">
+            <div class="text-center my-4 my-xl-5">
               <RouterLink
                 to="/articles/reviews"
                 class="btn btn-lg btn-be4 text-b60 rounded-0"
@@ -249,7 +267,7 @@ export default {
           <div class="row">
             <div
               class="col-12"
-              v-for="(article, index) in unboxings.slice(0, 5)"
+              v-for="(article, index) in filterArticles('開箱', 3)"
               :key="article.id"
               data-aos="fade-up"
               :data-aos-duration="1000 + 250 * index"
@@ -287,7 +305,7 @@ export default {
                 </div>
               </RouterLink>
             </div>
-            <div class="text-center my-5">
+            <div class="text-center my-4 my-xl-5">
               <RouterLink
                 to="/articles/unboxings"
                 class="btn btn-lg btn-be4 text-b60 rounded-0"
@@ -298,11 +316,8 @@ export default {
           </div>
         </div>
       </section>
-      <section
-        class="container"
-        style="padding-top: 100px; padding-bottom: 100px"
-      >
-        <div class="text-center" style="font-size: 120px; margin-bottom: 80px">
+      <section class="container faq">
+        <div class="text-center faq-icon">
           <i class="bi bi-question-circle-fill"></i>
         </div>
         <h2 class="h2 fs-1 text-center">FAQ常見問題</h2>
@@ -388,15 +403,14 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .banner {
   background: linear-gradient(rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.2) 100%),
     url(@/assets/home/banner-image.jpg);
   background-size: cover;
-  margin-top: -600px;
-  height: 1300px;
-  padding-top: 800px;
-  width: 100%;
+  margin-top: -400px;
+  height: 1000px;
+  padding-top: 500px;
 }
 
 .home-product-image {
@@ -405,17 +419,37 @@ export default {
   object-position: 50% top;
 }
 
-@media (min-width: 992px) {
-  .home-product-image {
-    height: 400px;
-    object-fit: cover;
-  }
-}
-
 .multi-text-truncate {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
   overflow: hidden;
+}
+
+.faq {
+  padding-top: 20px;
+  padding-bottom: 40px;
+  &-icon {
+    font-size: 120px;
+    margin-bottom: 40px;
+  }
+}
+@media (min-width: 992px) {
+  .banner {
+    margin-top: -600px;
+    height: 1300px;
+    padding-top: 800px;
+  }
+  .home-product-image {
+    height: 400px;
+    object-fit: cover;
+  }
+  .faq {
+    padding-top: 100px;
+    padding-bottom: 100px;
+    &-icon {
+      margin-bottom: 80px;
+    }
+  }
 }
 </style>
