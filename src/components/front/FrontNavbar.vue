@@ -1,14 +1,14 @@
 <script>
-import { RouterLink } from "vue-router";
-import { mapState, mapActions } from "pinia";
-import cartStore from "@/stores/cartStore";
+import { RouterLink } from 'vue-router';
+import { mapState, mapActions } from 'pinia';
+import cartStore from '@/stores/cartStore';
 
 export default {
   methods: {
-    ...mapActions(cartStore, ["getCarts"]),
+    ...mapActions(cartStore, ['getCarts']),
   },
   computed: {
-    ...mapState(cartStore, ["cart"]),
+    ...mapState(cartStore, ['cart']),
     cartNum() {
       let num = 0;
       if (this.cart.carts) {
@@ -27,14 +27,14 @@ export default {
   },
   watch: {
     $route() {
-      this.$refs.navbarCollapse.classList.remove("show");
+      this.$refs.navbarCollapse.classList.remove('show');
     },
   },
 };
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg sticky-top nav-bg">
+  <nav class="navbar navbar-expand-lg fixed-top nav-bg">
     <div class="container-fluid container-lg px-sm-5 px-lg-0 py-2">
       <RouterLink to="/" class="btn btn-theme me-3 navbar-brand link-light"
         ><i class="bi bi-dice-5-fill me-2"></i>桌遊販電</RouterLink

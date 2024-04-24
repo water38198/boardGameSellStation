@@ -1,5 +1,5 @@
 <script>
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 const { VITE_URL } = import.meta.env;
 
@@ -7,12 +7,12 @@ export default {
   data() {
     return {
       user: {},
-      loadingItem: "",
+      loadingItem: '',
     };
   },
   methods: {
     login() {
-      this.loadingItem = "login";
+      this.loadingItem = 'login';
       this.$http
         .post(`${VITE_URL}/v2/admin/signin`, {
           username: this.user.account,
@@ -22,20 +22,24 @@ export default {
           const { expired, token } = res.data;
           document.cookie = `myToken=${token}; expires=${new Date(expired)}`;
           Swal.fire({
-            icon: "success",
-            title: "登入成功",
+            icon: 'success',
+            title: '登入成功',
             showConfirmButton: false,
             timer: 1000,
             didClose: () => {
-              this.$router.push("/admin/products");
+              this.$router.push('/admin/products');
             },
           });
         })
-        .catch(() => {
-          alert("登入失敗");
+        .catch((err) => {
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
         })
         .finally(() => {
-          this.loadingItem = "";
+          this.loadingItem = '';
         });
     },
   },

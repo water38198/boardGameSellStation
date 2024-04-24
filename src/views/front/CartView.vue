@@ -1,26 +1,26 @@
 <script>
-import OrderForm from "@/components/OrderForm.vue";
-import cartStore from "@/stores/cartStore";
-import { mapState, mapActions } from "pinia";
-import Swal from "sweetalert2";
+import OrderForm from '@/components/OrderForm.vue';
+import cartStore from '@/stores/cartStore';
+import { mapState, mapActions } from 'pinia';
+import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
   data() {
     return {
-      code: "",
+      code: '',
     };
   },
   computed: {
-    ...mapState(cartStore, ["cart", "cartLoading", "loadingItem"]),
+    ...mapState(cartStore, ['cart', 'cartLoading', 'loadingItem']),
   },
   methods: {
     ...mapActions(cartStore, [
-      "updateItemNum",
-      "deleteCartItem",
-      "deleteCartAll",
-      "getCarts",
+      'updateItemNum',
+      'deleteCartItem',
+      'deleteCartAll',
+      'getCarts',
     ]),
     useCoupon(code) {
       const data = { data: { code } };
@@ -29,13 +29,11 @@ export default {
         .then(() => {
           this.getCarts();
         })
-        .catch(() =>
-          Swal.fire({
-            icon: "error",
-            title: "哇...",
-            text: "優惠券代碼錯誤!請確認",
-          })
-        );
+        .catch(() => Swal.fire({
+          icon: 'error',
+          title: '哇...',
+          text: '優惠券代碼錯誤!請確認',
+        }));
     },
   },
   components: { OrderForm },

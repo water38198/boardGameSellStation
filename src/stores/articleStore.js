@@ -1,8 +1,9 @@
-import { defineStore } from "pinia";
-import axios from "axios";
+import axios from 'axios';
+import { defineStore } from 'pinia';
+
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
-export default defineStore("articleStore", {
+export default defineStore('articleStore', {
   state: () => ({
     allArticles: [],
     articles: { articles: [], page: {} },
@@ -15,8 +16,8 @@ export default defineStore("articleStore", {
           this.allArticles = this.allArticles.concat(res.data.articles);
 
           if (
-            res.data.pagination.total_pages > 1 &&
-            res.data.pagination.current_page < res.data.pagination.total_pages
+            res.data.pagination.total_pages > 1
+            && res.data.pagination.current_page < res.data.pagination.total_pages
           ) {
             this.getAllArticles(page + 1);
           }
@@ -32,11 +33,8 @@ export default defineStore("articleStore", {
     },
   },
   getters: {
-    news: ({ allArticles }) =>
-      allArticles.filter((article) => article.category === "新聞"),
-    reviews: ({ allArticles }) =>
-      allArticles.filter((article) => article.category === "心得"),
-    unboxings: ({ allArticles }) =>
-      allArticles.filter((article) => article.category === "開箱"),
+    news: ({ allArticles }) => allArticles.filter((article) => article.category === '新聞'),
+    reviews: ({ allArticles }) => allArticles.filter((article) => article.category === '心得'),
+    unboxings: ({ allArticles }) => allArticles.filter((article) => article.category === '開箱'),
   },
 });

@@ -1,8 +1,8 @@
 <script>
-import { mapActions, mapState } from "pinia";
-import cartStore from "@/stores/cartStore";
-import PaginationComponent from "@/components/PaginationComponent.vue";
-import Swal from "sweetalert2";
+import { mapActions, mapState } from 'pinia';
+import cartStore from '@/stores/cartStore';
+import PaginationComponent from '@/components/PaginationComponent.vue';
+import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
@@ -12,12 +12,12 @@ export default {
       products: [],
       page: {},
       productIsLoading: false,
-      category: "all",
-      listTitle: "全部",
+      category: 'all',
+      listTitle: '全部',
     };
   },
   computed: {
-    ...mapState(cartStore, ["loadingItem", "cart"]),
+    ...mapState(cartStore, ['loadingItem', 'cart']),
   },
   components: {
     PaginationComponent,
@@ -28,14 +28,15 @@ export default {
       this.category = category;
       this.getProducts(1, this.category);
     },
-    getProducts(page = 1, category = "") {
+    getProducts(page = 1, category = '') {
       this.productIsLoading = true;
-      if (category === "all") {
-        category = "";
+      let productCategory = category;
+      if (category === 'all') {
+        productCategory = '';
       }
       this.$http
         .get(
-          `${VITE_URL}/v2/api/${VITE_PATH}/products?page=${page}&category=${category}`
+          `${VITE_URL}/v2/api/${VITE_PATH}/products?page=${page}&category=${productCategory}`,
         )
         .then((res) => {
           this.products = res.data.products;
@@ -43,11 +44,11 @@ export default {
         })
         .catch(() => {
           Swal.fire({
-            icon: "error",
-            title: "發生錯誤",
-            text: "即將回到首頁，如果錯誤持續發生，請通知我們，感謝!!",
+            icon: 'error',
+            title: '發生錯誤',
+            text: '即將回到首頁，如果錯誤持續發生，請通知我們，感謝!!',
             didClose: () => {
-              this.$router.push("/");
+              this.$router.push('/');
             },
           });
         })
@@ -60,7 +61,7 @@ export default {
         this.$router.push(`/product/${id}`);
       }
     },
-    ...mapActions(cartStore, ["addToCart"]),
+    ...mapActions(cartStore, ['addToCart']),
   },
   mounted() {
     this.getProducts();

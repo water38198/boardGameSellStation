@@ -1,16 +1,16 @@
 <script>
-import { mapActions, mapState } from "pinia";
-import cartStore from "@/stores/cartStore";
-import frontStore from "../../stores/frontStore";
-import Swal from "sweetalert2";
-//Swiper
-import { Swiper, SwiperSlide } from "swiper/vue";
+import { mapActions, mapState } from 'pinia';
+import Swal from 'sweetalert2';
+// Swiper
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { FreeMode, Navigation, Pagination } from 'swiper';
+import cartStore from '@/stores/cartStore';
+import RandomProducts from '../../components/front/RandomProducts.vue';
 // Import Swiper styles
-import "swiper/css";
-import "swiper/css/free-mode";
-import "swiper/css/navigation";
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
 // import required modules
-import { FreeMode, Navigation, Pagination } from "swiper";
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
@@ -21,7 +21,6 @@ export default {
       qty: 1,
       isLoading: false,
       modules: [FreeMode, Navigation, Pagination],
-      recommendProduct: [],
     };
   },
   methods: {
@@ -32,35 +31,29 @@ export default {
         .get(`${VITE_URL}/v2/api/${VITE_PATH}/product/${id}`)
         .then((res) => {
           this.product = res.data.product;
-          this.isLoading = false;
-          const sameType = this.products.filter(
-            (el) =>
-              el.category === this.product.category &&
-              el.title !== this.product.title
-          );
-          this.recommendProduct = sameType.slice(0, 4);
         })
         .catch(() => {
           Swal.fire({
-            icon: "error",
-            title: "發生錯誤",
-            text: "即將回到首頁，如果錯誤持續發生，請通知我們，感謝!!",
+            icon: 'error',
+            title: '發生錯誤',
+            text: '即將回到首頁，如果錯誤持續發生，請通知我們，感謝!!',
             didClose: () => {
-              this.$router.push("/");
+              this.$router.push('/');
             },
           });
+        }).finally(() => {
+          this.isLoading = false;
         });
     },
-    ...mapActions(cartStore, ["addToCart"]),
+    ...mapActions(cartStore, ['addToCart']),
   },
-  components: { Swiper, SwiperSlide },
+  components: { Swiper, SwiperSlide, RandomProducts },
   computed: {
-    ...mapState(cartStore, ["loadingItem", "cart"]),
-    ...mapState(frontStore, ["products"]),
+    ...mapState(cartStore, ['loadingItem', 'cart']),
   },
   mounted() {
     this.getProduct();
-    //監聽產品id改變時要刷新頁面
+    // 監聽產品id改變時要刷新頁面
     this.$watch(
       () => this.$route.params,
       () => {
@@ -68,7 +61,7 @@ export default {
         if (id) {
           this.getProduct();
         }
-      }
+      },
     );
   },
 };
@@ -223,51 +216,6 @@ export default {
         </div>
       </div>
     </div>
-    <h3 class="my-4 pt-5">類似商品</h3>
-    <div class="row g-2">
-      <div
-        class="col-lg-3 col-md-4 col-sm-6 col-8 align-self-stretch mx-auto"
-        v-for="product in recommendProduct"
-        :key="product.id"
-      >
-        <RouterLink
-          :to="`/product/${product.id}`"
-          class="text-decoration-none text-black"
-        >
-          <div class="card h-100">
-            <div class="row">
-              <div class="col-lg-12">
-                <img
-                  :src="product.imageUrl"
-                  class="card-img-top img-fluid"
-                  alt="productImage"
-                  style="height: 300px; object-fit: cover"
-                />
-              </div>
-              <div class="col-lg-12">
-                <div
-                  class="card-body d-flex flex-column-reverse flex-lg-column"
-                >
-                  <div class="fs-6 mb-3 d-none d-md-block">
-                    <span class="badge bg-theme me-3">{{
-                      product.category
-                    }}</span>
-                    <span class="badge bg-theme me-3">{{
-                      product.language
-                    }}</span>
-                    <span class="badge bg-theme me-3">{{
-                      product.condition
-                    }}</span>
-                  </div>
-                  <h5 class="card-title fs-4">
-                    {{ product.title }}
-                  </h5>
-                </div>
-              </div>
-            </div>
-          </div>
-        </RouterLink>
-      </div>
-    </div>
+    <RandomProducts :current-product="product" />
   </div>
 </template>

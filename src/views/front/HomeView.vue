@@ -1,9 +1,9 @@
 <script>
-import { mapActions } from "pinia";
-import utilities from "@/stores/utilities";
-import newsImage from "@/assets/home/home-news.jpg";
-import articleBanner from "@/assets/home/section-image.jpg";
-import axios from "axios";
+import { mapActions } from 'pinia';
+import utilities from '@/stores/utilities';
+import newsImage from '@/assets/home/home-news.jpg';
+import articleBanner from '@/assets/home/section-image.jpg';
+import axios from 'axios';
 
 export default {
   data() {
@@ -33,7 +33,7 @@ export default {
         .filter((article) => article.category === category)
         .slice(0, number);
     },
-    ...mapActions(utilities, ["timeTransform"]),
+    ...mapActions(utilities, ['timeTransform']),
   },
   mounted() {
     this.getProducts();
@@ -150,7 +150,7 @@ export default {
                       <img
                         :src="product.imageUrl"
                         class="card-img-top img-fluid home-product-image"
-                        alt="productImage"
+                        :alt="product.title"
                       />
                     </div>
                     <div class="col-md-6 col-lg-12">
@@ -408,11 +408,15 @@ export default {
   background: linear-gradient(rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.2) 100%),
     url(@/assets/home/banner-image.jpg);
   background-size: cover;
-  margin-top: -400px;
-  height: 1000px;
-  padding-top: 500px;
+  padding-top: 180px;
+  padding-bottom: 280px;
 }
-
+@media (min-width: 576px) {
+  .banner {
+    padding-top: 230px;
+    padding-bottom: 280px;
+  }
+}
 .home-product-image {
   height: 250px;
   object-fit: cover;
@@ -435,11 +439,6 @@ export default {
   }
 }
 @media (min-width: 992px) {
-  .banner {
-    margin-top: -600px;
-    height: 1300px;
-    padding-top: 800px;
-  }
   .home-product-image {
     height: 400px;
     object-fit: cover;

@@ -1,24 +1,23 @@
 <script>
-import { mapState, mapActions } from "pinia";
-import utilities from "@/stores/utilities";
-import articleStore from "@/stores/articleStore";
+import { mapState, mapActions } from 'pinia';
+import utilities from '@/stores/utilities';
+import articleStore from '@/stores/articleStore';
 
 export default {
   data() {
     return {
-      category: "",
-      listTitle: "",
-      randomPic: "https://picsum.photos/100",
+      category: '',
+      listTitle: '',
+      randomPic: 'https://picsum.photos/100',
     };
   },
   computed: {
-    ...mapState(articleStore, ["news", "reviews", "unboxings", "articles"]),
+    ...mapState(articleStore, ['news', 'reviews', 'unboxings', 'articles']),
     tempArticles() {
-      if (this.category === "all" || this.category === "") {
+      if (this.category === 'all' || this.category === '') {
         return this.articles.articles;
-      } else {
-        return this[this.category];
       }
+      return this[this.category];
     },
   },
   methods: {
@@ -26,30 +25,30 @@ export default {
       this.listTitle = event.target.textContent;
       this.category = category;
     },
-    ...mapActions(utilities, ["timeTransform"]),
+    ...mapActions(utilities, ['timeTransform']),
   },
   mounted() {
-    //從別的頁面進入時跳轉
+    // 從別的頁面進入時跳轉
     this.category = this.$route.params.category;
     const el = document.querySelector(`#${this.category}`);
-    el.classList.add("active");
+    el.classList.add('active');
     this.listTitle = el.textContent;
-    //從自己的頁面跳轉(news->reviews)，監聽params
+    // 從自己的頁面跳轉(news->reviews)，監聽params
     this.$watch(
       () => this.$route.params,
       () => {
         const { category } = this.$route.params;
         if (category) {
-          const allButtons = document.querySelectorAll(".list-group button");
+          const allButtons = document.querySelectorAll('.list-group button');
           allButtons.forEach((button) => {
-            button.classList.remove("active");
+            button.classList.remove('active');
           });
           const newEl = document.querySelector(`#${category}`);
           this.listTitle = newEl.textContent;
-          newEl.classList.add("active");
+          newEl.classList.add('active');
           this.category = category;
         }
-      }
+      },
     );
   },
 };

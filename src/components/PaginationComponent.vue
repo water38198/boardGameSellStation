@@ -5,7 +5,7 @@ export default {
       currentPage: 1,
     };
   },
-  props: ["pages", "getMethod"],
+  props: ['pages', 'getMethod'],
 };
 </script>
 

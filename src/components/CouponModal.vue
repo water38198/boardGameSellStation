@@ -1,45 +1,49 @@
 <script>
-import VueDatePicker from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
-import Swal from "sweetalert2";
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
-  props: ["isNew", "tempCoupon", "closeModal", "getCoupons"],
+  props: ['isNew', 'tempCoupon', 'closeModal', 'getCoupons'],
   data() {
     return {
       newCoupon: {},
-      loadingItem: "",
+      loadingItem: '',
     };
   },
   methods: {
     updateCoupon() {
-      this.loadingItem = "confirmButton";
-      let method = "post";
+      this.loadingItem = 'confirmButton';
+      let method = 'post';
       let apiUrl = `${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon`;
       if (!this.isNew) {
         apiUrl += `/${this.newCoupon.id}`;
-        method = "put";
+        method = 'put';
       }
       this.newCoupon.is_enabled -= 0;
       this.newCoupon.percent -= 0;
       this.$http[method](apiUrl, { data: this.newCoupon })
         .then(() => {
           Swal.fire({
-            icon: "success",
-            title: `${method === "put" ? "修改成功!!" : "新增成功!!"}`,
+            icon: 'success',
+            title: `${method === 'put' ? '修改成功!!' : '新增成功!!'}`,
             showConfirmButton: false,
             timer: 1500,
             didClose: () => {
               this.closeModal();
-              this.loadingItem = "";
+              this.loadingItem = '';
               this.getCoupons();
             },
           });
         })
         .catch((err) => {
-          alert(err);
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
         });
     },
   },

@@ -1,11 +1,12 @@
 <script>
-import PaginationComponent from "@/components/PaginationComponent.vue";
-import ArticleModal from "@/components/ArticleModal.vue";
-import { mapActions } from "pinia";
-import utilities from "@/stores/utilities";
-import Swal from "sweetalert2";
-import notFound from "@/assets/image-not-found.svg";
-import * as bootstrap from "bootstrap";
+import PaginationComponent from '@/components/PaginationComponent.vue';
+import ArticleModal from '@/components/ArticleModal.vue';
+import { mapActions } from 'pinia';
+import utilities from '@/stores/utilities';
+import Swal from 'sweetalert2';
+import notFound from '@/assets/image-not-found.svg';
+import * as bootstrap from 'bootstrap';
+
 const { VITE_URL, VITE_PATH } = import.meta.env;
 let articleModal = {};
 
@@ -16,8 +17,8 @@ export default {
       page: {},
       isLoading: false,
       isNew: true,
-      tempArticleId: "",
-      notFound: notFound,
+      tempArticleId: '',
+      notFound,
     };
   },
   methods: {
@@ -41,25 +42,25 @@ export default {
     deleteArticle(article) {
       Swal.fire({
         title: `確定刪除 ${article.title} 嗎?`,
-        text: "刪除後不可復原，確定嗎",
-        icon: "warning",
+        text: '刪除後不可復原，確定嗎',
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "確定",
-        cancelButtonColor: "#d33",
-        cancelButtonText: "取消",
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: '確定',
+        cancelButtonColor: '#d33',
+        cancelButtonText: '取消',
       }).then((result) => {
         if (result.isConfirmed) {
           this.isLoading = true;
           this.$http
             .delete(
-              `${VITE_URL}/v2/api/${VITE_PATH}/admin/article/${article.id}`
+              `${VITE_URL}/v2/api/${VITE_PATH}/admin/article/${article.id}`,
             )
             .then(() => {
               this.isLoading = false;
               Swal.fire({
-                icon: "success",
-                title: `文章刪除成功`,
+                icon: 'success',
+                title: '文章刪除成功',
                 showConfirmButton: false,
                 timer: 1000,
                 didClose: () => {
@@ -68,38 +69,42 @@ export default {
               });
             })
             .catch((err) => {
-              alert(err);
+              Swal.fire({
+                title: '錯誤發生',
+                icon: 'error',
+                text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+              });
             });
         }
       });
     },
     openModal(status, articleId) {
-      if (status === "new") {
+      if (status === 'new') {
         this.isNew = true;
         articleModal.show();
-      } else if (status === "edit") {
+      } else if (status === 'edit') {
         this.isNew = false;
         this.tempArticleId = articleId;
         articleModal.show();
       }
     },
     closeModal() {
-      this.tempArticleId = "";
+      this.tempArticleId = '';
       this.isNew = true;
       articleModal.hide();
     },
-    ...mapActions(utilities, ["timeTransform"]),
+    ...mapActions(utilities, ['timeTransform']),
   },
   mounted() {
     const myToken = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("myToken="))
-      ?.split("=")[1];
-    this.$http.defaults.headers.common["Authorization"] = myToken;
+      .split('; ')
+      .find((row) => row.startsWith('myToken='))
+      ?.split('=')[1];
+    this.$http.defaults.headers.common.Authorization = myToken;
 
-    articleModal = new bootstrap.Modal("#articleModal");
-    articleModal._element.addEventListener("hidden.bs.modal", () => {
-      this.tempArticleId = "";
+    articleModal = new bootstrap.Modal('#articleModal');
+    articleModal._element.addEventListener('hidden.bs.modal', () => {
+      this.tempArticleId = '';
       this.isNew = true;
     });
     this.getArticles();

@@ -1,25 +1,25 @@
 <script>
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
-  props: ["tempProduct", "isNew", "closeModal", "getProducts"],
+  props: ['tempProduct', 'isNew', 'closeModal', 'getProducts'],
   data() {
     return {
       newProduct: {},
-      loadingItem: "",
+      loadingItem: '',
       tempPrice: 0,
     };
   },
   methods: {
     updateProduct() {
-      this.loadingItem = "confirmButton";
-      let method = "post";
+      this.loadingItem = 'confirmButton';
+      let method = 'post';
       let apiUrl = `${VITE_URL}/v2/api/${VITE_PATH}/admin/product`;
       if (!this.isNew) {
         apiUrl += `/${this.tempProduct.id}`;
-        method = "put";
+        method = 'put';
       }
       this.setPriceHistory();
       this.$http[method](apiUrl, {
@@ -27,8 +27,8 @@ export default {
       })
         .then(() => {
           Swal.fire({
-            icon: "success",
-            title: `${method === "put" ? "修改成功" : "新增成功"}`,
+            icon: 'success',
+            title: `${method === 'put' ? '修改成功' : '新增成功'}`,
             showConfirmButton: false,
             timer: 1500,
             didClose: () => {
@@ -41,12 +41,12 @@ export default {
           alert(err);
         })
         .finally(() => {
-          this.loadingItem = "";
+          this.loadingItem = '';
         });
     },
     setPriceHistory() {
-      let newPrice = {};
-      let time = new Date().getTime();
+      const newPrice = {};
+      const time = new Date().getTime();
       newPrice[time] = this.newProduct.price;
 
       if (this.isNew) {
@@ -57,31 +57,37 @@ export default {
       }
     },
     uploadImage(target) {
-      let file = document.querySelector("#formFile");
-      this.loadingItem = "images";
-      if (target === "main") {
-        file = document.querySelector("#mainImage");
-        this.loadingItem = "mainImage";
+      let file = document.querySelector('#formFile');
+      this.loadingItem = 'images';
+      if (target === 'main') {
+        file = document.querySelector('#mainImage');
+        this.loadingItem = 'mainImage';
       }
       const formData = new FormData();
-      formData.append("file-to-upload", file.files[0]);
+      formData.append('file-to-upload', file.files[0]);
       this.$http
         .post(`${VITE_URL}/v2/api/${VITE_PATH}/admin/upload`, formData)
         .then((res) => {
           if (!res.data.imageUrl) {
-            alert(res.data.message);
-          } else {
-            if (target === "main") {
-              this.newProduct.imageUrl = res.data.imageUrl;
-            } else if (target === "multi") {
-              this.newProduct.imagesUrl.push(res.data.imageUrl);
-            }
+            Swal.fire({
+              title: '錯誤發生',
+              icon: 'error',
+              text: `${res.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+            });
+          } else if (target === 'main') {
+            this.newProduct.imageUrl = res.data.imageUrl;
+          } else if (target === 'multi') {
+            this.newProduct.imagesUrl.push(res.data.imageUrl);
           }
-          file.value = "";
-          this.loadingItem = "";
+          file.value = '';
+          this.loadingItem = '';
         })
         .catch((err) => {
-          alert(err);
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
         });
     },
   },

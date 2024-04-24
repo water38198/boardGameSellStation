@@ -1,5 +1,7 @@
 <script>
-import { RouterView, RouterLink } from "vue-router";
+import { RouterView, RouterLink } from 'vue-router';
+import Swal from 'sweetalert2';
+
 const { VITE_URL } = import.meta.env;
 
 export default {
@@ -9,26 +11,30 @@ export default {
   },
   methods: {
     logout() {
-      document.cookie = `myToken=; expires=`;
-      this.$router.push("/login");
+      document.cookie = 'myToken=; expires=';
+      this.$router.push('/login');
     },
     loginCheck() {
       const myToken = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("myToken="))
-        ?.split("=")[1];
+        .split('; ')
+        .find((row) => row.startsWith('myToken='))
+        ?.split('=')[1];
       // axios header
-      this.$http.defaults.headers.common["Authorization"] = myToken;
+      this.$http.defaults.headers.common.Authorization = myToken;
       this.$http
         .post(`${VITE_URL}/v2/api/user/check`)
         .then((res) => {
           if (!res.data.success) {
-            this.$router.push("/login");
+            this.$router.push('/login');
           }
         })
-        .catch(() => {
-          alert("錯誤，請重新登入");
-          this.$router.push("/login");
+        .catch((err) => {
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
+          this.$router.push('/login');
         });
     },
   },

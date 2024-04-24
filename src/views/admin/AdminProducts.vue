@@ -1,8 +1,8 @@
 <script>
-import PaginationComponent from "@/components/PaginationComponent.vue";
-import ProductModal from "@/components/ProductModal.vue";
-import * as bootstrap from "bootstrap";
-import Swal from "sweetalert2";
+import PaginationComponent from '@/components/PaginationComponent.vue';
+import ProductModal from '@/components/ProductModal.vue';
+import * as bootstrap from 'bootstrap';
+import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 let productModal = {};
@@ -13,7 +13,7 @@ export default {
       products: [],
       tempProduct: {
         imagesUrl: [],
-        imageUrl: "",
+        imageUrl: '',
       },
       isNew: true,
       page: {},
@@ -22,7 +22,7 @@ export default {
   },
   components: { PaginationComponent, ProductModal },
   methods: {
-    //取得產品資料
+    // 取得產品資料
     getProducts(page = 1) {
       this.isLoading = true;
       this.$http
@@ -36,14 +36,14 @@ export default {
         });
     },
     openModal(status, product) {
-      if (status === "new") {
+      if (status === 'new') {
         this.isNew = true;
         this.tempProduct = {
-          imageUrl: "",
+          imageUrl: '',
           imagesUrl: [],
         };
         productModal.show();
-      } else if (status === "edit") {
+      } else if (status === 'edit') {
         this.isNew = false;
         this.tempProduct = { ...product };
         productModal.show();
@@ -62,13 +62,13 @@ export default {
     deleteProduct(title, id) {
       Swal.fire({
         title: `確定刪除 ${title} 嗎?`,
-        text: "刪除後不可復原，確定嗎?",
-        icon: "warning",
+        text: '刪除後不可復原，確定嗎?',
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "確定",
-        cancelButtonColor: "#d33",
-        cancelButtonText: "取消",
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: '確定',
+        cancelButtonColor: '#d33',
+        cancelButtonText: '取消',
       }).then((result) => {
         if (result.isConfirmed) {
           this.isLoading = true;
@@ -77,7 +77,7 @@ export default {
             .then(() => {
               this.isLoading = false;
               Swal.fire({
-                icon: "success",
+                icon: 'success',
                 title: `${title}刪除成功`,
                 showConfirmButton: false,
                 timer: 1000,
@@ -92,14 +92,14 @@ export default {
   },
   mounted() {
     const myToken = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("myToken="))
-      ?.split("=")[1];
+      .split('; ')
+      .find((row) => row.startsWith('myToken='))
+      ?.split('=')[1];
     // axios header
-    this.$http.defaults.headers.common["Authorization"] = myToken;
+    this.$http.defaults.headers.common.Authorization = myToken;
     this.getProducts();
     // Modal建立
-    productModal = new bootstrap.Modal("#productModal");
+    productModal = new bootstrap.Modal('#productModal');
   },
 };
 </script>

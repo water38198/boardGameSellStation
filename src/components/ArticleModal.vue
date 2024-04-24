@@ -1,32 +1,33 @@
 <script>
-import Swal from "sweetalert2";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import Swal from 'sweetalert2';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
-  props: ["tempArticleId", "isNew", "closeModal", "getArticles"],
+  props: ['tempArticleId', 'isNew', 'closeModal', 'getArticles'],
   data() {
     return {
       newArticle: {
         isPublic: false,
       },
-      loadingItem: "",
+      loadingItem: '',
       isLoading: false,
       editor: ClassicEditor,
       editorConfig: {
-        toolbar: ["heading", "|", "bold", "italic", "link"],
+        toolbar: ['heading', '|', 'bold', 'italic', 'link'],
       },
     };
   },
   methods: {
     updateArticle() {
-      this.loadingItem = "confirmButton";
+      this.loadingItem = 'confirmButton';
       this.isLoading = true;
-      let method = "post";
+      let method = 'post';
       let apiUrl = `${VITE_URL}/v2/api/${VITE_PATH}/admin/article`;
       if (!this.isNew) {
         apiUrl += `/${this.tempArticleId}`;
-        method = "put";
+        method = 'put';
       } else {
         this.newArticle.create_at = new Date().getTime();
       }
@@ -35,8 +36,8 @@ export default {
       })
         .then(() => {
           Swal.fire({
-            icon: "success",
-            title: `${method === "put" ? "修改成功" : "新增成功"}`,
+            icon: 'success',
+            title: `${method === 'put' ? '修改成功' : '新增成功'}`,
             showConfirmButton: false,
             timer: 1500,
             didClose: () => {
@@ -47,30 +48,42 @@ export default {
           });
         })
         .catch((err) => {
-          alert(err);
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
         })
         .finally(() => {
-          this.loadingItem = "";
+          this.loadingItem = '';
         });
     },
     uploadImage() {
-      let file = document.querySelector("#uploadImage");
-      this.loadingItem = "uploadImage";
+      const file = document.querySelector('#uploadImage');
+      this.loadingItem = 'uploadImage';
       const formData = new FormData();
-      formData.append("file-to-upload", file.files[0]);
+      formData.append('file-to-upload', file.files[0]);
       this.$http
         .post(`${VITE_URL}/v2/api/${VITE_PATH}/admin/upload`, formData)
         .then((res) => {
           if (!res.data.imageUrl) {
-            alert(res.data.message);
+            Swal.fire({
+              title: '錯誤發生',
+              icon: 'error',
+              text: '請重新嘗試，如果此狀況持續發生，請聯絡我們',
+            });
           } else {
             this.newArticle.image = res.data.imageUrl;
           }
-          this.loadingItem = "";
-          file.value = "";
+          this.loadingItem = '';
+          file.value = '';
         })
         .catch((err) => {
-          alert(err);
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
         });
     },
   },
@@ -85,7 +98,7 @@ export default {
       this.isLoading = true;
       this.$http
         .get(
-          `${VITE_URL}/v2/api/${VITE_PATH}/admin/article/${this.tempArticleId}`
+          `${VITE_URL}/v2/api/${VITE_PATH}/admin/article/${this.tempArticleId}`,
         )
         .then((res) => {
           this.newArticle = res.data.article;

@@ -1,5 +1,5 @@
 <script>
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 export default {
   methods: {
@@ -18,79 +18,78 @@ export default {
       setTimeout(() => {
         switch (random1) {
           case 1:
-            this.$refs.dice1.style.transform = "rotateX(0deg) rotateY(0deg)";
+            this.$refs.dice1.style.transform = 'rotateX(0deg) rotateY(0deg)';
             break;
           case 6:
-            this.$refs.dice1.style.transform = "rotateX(180deg) rotateY(0deg)";
+            this.$refs.dice1.style.transform = 'rotateX(180deg) rotateY(0deg)';
             break;
           case 2:
-            this.$refs.dice1.style.transform = "rotateX(-90deg) rotateY(0deg)";
+            this.$refs.dice1.style.transform = 'rotateX(-90deg) rotateY(0deg)';
             break;
           case 5:
-            this.$refs.dice1.style.transform = "rotateX(90deg) rotateY(0deg)";
+            this.$refs.dice1.style.transform = 'rotateX(90deg) rotateY(0deg)';
             break;
           case 3:
-            this.$refs.dice1.style.transform = "rotateX(0deg) rotateY(90deg)";
+            this.$refs.dice1.style.transform = 'rotateX(0deg) rotateY(90deg)';
             break;
           case 4:
-            this.$refs.dice1.style.transform = "rotateX(0deg) rotateY(-90deg)";
+            this.$refs.dice1.style.transform = 'rotateX(0deg) rotateY(-90deg)';
             break;
           default:
             break;
         }
-        this.$refs.dice1.style.animation = "none";
+        this.$refs.dice1.style.animation = 'none';
       }, (random1 / 2) * 1000 + 50);
       setTimeout(() => {
         switch (random2) {
           case 1:
-            this.$refs.dice2.style.transform = "rotateX(0deg) rotateY(0deg)";
+            this.$refs.dice2.style.transform = 'rotateX(0deg) rotateY(0deg)';
             break;
           case 6:
-            this.$refs.dice2.style.transform = "rotateX(180deg) rotateY(0deg)";
+            this.$refs.dice2.style.transform = 'rotateX(180deg) rotateY(0deg)';
             break;
           case 2:
-            this.$refs.dice2.style.transform = "rotateX(-90deg) rotateY(0deg)";
+            this.$refs.dice2.style.transform = 'rotateX(-90deg) rotateY(0deg)';
             break;
           case 5:
-            this.$refs.dice2.style.transform = "rotateX(90deg) rotateY(0deg)";
+            this.$refs.dice2.style.transform = 'rotateX(90deg) rotateY(0deg)';
             break;
           case 3:
-            this.$refs.dice2.style.transform = "rotateX(0deg) rotateY(90deg)";
+            this.$refs.dice2.style.transform = 'rotateX(0deg) rotateY(90deg)';
             break;
           case 4:
-            this.$refs.dice2.style.transform = "rotateX(0deg) rotateY(-90deg)";
+            this.$refs.dice2.style.transform = 'rotateX(0deg) rotateY(-90deg)';
             break;
           default:
             break;
         }
-        this.$refs.dice2.style.animation = "none";
+        this.$refs.dice2.style.animation = 'none';
       }, (random2 / 2) * 1000 + 50);
-      const totalTime =
-        (random1 / 2) * 1000 + 50 > (random2 / 2) * 1000 + 50
-          ? (random1 / 2) * 1000 + 50 + 1500
-          : (random2 / 2) * 1000 + 50 + 1500;
+      const totalTime = (random1 / 2) * 1000 + 50 > (random2 / 2) * 1000 + 50
+        ? (random1 / 2) * 1000 + 50 + 1500
+        : (random2 / 2) * 1000 + 50 + 1500;
       setTimeout(() => {
         const result = random1 >= random2;
         if (result) {
           Swal.fire({
-            icon: "error",
-            title: "哇...",
-            text: "很可惜你輸了，再來一次吧",
-            confirmButtonColor: "#0fb99b",
+            icon: 'error',
+            title: '哇...',
+            text: '很可惜你輸了，再來一次吧',
+            confirmButtonColor: '#0fb99b',
           });
         } else {
           Swal.fire({
-            icon: "success",
-            title: "恭喜，你獲勝了",
+            icon: 'success',
+            title: '恭喜，你獲勝了',
             html: "<p>八折優惠券:<span class='text-themeDark'>DiceGameWinner</span></p>",
-            confirmButtonColor: "#0fb99b",
-            confirmButtonText: "複製",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigator.clipboard.writeText("DiceGameWinner");
+            confirmButtonColor: '#0fb99b',
+            confirmButtonText: '複製',
+          }).then((res) => {
+            if (res.isConfirmed) {
+              navigator.clipboard.writeText('DiceGameWinner');
               Swal.fire({
-                icon: "success",
-                title: "已複製到剪貼簿",
+                icon: 'success',
+                title: '已複製到剪貼簿',
                 showConfirmButton: false,
                 timer: 1000,
               });
@@ -104,18 +103,29 @@ export default {
 </script>
 
 <template>
+  <div class="rounded-3 active-button">
+    <button
+      type="button"
+      data-bs-toggle="modal"
+      data-bs-target="#diceModal"
+      class="btn"
+    >
+      <img src="@/assets/dice-icon.png" alt="dice" />
+      <span class="text-white d-none d-md-inline"> 點我拿優惠券!!</span>
+    </button>
+  </div>
   <!-- Modal -->
   <div
     class="modal fade game-modal"
-    id="exampleModal"
+    id="diceModal"
     tabindex="-1"
-    aria-labelledby="exampleModalLabel"
+    aria-labelledby="diceModalLabel"
     aria-hidden="true"
   >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">骰子比大小</h5>
+          <h5 class="modal-title" id="diceModalLabel">骰子比大小</h5>
           <button
             type="button"
             class="btn-close"
@@ -156,7 +166,16 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.active-button {
+  position: fixed;
+  background-color: hsl(169deg, 100%, 10%);
+  bottom: 20px;
+  right: 20px;
+  &:hover {
+    opacity: 0.8;
+  }
+}
 .game-modal {
   margin-top: 80px;
 }

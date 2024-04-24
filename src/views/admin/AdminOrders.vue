@@ -1,10 +1,10 @@
 <script>
-import PaginationComponent from "@/components/PaginationComponent.vue";
-import OrderModal from "@/components/OrderModal.vue";
-import * as bootstrap from "bootstrap";
-import Swal from "sweetalert2";
-import { mapActions } from "pinia";
-import utilities from "@/stores/utilities";
+import PaginationComponent from '@/components/PaginationComponent.vue';
+import OrderModal from '@/components/OrderModal.vue';
+import * as bootstrap from 'bootstrap';
+import Swal from 'sweetalert2';
+import { mapActions } from 'pinia';
+import utilities from '@/stores/utilities';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 let orderModal = {};
@@ -29,7 +29,11 @@ export default {
           this.page = res.data.pagination;
         })
         .catch((err) => {
-          alert(err);
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
         })
         .finally(() => {
           this.isLoading = false;
@@ -50,13 +54,13 @@ export default {
     deleteOrder(order) {
       Swal.fire({
         title: `確定刪除 ${order.id} 嗎?`,
-        text: "刪除後不可復原，確定嗎",
-        icon: "warning",
+        text: '刪除後不可復原，確定嗎',
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "確定",
-        cancelButtonColor: "#d33",
-        cancelButtonText: "取消",
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: '確定',
+        cancelButtonColor: '#d33',
+        cancelButtonText: '取消',
       }).then((result) => {
         if (result.isConfirmed) {
           this.isLoading = true;
@@ -65,8 +69,8 @@ export default {
             .then(() => {
               this.isLoading = false;
               Swal.fire({
-                icon: "success",
-                title: `訂單刪除成功`,
+                icon: 'success',
+                title: '訂單刪除成功',
                 showConfirmButton: false,
                 timer: 1000,
                 didClose: () => {
@@ -77,18 +81,18 @@ export default {
         }
       });
     },
-    ...mapActions(utilities, ["timeTransform"]),
+    ...mapActions(utilities, ['timeTransform']),
   },
   mounted() {
     const myToken = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("myToken="))
-      ?.split("=")[1];
+      .split('; ')
+      .find((row) => row.startsWith('myToken='))
+      ?.split('=')[1];
     // axios header
-    this.$http.defaults.headers.common["Authorization"] = myToken;
+    this.$http.defaults.headers.common.Authorization = myToken;
     this.getOrders();
     // Modal建立
-    orderModal = new bootstrap.Modal("#orderModal");
+    orderModal = new bootstrap.Modal('#orderModal');
   },
 };
 </script>

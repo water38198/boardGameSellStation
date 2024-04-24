@@ -1,27 +1,27 @@
 <script>
-import { mapActions } from "pinia";
-import utilities from "../stores/utilities";
-import Swal from "sweetalert2";
+import { mapActions } from 'pinia';
+import Swal from 'sweetalert2';
+import utilities from '../stores/utilities';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
-  props: ["tempOrder", "closeModal", "getOrders"],
+  props: ['tempOrder', 'closeModal', 'getOrders'],
   data() {
     return {
       newOrder: {
         user: {},
         products: {},
       },
-      loadingItem: "",
+      loadingItem: '',
     };
   },
   methods: {
     deleteOrderItem(key) {
       if (Object.keys(this.newOrder.products).length === 1) {
         Swal.fire({
-          icon: "error",
-          title: "商品不得為空",
+          icon: 'error',
+          title: '商品不得為空',
           showConfirmButton: false,
           timer: 1000,
         });
@@ -32,30 +32,34 @@ export default {
     },
     updateOrder(order, id) {
       this.loadingItem = id;
-      let changedOrder = { ...order };
-      let orderData = {
+      const changedOrder = { ...order };
+      const orderData = {
         data: { ...changedOrder },
       };
       this.$http
         .put(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${id}`, orderData)
         .then(() => {
           Swal.fire({
-            icon: "success",
-            title: "修改成功!",
+            icon: 'success',
+            title: '修改成功!',
             showConfirmButton: false,
             timer: 1000,
             didClose: () => {
               this.closeModal();
               this.getOrders();
-              this.loadingItem = "";
+              this.loadingItem = '';
             },
           });
         })
         .catch((err) => {
-          alert(err);
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
         });
     },
-    ...mapActions(utilities, ["timeTransform"]),
+    ...mapActions(utilities, ['timeTransform']),
   },
   watch: {
     tempOrder() {

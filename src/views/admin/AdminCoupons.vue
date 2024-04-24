@@ -1,10 +1,10 @@
 <script>
-import PaginationComponent from "@/components/PaginationComponent.vue";
-import CouponModal from "@/components/CouponModal.vue";
-import { mapActions } from "pinia";
-import utilities from "@/stores/utilities";
-import * as bootstrap from "bootstrap";
-import Swal from "sweetalert2";
+import PaginationComponent from '@/components/PaginationComponent.vue';
+import CouponModal from '@/components/CouponModal.vue';
+import { mapActions } from 'pinia';
+import utilities from '@/stores/utilities';
+import * as bootstrap from 'bootstrap';
+import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 let couponModal = {};
@@ -30,17 +30,21 @@ export default {
           this.page = res.data.pagination;
         })
         .catch((err) => {
-          alert(err);
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
         })
         .finally(() => {
           this.isLoading = false;
         });
     },
     openModal(status, coupon) {
-      if (status === "new") {
+      if (status === 'new') {
         this.isNew = true;
         this.tempCoupon = {};
-      } else if (status === "edit") {
+      } else if (status === 'edit') {
         this.isNew = false;
         this.tempCoupon = { ...coupon };
       }
@@ -50,17 +54,17 @@ export default {
       couponModal.hide();
       this.tempCoupon = {};
     },
-    ...mapActions(utilities, ["timeTransform"]),
+    ...mapActions(utilities, ['timeTransform']),
     deleteCoupon(coupon) {
       Swal.fire({
         title: `確定刪除 ${coupon.title} 嗎?`,
-        text: "刪除後不可復原，確定嗎",
-        icon: "warning",
+        text: '刪除後不可復原，確定嗎',
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "確定",
-        cancelButtonColor: "#d33",
-        cancelButtonText: "取消",
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: '確定',
+        cancelButtonColor: '#d33',
+        cancelButtonText: '取消',
       }).then((result) => {
         if (result.isConfirmed) {
           this.isLoading = true;
@@ -69,8 +73,8 @@ export default {
             .then(() => {
               this.isLoading = false;
               Swal.fire({
-                icon: "success",
-                title: `優惠券刪除成功`,
+                icon: 'success',
+                title: '優惠券刪除成功',
                 showConfirmButton: false,
                 timer: 1000,
                 didClose: () => {
@@ -79,7 +83,11 @@ export default {
               });
             })
             .catch((err) => {
-              alert(err);
+              Swal.fire({
+                title: '錯誤發生',
+                icon: 'error',
+                text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+              });
             });
         }
       });
@@ -87,11 +95,11 @@ export default {
   },
   mounted() {
     const myToken = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("myToken="))
-      ?.split("=")[1];
-    this.$http.defaults.headers.common["Authorization"] = myToken;
-    couponModal = new bootstrap.Modal("#couponModal");
+      .split('; ')
+      .find((row) => row.startsWith('myToken='))
+      ?.split('=')[1];
+    this.$http.defaults.headers.common.Authorization = myToken;
+    couponModal = new bootstrap.Modal('#couponModal');
     this.getCoupons();
   },
 };

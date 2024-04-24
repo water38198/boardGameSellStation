@@ -1,7 +1,7 @@
 <script>
-import Swal from "sweetalert2";
-import utilities from "../stores/utilities";
-import { mapActions } from "pinia";
+import Swal from 'sweetalert2';
+import { mapActions } from 'pinia';
+import utilities from '../stores/utilities';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
@@ -32,23 +32,27 @@ export default {
       </div>
     </div></div>  
               `,
-            confirmButtonColor: "#0FB99B",
+            confirmButtonColor: '#0FB99B',
           });
           this.getCarts();
           this.$refs.userForm.resetForm();
         })
         .catch((err) => {
-          alert(err);
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
         });
     },
     isPhone(value) {
-      //電話驗證
+      // 電話驗證
       const phoneNumber = /^(09)[0-9]{8}$/;
-      return phoneNumber.test(value) ? true : "需要09開頭的手機號碼十碼";
+      return phoneNumber.test(value) ? true : '需要09開頭的手機號碼十碼';
     },
-    ...mapActions(utilities, ["timeTransform"]),
+    ...mapActions(utilities, ['timeTransform']),
   },
-  props: ["getCarts", "cart"],
+  props: ['getCarts', 'cart'],
 };
 </script>
 
