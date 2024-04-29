@@ -1,61 +1,90 @@
 <script>
-import { mapState, mapActions } from 'pinia';
+import { mapActions } from 'pinia';
 import utilities from '@/stores/utilities';
-import articleStore from '@/stores/articleStore';
+import Swal from 'sweetalert2';
 
 export default {
   data() {
     return {
-      category: '',
-      listTitle: '',
+      category: '全部',
+      listTitle: '所有文章',
       randomPic: 'https://picsum.photos/100',
+      articles: [],
+      pagination: {
+        total_pages: 0,
+        current_page: 1,
+      },
+      isLoading: false,
     };
   },
   computed: {
-    ...mapState(articleStore, ['news', 'reviews', 'unboxings', 'articles']),
-    tempArticles() {
-      if (this.category === 'all' || this.category === '') {
-        return this.articles.articles;
-      }
-      return this[this.category];
+    filteredArticles() {
+      if (this.category === '全部') return this.articles;
+      return this.articles.filter((article) => article.category === this.category);
+    },
+    transformCategoryText() {
+      if (this.category === '新聞') return '最新消息';
+      if (this.category === '心得') return '心得分享';
+      if (this.category === '開箱') return '開箱文章';
+      return '所有文章';
     },
   },
   methods: {
-    changeCategory(category, event) {
-      this.listTitle = event.target.textContent;
+    changeCategory(category) {
       this.category = category;
+      this.$router.push(`/articles?category=${category}`);
+    },
+    getArticles(page = 1) {
+      this.isLoading = true;
+      const { VITE_URL, VITE_PATH } = import.meta.env;
+      this.$http.get(`${VITE_URL}/v2/api/${VITE_PATH}/articles?page=${page}`)
+        .then((res) => {
+          // 因為沒辦法使用 all 與 category 所以先把所有文章抓出
+          this.articles = this.articles.concat(res.data.articles);
+          if (
+            res.data.pagination.total_pages > 1
+            && res.data.pagination.current_page < res.data.pagination.total_pages
+          ) {
+            this.getArticles(page + 1);
+          }
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
+        }).finally(() => {
+          this.isLoading = false;
+        });
+    },
+    changePage(page) {
+      this.pagination.current_page = page;
+      window.scrollTo(0, 0);
     },
     ...mapActions(utilities, ['timeTransform']),
   },
+  watch: {
+    category(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.$route.query.category = newValue;
+      }
+    },
+    filteredArticles() {
+      this.pagination.total_pages = Math.floor(this.filteredArticles.length / 10) + 1;
+      this.pagination.current_page = 1;
+    },
+  },
   mounted() {
-    // 從別的頁面進入時跳轉
-    this.category = this.$route.params.category;
-    const el = document.querySelector(`#${this.category}`);
-    el.classList.add('active');
-    this.listTitle = el.textContent;
-    // 從自己的頁面跳轉(news->reviews)，監聽params
-    this.$watch(
-      () => this.$route.params,
-      () => {
-        const { category } = this.$route.params;
-        if (category) {
-          const allButtons = document.querySelectorAll('.list-group button');
-          allButtons.forEach((button) => {
-            button.classList.remove('active');
-          });
-          const newEl = document.querySelector(`#${category}`);
-          this.listTitle = newEl.textContent;
-          newEl.classList.add('active');
-          this.category = category;
-        }
-      },
-    );
+    this.getArticles();
+    this.category = this.$route.query.category;
   },
 };
 </script>
 
 <template>
-  <div class="container py-5 bg-white">
+  <VLoading :active="isLoading"/>
+  <div class="container bg-white article-container">
     <div class="row g-3">
       <div class="col-lg-3 col-xl-2">
         <div
@@ -65,9 +94,10 @@ export default {
           <button
             type="button"
             class="list-group-item list-group-item-action"
+            :class="{'active':listTitle ==='所有文章'}"
             aria-current="true"
             data-bs-toggle="list"
-            @click="changeCategory('all', $event)"
+            @click="changeCategory('全部')"
             id="all"
           >
             所有文章
@@ -75,8 +105,9 @@ export default {
           <button
             type="button"
             class="list-group-item list-group-item-action"
+            :class="{'active':listTitle ==='最新消息'}"
             data-bs-toggle="list"
-            @click="changeCategory('news', $event)"
+            @click="changeCategory('新聞')"
             id="news"
           >
             最新消息
@@ -84,8 +115,9 @@ export default {
           <button
             type="button"
             class="list-group-item list-group-item-action"
+            :class="{'active':listTitle ==='心得分享'}"
             data-bs-toggle="list"
-            @click="changeCategory('reviews', $event)"
+            @click="changeCategory('心得')"
             id="reviews"
           >
             心得分享
@@ -93,8 +125,9 @@ export default {
           <button
             type="button"
             class="list-group-item list-group-item-action"
+            :class="{'active':listTitle ==='開箱文章'}"
             data-bs-toggle="list"
-            @click="changeCategory('unboxings', $event)"
+            @click="changeCategory('開箱')"
             id="unboxings"
           >
             開箱文章
@@ -103,11 +136,12 @@ export default {
       </div>
       <div class="col-lg-9 col-xl-10">
         <h2 class="fs-2 bg-theme py-7 ps-4 text-white mb-0 rounded-top">
-          <i class="bi bi-card-list me-2"></i>{{ listTitle }}
+          <i class="bi bi-card-list me-2"></i>{{ transformCategoryText }}
         </h2>
         <ol class="list-group list-group-flush">
           <li
-            v-for="(article, index) in tempArticles"
+            v-for="(article, index) in filteredArticles
+    .slice((pagination.current_page - 1) * 10, pagination.current_page * 10)"
             :key="article.id"
             class="list-group-item d-flex px-4 py-4 align-items-center"
           >
@@ -140,12 +174,55 @@ export default {
             </RouterLink>
           </li>
         </ol>
+        <nav aria-label="Page navigation" class="mt-5"
+          v-if="pagination.total_pages > 1"
+        >
+          <ul class="pagination justify-content-center">
+            <li class="page-item" :class="{ disabled: pagination.current_page === 1 }">
+              <a
+                class="page-link"
+                href="#"
+                aria-label="Previous"
+                @click.prevent="changePage(pagination.current_page - 1)"
+              >
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li
+              class="page-item"
+              :class="{
+                active: page === pagination.current_page,
+              }"
+              v-for="page in pagination.total_pages"
+              :key="page + 'page'"
+            >
+              <a class="page-link" href="#" @click.prevent="changePage(page)">{{
+                page
+              }}</a>
+            </li>
+            <li class="page-item"
+            :class="{ disabled: pagination.current_page === pagination.total_pages }">
+              <a
+                class="page-link"
+                href="#"
+                aria-label="Next"
+                @click.prevent="changePage(pagination.current_page + 1)"
+              >
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.article-container{
+  padding-top: 100px;
+  padding-bottom: 80px;
+}
 .link-hover:hover h3 {
   text-decoration: underline;
   color: #0fb99b;
@@ -176,6 +253,7 @@ button.list-group-item.active {
   border-bottom: var(--bs-list-group-border-width) solid
     var(--bs-list-group-border-color);
 }
+
 @media (min-width: 768px) {
   .article-list-group {
     font-size: 1.5rem;

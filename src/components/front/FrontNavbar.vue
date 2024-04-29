@@ -4,6 +4,11 @@ import { mapState, mapActions } from 'pinia';
 import cartStore from '@/stores/cartStore';
 
 export default {
+  data() {
+    return {
+      query: {},
+    };
+  },
   methods: {
     ...mapActions(cartStore, ['getCarts']),
   },
@@ -24,10 +29,12 @@ export default {
   },
   mounted() {
     this.getCarts();
+    this.query = this.$route.query;
   },
   watch: {
     $route() {
       this.$refs.navbarCollapse.classList.remove('show');
+      this.query = this.$route.query;
     },
   },
 };
@@ -57,24 +64,32 @@ export default {
       >
         <ul class="navbar-nav me-auto mb-3 mb-lg-0 w-100 d-none d-lg-flex">
           <li class="nav-item">
-            <RouterLink to="/articles/news" class="me-3 nav-link link-light"
-              ><i class="bi bi-newspaper me-2"></i>最新消息</RouterLink
-            >
-          </li>
-          <li class="nav-item">
             <RouterLink to="/products" class="me-3 nav-link link-light"
               ><i class="bi bi-border-all me-2"></i>所有商品</RouterLink
             >
           </li>
           <li class="nav-item">
-            <RouterLink to="/articles/reviews" class="me-3 nav-link link-light"
-              ><i class="bi bi-card-text me-2"></i>心得評價</RouterLink
+            <RouterLink to="/articles?category=新聞"
+            class="me-3 nav-link link-light article-link"
+            :class="{'article-link-active':query.category==='新聞'}"
+              ><i class="bi bi-newspaper me-2"></i>最新消息
+            </RouterLink
+            >
+          </li>
+          <li class="nav-item">
+            <RouterLink to="/articles?category=心得"
+            class="me-3 nav-link link-light article-link"
+            :class="{'article-link-active':query.category==='心得'}"
+            >
+              <i class="bi bi-card-text me-2"></i>心得評價
+            </RouterLink
             >
           </li>
           <li class="nav-item">
             <RouterLink
-              to="/articles/unboxings"
-              class="me-3 nav-link link-light"
+              to="/articles?category=開箱"
+              class="me-3 nav-link link-light article-link"
+              :class="{'article-link-active':query.category==='開箱'}"
               ><i class="bi bi-box-seam-fill me-2"></i>開箱文章</RouterLink
             >
           </li>
@@ -108,23 +123,23 @@ export default {
             >
           </li>
           <li class="nav-item border-bottom">
-            <RouterLink to="/articles/news" class="my-2 nav-link text-theme"
-              ><i class="bi bi-newspaper me-2"></i>最新消息</RouterLink
-            >
-          </li>
-          <li class="nav-item border-bottom">
             <RouterLink to="/products" class="my-2 nav-link text-theme"
               ><i class="bi bi-border-all me-2"></i>所有商品</RouterLink
             >
           </li>
           <li class="nav-item border-bottom">
-            <RouterLink to="/articles/reviews" class="my-2 nav-link text-theme"
+            <RouterLink to="/articles?category=新聞" class="my-2 nav-link text-theme"
+              ><i class="bi bi-newspaper me-2"></i>最新消息</RouterLink
+            >
+          </li>
+          <li class="nav-item border-bottom">
+            <RouterLink to="/articles?category=心得" class="my-2 nav-link text-theme"
               ><i class="bi bi-card-text me-2"></i>心得評價</RouterLink
             >
           </li>
           <li class="nav-item border-bottom">
             <RouterLink
-              to="/articles/unboxings"
+              to="/articles?category=心得"
               class="my-2 nav-link text-theme"
               ><i class="bi bi-box-seam-fill me-2"></i>開箱文章</RouterLink
             >
@@ -167,6 +182,9 @@ export default {
 @media (min-width: 992px) {
   a.active {
     border-bottom: 3px solid #0fb99b;
+  }
+  .article-link:not(.article-link-active){
+    border-bottom: 0;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <script>
-import { mapActions } from "pinia";
-import utilities from "@/stores/utilities";
+import { mapActions } from 'pinia';
+import utilities from '@/stores/utilities';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
@@ -20,7 +20,7 @@ export default {
           this.article = res.data.article;
         })
         .catch(() => {
-          alert("錯誤發生");
+          alert('錯誤發生');
           this.$router.go(-1);
         })
         .finally(() => {
@@ -28,16 +28,23 @@ export default {
         });
     },
     breadCrumbSort(category) {
+      let result = '';
       switch (category) {
-        case "新聞":
-          return "news";
-        case "心得":
-          return "reviews";
-        case "開箱":
-          return "unboxings";
+        case '新聞':
+          result = 'news';
+          break;
+        case '心得':
+          result = 'reviews';
+          break;
+        case '開箱':
+          result = 'unboxings';
+          break;
+        default:
+          result = '';
       }
+      return result;
     },
-    ...mapActions(utilities, ["timeTransform"]),
+    ...mapActions(utilities, ['timeTransform']),
   },
   mounted() {
     this.getArticle();
