@@ -11,7 +11,7 @@ export default {
     return {
       products: [],
       page: {},
-      productIsLoading: false,
+      isLoading: false,
       category: 'all',
       listTitle: '全部',
     };
@@ -27,9 +27,10 @@ export default {
       this.listTitle = event.target.textContent;
       this.category = category;
       this.getProducts(1, this.category);
+      window.scrollTo(0, 0);
     },
     getProducts(page = 1, category = '') {
-      this.productIsLoading = true;
+      this.isLoading = true;
       let productCategory = category;
       if (category === 'all') {
         productCategory = '';
@@ -53,13 +54,21 @@ export default {
           });
         })
         .finally(() => {
-          this.productIsLoading = false;
+          this.isLoading = false;
         });
     },
     goProduct(id) {
       if (!this.loadingItem) {
         this.$router.push(`/product/${id}`);
       }
+    },
+    isInStock(product) {
+      const isInCart = this.cart.carts.find((el) => el.product.id === product.id);
+      if (isInCart) {
+        return this.cart.carts.find((el) => el.product.id === product.id).product.stock
+          === this.cart.carts.find((el) => el.product.id === product.id).qty;
+      }
+      return false;
     },
     ...mapActions(cartStore, ['addToCart']),
   },
@@ -70,13 +79,14 @@ export default {
 </script>
 
 <template>
-  <div class="container bg-white py-5">
+  <div class="container bg-white pt-100 pb-5">
     <div class="row g-3">
       <div class="col-lg-3">
         <div class="product-category">
           <h3 class="text-theme text-center h3">商品類別</h3>
           <div
-            class="list-group text-center fs-5 flex-row flex-lg-column list-group-flush"
+            class="list-group text-center fs-6 fs-md-5
+            flex-row flex-lg-column list-group-flush mt-4"
           >
             <a
               class="list-group-item list-group-item-action active list-group-item"
@@ -132,13 +142,11 @@ export default {
           </div>
         </div>
       </div>
-      <div class="col-lg-9 vl-parent">
+      <div class="col-lg-9 position-relative">
         <VLoading
-          v-model:active="productIsLoading"
-          :can-cancel="false"
+          :active="isLoading"
           :is-full-page="false"
-        >
-        </VLoading>
+        />
         <div class="row g-3 align-items-stretch">
           <h3 class="h3 text-theme text-center">{{ listTitle }}</h3>
           <template v-if="products.length">
@@ -151,7 +159,7 @@ export default {
             >
               <a
                 @click.prevent="goProduct(product.id)"
-                class="text-reset text-decoration-none product-card"
+                class="text-reset text-decoration-none product-card" href="#"
               >
                 <div class="card h-100">
                   <div class="product-image">
@@ -159,33 +167,25 @@ export default {
                       :src="product.imageUrl"
                       class="card-img-top"
                       :alt="`${product.title}圖片`"
-                      style="
-                        height: 250px;
-                        object-fit: cover;
-                        object-position: top;
-                      "
                     />
                   </div>
-                  <div class="card-body d-flex flex-column">
+                  <div class="card-body">
                     <h4 class="card-title">{{ product.title }}</h4>
                     <p class="card-text text-truncate my-3">
                       {{ product.description }}
                     </p>
                     <div
-                      class="h4 mt-auto text-end"
+                      class="h4 text-end"
                       v-if="product.origin_price === product.price"
                     >
                       {{ product.price }}元
                     </div>
-                    <div v-else class="mt-auto d-flex justify-content-between">
+                    <div v-else class="d-flex justify-content-between">
                       <div>
-                        <del class="h6">原價{{ product.origin_price }}元</del>
+                        <del class="h6 text-secondary">原價{{ product.origin_price }}元</del>
                       </div>
                       <div class="h4">
-                        現在只要<span class="text-danger">{{
-                          product.price
-                        }}</span
-                        >元
+                        特價 <span class="text-danger"> {{product.price}}</span> 元
                       </div>
                     </div>
                     <div class="text-center mt-2 text-center">
@@ -194,17 +194,7 @@ export default {
                           type="button"
                           class="btn btn-outline-danger"
                           disabled
-                          v-if="
-                            cart.carts.find(
-                              (el) => el.product.id === product.id
-                            ) &&
-                            cart.carts.find(
-                              (el) => el.product.id === product.id
-                            ).product.stock ===
-                              cart.carts.find(
-                                (el) => el.product.id === product.id
-                              ).qty
-                          "
+                          v-if="isInStock(product)"
                         >
                           目前無庫存
                         </button>
@@ -212,7 +202,7 @@ export default {
                           type="button"
                           class="btn btn-outline-danger"
                           :disabled="loadingItem === product.id"
-                          @click.stop="addToCart(product)"
+                          @click.self="addToCart(product)"
                           v-else
                         >
                           加入購物車
@@ -238,7 +228,7 @@ export default {
           </template>
           <PaginationComponent
             :pages="page"
-            :get-Method="getProducts"
+            :get-Method="getProducts" v-if="page.total_pages !==1"
           ></PaginationComponent>
         </div>
       </div>
@@ -247,7 +237,11 @@ export default {
   <!-- 產品列表 -->
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.list-group-item.active{
+  pointer-events: none;
+}
+
 .list-group-flush > .list-group-item:last-child {
   border-bottom: var(--bs-list-group-border-width) solid
     var(--bs-list-group-border-color);
@@ -257,8 +251,11 @@ export default {
   top: 90px;
   z-index: 1020;
 }
-a:hover {
-  cursor: pointer;
+.product-image{
+  img{
+    height: 250px;
+    object-position: top;
+  }
 }
 .product-card .product-image:before {
   content: "";

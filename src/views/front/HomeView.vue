@@ -59,7 +59,7 @@ export default {
       <h1 class="h1 text-white text-center fw-bold lh-lg">
         我的多餘<br />你來撿便宜
       </h1>
-      <div class="d-flex justify-content-center mt-5">
+      <div class="text-center mt-5">
         <RouterLink to="/products" class="btn btn-light fs-5">馬上去逛!</RouterLink>
       </div>
     </header>
@@ -154,8 +154,6 @@ export default {
           </div>
         </div>
       </div>
-      <!-- 最新上架 -->
-      <!-- 價格更新 -->
       <section class="article-banner">
         <div class="container text-center">
           <p class="text-white fs-2 mb-4">還在猶豫嗎?</p>
@@ -319,12 +317,13 @@ export default {
     padding-bottom: 280px;
   }
 }
+
 .news{
   min-height: 450px;
   background: linear-gradient(90deg, white 50%, transparent 50%);
   &-image{
-      background-image: url(@/assets/home/home-news.jpg);
-  background-size: cover;
+    background-image: url(@/assets/home/home-news.jpg);
+    background-size: cover;
   }
   > div{
     margin-top: -100px;
@@ -335,12 +334,15 @@ export default {
     border-radius: 3px;
   }
 }
+
 .card:hover img{
   transform: scale(1.2);
 }
+
 div:has( >img ){
-    overflow: hidden;
+  overflow: hidden;
 }
+
 .home-product-image {
   height: 250px;
   object-position: 50% top;
@@ -355,9 +357,11 @@ div:has( >img ){
   background-size: cover;
   background-position: center;
 }
+
 img[alt='articleImage']{
   height: 300px;
 }
+
 .multi-text-truncate {
   display: -webkit-box;
   -webkit-box-orient: vertical;

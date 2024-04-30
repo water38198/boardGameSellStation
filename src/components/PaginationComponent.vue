@@ -25,8 +25,7 @@ export default {
       <li
         class="page-item"
         :class="{
-          active: page === pages.current_page,
-          disabled: page === pages.current_page,
+          active: page === pages.current_page
         }"
         v-for="page in pages.total_pages"
         :key="page + 'page'"
@@ -50,7 +49,7 @@ export default {
 </template>
 
 <style scoped>
-.page-link {
-  color: #0fb99b;
-}
+  .active{
+    pointer-events: none;
+  }
 </style>
