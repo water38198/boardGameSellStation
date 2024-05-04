@@ -10,7 +10,6 @@ import RandomProducts from '../../components/front/RandomProducts.vue';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
-// import required modules
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
@@ -20,15 +19,15 @@ export default {
       product: {},
       qty: 1,
       isLoading: false,
+      category: '',
       modules: [FreeMode, Navigation, Pagination],
     };
   },
   methods: {
     getProduct() {
       this.isLoading = true;
-      const { id } = this.$route.params;
       this.$http
-        .get(`${VITE_URL}/v2/api/${VITE_PATH}/product/${id}`)
+        .get(`${VITE_URL}/v2/api/${VITE_PATH}/product/${this.id}`)
         .then((res) => {
           this.product = res.data.product;
         })
@@ -43,40 +42,40 @@ export default {
           });
         }).finally(() => {
           this.isLoading = false;
+          window.scrollTo(0, 0);
         });
+    },
+    getProductStock(product) {
+      const productInCart = this.cart.carts.find((el) => el.product.id === product.id);
+      return product.stock - (productInCart ? productInCart.qty : 0);
     },
     ...mapActions(cartStore, ['addToCart']),
   },
   components: { Swiper, SwiperSlide, RandomProducts },
   computed: {
+    id() {
+      return this.$route.params.id;
+    },
     ...mapState(cartStore, ['loadingItem', 'cart']),
   },
   mounted() {
     this.getProduct();
-    // 監聽產品id改變時要刷新頁面
-    this.$watch(
-      () => this.$route.params,
-      () => {
-        const { id } = this.$route.params;
-        if (id) {
-          this.getProduct();
-        }
-      },
-    );
+  },
+  watch: {
+    id() {
+      if (this.id) {
+        this.getProduct();
+      }
+    },
   },
 };
 </script>
 
 <template>
-  <!-- Loading Layout -->
-  <div class="vl-parent">
     <VLoading
-      v-model:active="isLoading"
-      :can-cancel="false"
-      :is-full-page="true"
+      :active="isLoading"
     />
-  </div>
-  <div class="container-lg">
+  <div class="container-lg pt-100">
     <nav aria-label="breadcrumb" class="my-3">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -95,13 +94,10 @@ export default {
         </li>
       </ol>
     </nav>
-    <div class="row g-3 mb-5 justify-content-center mb-5">
-      <div class="col-10 col-md-6 col-lg-5">
+    <div class="row g-3 justify-content-center pb-5 border-bottom">
+      <div class="col-12 col-md-6 col-lg-5">
         <div class="text-center h-100">
-          <Swiper
-            :spaceBetween="30"
-            :centeredSlides="true"
-            :autoHeight="true"
+          <Swiper :spaceBetween="30" :centeredSlides="true" :autoHeight="true"
             :pagination="{
               type: 'fraction',
             }"
@@ -110,16 +106,12 @@ export default {
             class="mySwiper"
           >
             <SwiperSlide>
-              <img
-                :src="product.imageUrl"
-                alt="product image"
-                class="img-fluid"
-              />
+              <img :src="product.imageUrl" alt="product image" class="img-fluid"/>
             </SwiperSlide>
             <template v-if="product.imagesUrl">
-              <SwiperSlide v-for="i in product.imagesUrl" :key="i + 'image'"
-                ><img :src="i" alt="product images" class="img-fluid"
-              /></SwiperSlide>
+              <SwiperSlide v-for="i in product.imagesUrl" :key="i + 'image'">
+                <img :src="i" alt="product images" class="img-fluid"/>
+              </SwiperSlide>
             </template>
           </Swiper>
         </div>
@@ -132,86 +124,50 @@ export default {
             <span class="badge bg-theme me-3">{{ product.language }}</span>
             <span class="badge bg-theme me-3">{{ product.condition }}</span>
           </div>
-          <div class="col-12">
+          <div>
             <div class="h3">商品敘述:</div>
-            <p class="p-2">{{ product.description }}</p>
+            <p class="">{{ product.description }}</p>
           </div>
-          <div class="col-12">
+          <div>
             <div class="fs-3">內容物:</div>
             <p>{{ product.content }}</p>
           </div>
-          <div class="col-12">
+          <div>
             <div class="fs-3">剩餘數量:</div>
             <p>{{ product.stock }} {{ product.unit }}</p>
           </div>
-          <div class="col-12">
+          <div>
             <div class="fs-3">價格:</div>
             <div class="fs-5" v-if="product.origin_price === product.price">
               {{ product.price }}元
             </div>
             <div v-else class="p-2">
-              <del class="h6 text-secondary"
-                >原價{{ product.origin_price }}元</del
-              >
+              <del class="h6 text-secondary">原價{{ product.origin_price }}元</del>
               <div class="fs-4">
-                現在只要<span class="text-danger">{{ product.price }}</span
-                >元
+                現在只要<span class="text-danger">{{ product.price }}</span>元
               </div>
             </div>
           </div>
-          <div class="col-12 mt-auto">
+          <div class="pt-4">
             <div class="input-group mb-3 w-75">
               <template v-if="cart.carts && product.stock">
                 <select
-                  class="form-select"
-                  v-model="qty"
-                  :disabled="
-                    product.stock ===
-                    cart.carts.find((el) => el.product.id === product.id)?.qty
-                  "
-                >
+                  class="form-select" v-model="qty"
+                  :disabled="getProductStock(product) == 0">
                   <!-- 如果購物車內有本商品則扣掉購物車內的數量，沒有就-0 -->
-                  <option
-                    v-for="i in product.stock -
-                    (cart.carts.find((el) => el.product.id === product.id)
-                      ? cart.carts.find((el) => el.product.id === product.id)
-                          .qty
-                      : 0)"
-                    :key="i"
-                    :value="i"
-                  >
+                  <option v-for="i in getProductStock(product)" :key="i" :value="i">
                     {{ i }}
                   </option>
                 </select>
-                <button
-                  type="button"
-                  class="btn btn-danger"
+                <button type="button" class="btn btn-danger"
                   :disabled="
-                    this.loadingItem === product.id ||
-                    product.stock ===
-                      cart.carts.find((el) => el.product.id === product.id)?.qty
-                  "
-                  @click="addToCart(product, qty)"
-                >
-                  <span
-                    v-if="
-                      product.stock ===
-                      cart.carts.find((el) => el.product.id === product.id)?.qty
-                    "
-                    >目前無庫存</span
-                  >
+                    this.loadingItem === product.id || getProductStock(product) == 0"
+                    @click="addToCart(product, qty)">
+                  <span v-if="getProductStock(product) == 0">目前無庫存</span>
                   <span v-else>加入購物車</span>
                 </button>
               </template>
             </div>
-          </div>
-          <div class="text-start">
-            <button
-              class="btn btn-outline-secondary w-25"
-              @click="this.$router.go(-1)"
-            >
-              返回
-            </button>
           </div>
         </div>
       </div>

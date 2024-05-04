@@ -60,29 +60,21 @@ export default {
 <template>
   <div class="position-relative" v-if="randomProducts.length > 0">
     <VLoading :active="isLoading" :is-full-page="false" />
-    <h3 class="my-4 pt-5">類似商品</h3>
+    <h3 class="my-4">類似商品</h3>
     <div class="row g-2">
-      <div
-        class="col-lg-3 col-md-4 col-sm-6 col-8 align-self-stretch mx-auto"
-        v-for="product in randomProducts"
-        :key="product.id"
-      >
+      <div class="col-lg-3 col-6 align-self-stretch mx-auto"
+        v-for="product in randomProducts" :key="product.id">
         <RouterLink
           :to="`/product/${product.id}`"
           class="text-decoration-none text-black"
         >
           <div class="card h-100">
             <div class="row">
-              <div class="col-lg-12">
-                <img
-                  :src="product.imageUrl"
-                  class="card-img-top img-fluid"
-                  alt="productImage"
-                  style="height: 300px; object-fit: cover"
-                />
+              <div>
+                <img :src="product.imageUrl" class="card-img-top img-fluid"
+                  alt="productImage"/>
               </div>
-              <div class="col-lg-12">
-                <div
+              <div
                   class="card-body d-flex flex-column-reverse flex-lg-column"
                 >
                   <div class="fs-6 mb-3 d-none d-md-block">
@@ -99,7 +91,6 @@ export default {
                   <h5 class="card-title fs-4">
                     {{ product.title }}
                   </h5>
-                </div>
               </div>
             </div>
           </div>
@@ -107,5 +98,20 @@ export default {
       </div>
     </div>
   </div>
-
 </template>
+
+<style scoped lang="scss">
+  .card img{
+    height: 150px;
+  }
+    @media (min-width: 576px) {
+    .card img{
+      height: 250px;
+    }
+  }
+  @media (min-width: 768px) {
+    .card img{
+      height: 300px;
+    }
+  }
+</style>
