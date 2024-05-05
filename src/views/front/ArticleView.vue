@@ -1,6 +1,7 @@
 <script>
 import { mapActions } from 'pinia';
 import utilities from '@/stores/utilities';
+import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
@@ -20,29 +21,18 @@ export default {
           this.article = res.data.article;
         })
         .catch(() => {
-          alert('錯誤發生');
-          this.$router.go(-1);
+          Swal.fire({
+            icon: 'error',
+            title: '發生錯誤',
+            text: '即將回到首頁，如果錯誤持續發生，請通知我們，感謝!!',
+            didClose: () => {
+              this.$router.push('/');
+            },
+          });
         })
         .finally(() => {
           this.isLoading = false;
         });
-    },
-    breadCrumbSort(category) {
-      let result = '';
-      switch (category) {
-        case '新聞':
-          result = 'news';
-          break;
-        case '心得':
-          result = 'reviews';
-          break;
-        case '開箱':
-          result = 'unboxings';
-          break;
-        default:
-          result = '';
-      }
-      return result;
     },
     ...mapActions(utilities, ['timeTransform']),
   },
@@ -55,7 +45,7 @@ export default {
 <template>
   <VLoading v-model:active="isLoading" :can-cancel="false" :is-full-page="true">
   </VLoading>
-  <div class="container bg-white py-4 px-sm-5" v-if="article.title">
+  <div class="container bg-white pt-100 pb-4 px-sm-5" v-if="article.title">
     <nav aria-label="breadcrumb" class="mb-4">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -63,7 +53,7 @@ export default {
         </li>
         <li class="breadcrumb-item">
           <RouterLink
-            :to="`../articles/${breadCrumbSort(article.category)}`"
+            :to="`../articles?category=${article.category}`"
             class="link-theme"
             >{{ article.category }}</RouterLink
           >
@@ -79,16 +69,11 @@ export default {
       <span>作者: {{ article.author }}</span>
     </div>
     <div class="my-4 text-center">
-      <img
-        :src="article.image"
-        alt="article image"
-        class="w-50"
-        style="max-height: 500px; object-fit: cover"
-      />
+      <img :src="article.image" alt="article image"/>
     </div>
     <div v-html="article.content" class="mb-5"></div>
     <div class="text-center">
-      <button type="button" class="btn btn-theme" @click="this.$router.go(-1)">
+      <button type="button" class="btn btn-theme text-white" @click="this.$router.go(-1)">
         返回上一頁
       </button>
     </div>
@@ -100,5 +85,8 @@ export default {
   .breadcrumb {
     font-size: 12px;
   }
+}
+img{
+  max-height: 500px;
 }
 </style>

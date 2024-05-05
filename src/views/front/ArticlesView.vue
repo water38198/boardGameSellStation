@@ -7,7 +7,6 @@ export default {
   data() {
     return {
       category: '全部',
-      listTitle: '所有文章',
       randomPic: 'https://picsum.photos/100',
       articles: [],
       pagination: {
@@ -26,7 +25,11 @@ export default {
       if (this.category === '新聞') return '最新消息';
       if (this.category === '心得') return '心得分享';
       if (this.category === '開箱') return '開箱文章';
-      return '所有文章';
+      return '全部文章';
+    },
+    currentPage() {
+      return this.filteredArticles
+        .slice((this.pagination.current_page - 1) * 10, this.pagination.current_page * 10);
     },
   },
   methods: {
@@ -39,7 +42,7 @@ export default {
       const { VITE_URL, VITE_PATH } = import.meta.env;
       this.$http.get(`${VITE_URL}/v2/api/${VITE_PATH}/articles?page=${page}`)
         .then((res) => {
-          // 因為沒辦法使用 all 與 category 所以先把所有文章抓出
+          // 因為沒辦法使用 all 與 category 所以先把全部文章抓出
           this.articles = this.articles.concat(res.data.articles);
           if (
             res.data.pagination.total_pages > 1
@@ -86,7 +89,7 @@ export default {
   <VLoading :active="isLoading"/>
   <div class="container bg-white article-container">
     <div class="row g-3">
-      <div class="col-lg-3 col-xl-2">
+      <div class="col-lg-3 col-xl-2 mt-0 mt-xl-3">
         <div
           class="list-group text-center flex-row flex-lg-column list-group-flush article-list-group"
           style="position: sticky; top: 90px"
@@ -94,56 +97,58 @@ export default {
           <button
             type="button"
             class="list-group-item list-group-item-action"
-            :class="{'active':listTitle ==='所有文章'}"
+            :class="{'active':category ==='全部'}"
             aria-current="true"
             data-bs-toggle="list"
             @click="changeCategory('全部')"
             id="all"
           >
-            所有文章
+          <span class="d-none d-sm-block">全部文章</span>
+          <span class="d-sm-none">全部</span>
           </button>
           <button
             type="button"
             class="list-group-item list-group-item-action"
-            :class="{'active':listTitle ==='最新消息'}"
+            :class="{'active':category ==='新聞'}"
             data-bs-toggle="list"
             @click="changeCategory('新聞')"
             id="news"
           >
-            最新消息
+          <span class="d-none d-sm-block">最新消息</span>
+          <span class="d-sm-none">新聞</span>
           </button>
           <button
             type="button"
             class="list-group-item list-group-item-action"
-            :class="{'active':listTitle ==='心得分享'}"
+            :class="{'active':category ==='心得'}"
             data-bs-toggle="list"
             @click="changeCategory('心得')"
             id="reviews"
           >
-            心得分享
+          <span class="d-none d-sm-block">心得分享</span>
+          <span class="d-sm-none">心得</span>
           </button>
           <button
             type="button"
             class="list-group-item list-group-item-action"
-            :class="{'active':listTitle ==='開箱文章'}"
+            :class="{'active':category ==='開箱'}"
             data-bs-toggle="list"
             @click="changeCategory('開箱')"
-            id="unboxings"
-          >
-            開箱文章
+            id="unboxings">
+          <span class="d-none d-sm-block">開箱文章</span>
+          <span class="d-sm-none">開箱</span>
           </button>
         </div>
       </div>
       <div class="col-lg-9 col-xl-10">
-        <h2 class="fs-2 bg-theme py-7 ps-4 text-white mb-0 rounded-top">
+        <h2 class="fs-2 bg-theme py-4 py-md-7 ps-4 text-white mb-0 rounded-top">
           <i class="bi bi-card-list me-2"></i>{{ transformCategoryText }}
         </h2>
         <ol class="list-group list-group-flush">
           <li
-            v-for="(article, index) in filteredArticles
-    .slice((pagination.current_page - 1) * 10, pagination.current_page * 10)"
+            v-for="(article, index) in currentPage"
             :key="article.id"
-            class="list-group-item d-flex px-4 py-4 align-items-center"
+            class="list-group-item d-flex px-0 px-sm-4 py-4 align-items-center"
           >
             <span
               class="me-4 bg-theme text-white fw-bold"
@@ -221,7 +226,14 @@ export default {
 <style scoped lang="scss">
 .article-container{
   padding-top: 100px;
-  padding-bottom: 80px;
+  padding-bottom: 0px;
+}
+
+@media (min-width: 576px) {
+  .article-container{
+    padding-bottom: 80px;
+
+  }
 }
 .link-hover:hover h3 {
   text-decoration: underline;
