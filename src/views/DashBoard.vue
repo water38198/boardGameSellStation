@@ -5,6 +5,12 @@ import Swal from 'sweetalert2';
 const { VITE_URL } = import.meta.env;
 
 export default {
+  data() {
+    return {
+      isChecked: false,
+      isLoading: false,
+    };
+  },
   components: {
     RouterView,
     RouterLink,
@@ -15,6 +21,7 @@ export default {
       this.$router.push('/login');
     },
     loginCheck() {
+      this.isLoading = true;
       const myToken = document.cookie
         .split('; ')
         .find((row) => row.startsWith('myToken='))
@@ -24,6 +31,7 @@ export default {
       this.$http
         .post(`${VITE_URL}/v2/api/user/check`)
         .then((res) => {
+          this.isChecked = true;
           if (!res.data.success) {
             this.$router.push('/login');
           }
@@ -35,6 +43,9 @@ export default {
             text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
           });
           this.$router.push('/login');
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
   },
@@ -45,6 +56,7 @@ export default {
 </script>
 
 <template>
+  <VLoading :active="isLoading" />
   <h1 class="text-center">後台</h1>
   <hr />
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -53,7 +65,7 @@ export default {
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
           <li class="nav-item">
-            <RouterLink to="/admin" class="me-3 nav-link">產品管理</RouterLink>
+            <RouterLink to="/admin/products" class="me-3 nav-link">產品管理</RouterLink>
           </li>
           <li class="nav-item">
             <RouterLink to="/admin/orders" class="me-3 nav-link"
@@ -70,9 +82,6 @@ export default {
               >文章管理</RouterLink
             >
           </li>
-          <!-- <li class="nav-item">
-            <RouterLink to="/admin/article" class="me-3 nav-link">文章管理</RouterLink>
-          </li> -->
           <li class="nav-item ms-auto">
             <RouterLink to="/" class="me-3 nav-link">前台</RouterLink>
           </li>
@@ -85,6 +94,6 @@ export default {
   </nav>
   <hr />
   <div class="container">
-    <RouterView />
+    <RouterView v-if="isChecked" />
   </div>
 </template>

@@ -1,13 +1,13 @@
 <script>
 import PaginationComponent from '@/components/PaginationComponent.vue';
-import OrderModal from '@/components/OrderModal.vue';
+import OrderModal from '@/components/dashboard/OrderModal.vue';
 import * as bootstrap from 'bootstrap';
 import Swal from 'sweetalert2';
 import { mapActions } from 'pinia';
 import utilities from '@/stores/utilities';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
-let orderModal = {};
+// let orderModal = {};
 
 export default {
   data() {
@@ -16,6 +16,7 @@ export default {
       tempOrder: {},
       page: {},
       isLoading: false,
+      orderModal: {},
     };
   },
   components: { PaginationComponent, OrderModal },
@@ -41,15 +42,14 @@ export default {
     },
     openModal(order) {
       this.tempOrder = { ...order };
-
-      orderModal.show();
+      this.orderModal.show();
     },
     closeModal() {
       this.tempOrder = {
         user: {},
         products: {},
       };
-      orderModal.hide();
+      this.orderModal.hide();
     },
     deleteOrder(order) {
       Swal.fire({
@@ -84,15 +84,9 @@ export default {
     ...mapActions(utilities, ['timeTransform']),
   },
   mounted() {
-    const myToken = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('myToken='))
-      ?.split('=')[1];
-    // axios header
-    this.$http.defaults.headers.common.Authorization = myToken;
     this.getOrders();
     // Modal建立
-    orderModal = new bootstrap.Modal('#orderModal');
+    this.orderModal = new bootstrap.Modal('#orderModal');
   },
 };
 </script>
@@ -100,14 +94,9 @@ export default {
 <template>
   <!-- Loading Layout -->
   <div class="vl-parent">
-    <VLoading
-      v-model:active="isLoading"
-      :can-cancel="false"
-      :is-full-page="true"
-    />
+    <VLoading v-model:active="isLoading" />
   </div>
   <div class="row justify-content-center">
-    <!-- 訂單列表 -->
     <div class="col">
       <h2 class="h2 text-center">訂單</h2>
       <table class="table table-hover">
@@ -135,16 +124,12 @@ export default {
               </td>
               <td>{{ order.total }}</td>
               <td>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm me-2"
-                  @click="openModal(order)"
+                <button type="button" class="btn btn-outline-primary btn-sm me-2"
+                @click="openModal(order)"
                 >
                   編輯
                 </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-danger btn-sm"
+                <button type="button" class="btn btn-outline-danger btn-sm"
                   @click="deleteOrder(order)"
                 >
                   刪除
@@ -168,11 +153,7 @@ export default {
     </div>
   </div>
   <!-- orderModal -->
-  <div
-    class="modal fade"
-    id="orderModal"
-    data-bs-keyboard="false"
-    tabindex="-1"
+  <div class="modal fade" id="orderModal" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="orderModalLabel"
     aria-hidden="true"
   >

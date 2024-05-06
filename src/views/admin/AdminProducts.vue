@@ -1,6 +1,6 @@
 <script>
 import PaginationComponent from '@/components/PaginationComponent.vue';
-import ProductModal from '@/components/ProductModal.vue';
+import ProductModal from '@/components/dashboard/ProductModal.vue';
 import * as bootstrap from 'bootstrap';
 import Swal from 'sweetalert2';
 
@@ -22,7 +22,6 @@ export default {
   },
   components: { PaginationComponent, ProductModal },
   methods: {
-    // 取得產品資料
     getProducts(page = 1) {
       this.isLoading = true;
       this.$http
@@ -30,6 +29,13 @@ export default {
         .then((res) => {
           this.products = res.data.products;
           this.page = res.data.pagination;
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
         })
         .finally(() => {
           this.isLoading = false;
@@ -87,25 +93,26 @@ export default {
               });
             });
         }
-      });
+      })
+        .catch((err) => {
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
+        });
     },
   },
   mounted() {
-    const myToken = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('myToken='))
-      ?.split('=')[1];
-    // axios header
-    this.$http.defaults.headers.common.Authorization = myToken;
     this.getProducts();
-    // Modal建立
+    // BS Modal建立
     productModal = new bootstrap.Modal('#productModal');
   },
 };
 </script>
 
 <template>
-  <!-- Loading Layout -->
+  <VLoading :active="isLoading" />
   <div class="row justify-content-center">
     <!-- 產品列表 -->
     <div class="col">
@@ -125,8 +132,9 @@ export default {
             <th scope="col">盒況</th>
             <th scope="col">原價</th>
             <th scope="col">售價</th>
+            <th scope="col">庫存</th>
             <th scope="col">是否啟用</th>
-            <th scope="col">編輯</th>
+            <th scope="col" class="text-center">編輯</th>
           </tr>
         </thead>
         <tbody>
@@ -145,12 +153,13 @@ export default {
               <td>{{ product.language }}</td>
               <td>{{ product.condition }}</td>
               <td>{{ product.origin_price }}</td>
+              <td>{{ product.stock }}</td>
               <td>{{ product.price }}</td>
               <td>
                 <span class="text-success" v-if="product.is_enabled">啟用</span>
                 <span class="text-danger" v-else>未啟用</span>
               </td>
-              <td>
+              <td class="text-center">
                 <button
                   type="button"
                   class="btn btn-outline-primary btn-sm me-2"

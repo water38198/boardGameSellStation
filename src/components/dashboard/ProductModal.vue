@@ -21,7 +21,6 @@ export default {
         apiUrl += `/${this.tempProduct.id}`;
         method = 'put';
       }
-      this.setPriceHistory();
       this.$http[method](apiUrl, {
         data: this.newProduct,
       })
@@ -38,23 +37,15 @@ export default {
           });
         })
         .catch((err) => {
-          alert(err);
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
         })
         .finally(() => {
           this.loadingItem = '';
         });
-    },
-    setPriceHistory() {
-      const newPrice = {};
-      const time = new Date().getTime();
-      newPrice[time] = this.newProduct.price;
-
-      if (this.isNew) {
-        this.newProduct.history = [];
-        this.newProduct.history.push(newPrice);
-      } else if (this.tempPrice > this.newProduct.price) {
-        this.newProduct.history.push(newPrice);
-      }
     },
     uploadImage(target) {
       let file = document.querySelector('#formFile');
@@ -94,7 +85,6 @@ export default {
   watch: {
     tempProduct() {
       this.newProduct = { ...this.tempProduct };
-      this.tempPrice = this.tempProduct.price;
     },
   },
 };
@@ -110,45 +100,22 @@ export default {
           <span v-if="isNew">新增產品</span>
           <span v-else>編輯產品</span>
         </h5>
-        <button
-          type="button"
-          class="btn-close"
-          @click="closeModal()"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" @click="closeModal()" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <VForm
-          @submit="updateProduct"
-          v-slot="{ errors }"
-          class="row"
-          ref="ProductModal"
-          id="ProductModal"
-        >
+        <VForm @submit="updateProduct" v-slot="{ errors }" class="row" ref="ProductModal"
+          id="ProductModal">
           <div class="col-4">
             <div class="mb-5">
               <label for="imageUrl" class="form-label">主要圖片</label>
-              <input
-                type="text"
-                placeholder="請輸入圖片連結"
-                id="imageUrl"
-                class="form-control mb-2"
-                v-model="newProduct.imageUrl"
-              />
+              <input type="text" placeholder="請輸入圖片連結" id="imageUrl" class="form-control mb-2"
+              v-model="newProduct.imageUrl"/>
               <div class="mb-3">
-                <input
-                  class="form-control"
-                  type="file"
-                  id="mainImage"
-                  @change="uploadImage('main')"
+                <input class="form-control" type="file" id="mainImage" @change="uploadImage('main')"
                   :disabled="loadingItem === 'mainImage'"
                 />
               </div>
-              <img
-                :src="newProduct.imageUrl"
-                alt="main product image"
-                class="img-fluid"
-              />
+              <img :src="newProduct.imageUrl" alt="main product image"/>
             </div>
             <div>
               <h4>多圖新增</h4>

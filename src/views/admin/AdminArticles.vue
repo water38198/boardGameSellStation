@@ -1,11 +1,11 @@
 <script>
 import PaginationComponent from '@/components/PaginationComponent.vue';
-import ArticleModal from '@/components/ArticleModal.vue';
+import * as bootstrap from 'bootstrap';
 import { mapActions } from 'pinia';
 import utilities from '@/stores/utilities';
 import Swal from 'sweetalert2';
 import notFound from '@/assets/image-not-found.svg';
-import * as bootstrap from 'bootstrap';
+import ArticleModal from '../../components/dashboard/ArticleModal.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 let articleModal = {};
@@ -96,17 +96,7 @@ export default {
     ...mapActions(utilities, ['timeTransform']),
   },
   mounted() {
-    const myToken = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('myToken='))
-      ?.split('=')[1];
-    this.$http.defaults.headers.common.Authorization = myToken;
-
     articleModal = new bootstrap.Modal('#articleModal');
-    articleModal._element.addEventListener('hidden.bs.modal', () => {
-      this.tempArticleId = '';
-      this.isNew = true;
-    });
     this.getArticles();
   },
   components: { PaginationComponent, ArticleModal },
@@ -157,7 +147,7 @@ export default {
           <td>{{ article.title }}</td>
           <td>{{ article.category }}</td>
           <td>
-            <p class="text-truncate" style="width: 200px">
+            <p class="text-truncate mb-0 article-description">
               {{ article.description }}
             </p>
           </td>
@@ -213,6 +203,8 @@ export default {
 .article-image {
   width: 50px;
   height: 50px;
-  object-fit: cover;
+}
+.article-description{
+  width: 200px;
 }
 </style>

@@ -1,13 +1,12 @@
 <script>
 import PaginationComponent from '@/components/PaginationComponent.vue';
-import CouponModal from '@/components/CouponModal.vue';
+import CouponModal from '@/components/dashboard/CouponModal.vue';
 import { mapActions } from 'pinia';
 import utilities from '@/stores/utilities';
 import * as bootstrap from 'bootstrap';
 import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
-let couponModal = {};
 
 export default {
   components: { PaginationComponent, CouponModal },
@@ -18,6 +17,7 @@ export default {
       isNew: true,
       tempCoupon: {},
       isLoading: false,
+      couponModal: {},
     };
   },
   methods: {
@@ -48,10 +48,10 @@ export default {
         this.isNew = false;
         this.tempCoupon = { ...coupon };
       }
-      couponModal.show();
+      this.couponModal.show();
     },
     closeModal() {
-      couponModal.hide();
+      this.couponModal.hide();
       this.tempCoupon = {};
     },
     ...mapActions(utilities, ['timeTransform']),
@@ -94,12 +94,7 @@ export default {
     },
   },
   mounted() {
-    const myToken = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('myToken='))
-      ?.split('=')[1];
-    this.$http.defaults.headers.common.Authorization = myToken;
-    couponModal = new bootstrap.Modal('#couponModal');
+    this.couponModal = new bootstrap.Modal('#couponModal');
     this.getCoupons();
   },
 };
