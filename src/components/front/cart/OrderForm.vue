@@ -1,9 +1,7 @@
 <script>
-import Swal from 'sweetalert2';
+import cartStore from '@/stores/cartStore';
 import { mapActions } from 'pinia';
-import utilities from '../stores/utilities';
-
-const { VITE_URL, VITE_PATH } = import.meta.env;
+import utilities from '@/stores/utilities';
 
 export default {
   data() {
@@ -12,45 +10,13 @@ export default {
     };
   },
   methods: {
-    sentOrder() {
-      const data = { user: this.user };
-      this.$http
-        .post(`${VITE_URL}/v2/api/${VITE_PATH}/order`, { data })
-        .then((res) => {
-          Swal.fire({
-            title: res.data.message,
-            html: `<div class='container'><div class="row text-start">
-      <div class="col-4">
-        <p class="text-theme">訂單ID:</p>
-        <p class="text-theme">建立時間:</p>
-        <p class="text-theme">總金額:</p>
-      </div>
-      <div class="col-8">
-        <p>${res.data.orderId}</p>
-        <p>${this.timeTransform(res.data.create_at)}</p>
-        <p>$${res.data.total}</p>
-      </div>
-    </div></div>  
-              `,
-            confirmButtonColor: '#0FB99B',
-          });
-          this.getCarts();
-          this.$refs.userForm.resetForm();
-        })
-        .catch((err) => {
-          Swal.fire({
-            title: '錯誤發生',
-            icon: 'error',
-            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
-          });
-        });
-    },
     isPhone(value) {
       // 電話驗證
       const phoneNumber = /^(09)[0-9]{8}$/;
       return phoneNumber.test(value) ? true : '需要09開頭的手機號碼十碼';
     },
     ...mapActions(utilities, ['timeTransform']),
+    ...mapActions(cartStore, ['sendOrder']),
   },
   props: ['getCarts', 'cart'],
 };
@@ -58,14 +24,14 @@ export default {
 
 <template>
   <div class="bg-white">
-    <h3 class="h3 text-center pt-5 text-theme">顧客資訊</h3>
-    <p class="text-center">*為必填</p>
+    <h3 class="h3 text-center text-theme">顧客資訊</h3>
+    <p class="text-center mb-0">*為必填</p>
     <div class="row justify-content-center">
-      <div class="col-10 col-md-8 col-lg-6">
+      <div class="col-10 col-md-8">
         <VForm
           v-slot="{ errors }"
-          @submit="sentOrder"
-          class="my-5"
+          @submit="sendOrder(user)"
+          class="mt-4 mb-5"
           ref="userForm"
         >
           <div class="row">
@@ -114,7 +80,7 @@ export default {
                 class="invalid-feedback"
               ></ErrorMessage>
             </div>
-            <div class="mb-3 col-md-6">
+            <div class="mb-3">
               <label for="address" class="h5">*地址:</label>
               <VField
                 id="address"

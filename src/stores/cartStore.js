@@ -1,6 +1,7 @@
-import { defineStore } from 'pinia';
+import { defineStore, mapActions } from 'pinia';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import utilities from '@/stores/utilities';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 export default defineStore('cartStore', {
@@ -11,12 +12,23 @@ export default defineStore('cartStore', {
     coupon: '',
   }),
   actions: {
+    ...mapActions(utilities, ['timeTransform']),
     getCarts() {
       this.cartLoading = true;
       axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/cart`).then((res) => {
         this.cart = res.data.data;
         this.cartLoading = false;
-      });
+      })
+        .catch((err) => {
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
+        })
+        .finally(() => {
+          this.cartLoading = false;
+        });
     },
     addToCart(product, qty = 1) {
       this.loadingItem = product.id;
@@ -63,6 +75,7 @@ export default defineStore('cartStore', {
         });
     },
     updateItemNum(item) {
+      this.cartLoading = true;
       const data = {
         product_id: item.product.id,
         qty: item.qty,
@@ -88,6 +101,9 @@ export default defineStore('cartStore', {
             icon: 'error',
             text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
           });
+        })
+        .finally(() => {
+          this.cartLoading = false;
         });
     },
     deleteCartItem(id) {
@@ -144,6 +160,51 @@ export default defineStore('cartStore', {
             });
         }
       });
+    },
+    useCoupon(code) {
+      const data = { data: { code } };
+      axios
+        .post(`${VITE_URL}/v2/api/${VITE_PATH}/coupon`, data)
+        .then(() => {
+          this.getCarts();
+        })
+        .catch(() => Swal.fire({
+          icon: 'error',
+          title: '哇...',
+          text: '優惠券代碼錯誤!請確認',
+        }));
+    },
+    sendOrder(user) {
+      const data = { user };
+      axios
+        .post(`${VITE_URL}/v2/api/${VITE_PATH}/order`, { data })
+        .then((res) => {
+          Swal.fire({
+            title: res.data.message,
+            html: `<div class='container'><div class="row text-start">
+      <div class="col-4">
+        <p class="text-theme">訂單ID:</p>
+        <p class="text-theme">建立時間:</p>
+        <p class="text-theme">總金額:</p>
+      </div>
+      <div class="col-8">
+        <p>${res.data.orderId}</p>
+        <p>${this.timeTransform(res.data.create_at)}</p>
+        <p>$${res.data.total}</p>
+      </div>
+    </div></div>  
+              `,
+            confirmButtonColor: '#0FB99B',
+          });
+          this.getCarts();
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
+        });
     },
   },
 });
