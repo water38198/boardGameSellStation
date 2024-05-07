@@ -13,8 +13,8 @@ export default {
       }
     },
     rollDice(random1, random2) {
-      this.$refs.dice1.style.animation = ` rolling ${random1 / 2}s`;
-      this.$refs.dice2.style.animation = ` rolling ${random2 / 2}s`;
+      this.$refs.dice1.style.animation = 'rolling 3s';
+      this.$refs.dice2.style.animation = 'rolling 3s';
       setTimeout(() => {
         switch (random1) {
           case 1:

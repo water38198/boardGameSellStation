@@ -2,14 +2,15 @@
 import { RouterView } from 'vue-router';
 import { mapActions, mapState } from 'pinia';
 import cartStore from '../stores/cartStore';
-import DiceRoll from '../components/DiceRoll.vue';
+import DiceRollGame from '../components/front/DiceRollGame.vue';
 import FrontNavbar from '../components/front/FrontNavbar.vue';
 import FrontFooter from '../components/front/FrontFooter.vue';
 
 export default {
   components: {
     RouterView,
-    DiceRoll,
+
+    DiceRollGame,
     FrontNavbar,
     FrontFooter,
   },
@@ -37,6 +38,6 @@ export default {
     <!-- Button trigger modal -->
 
     <!-- Modal -->
-    <DiceRoll />
+    <DiceRollGame />
   </div>
 </template>
