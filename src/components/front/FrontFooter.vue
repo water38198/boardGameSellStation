@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-themeDark text-light flex-grow-0 mt-5">
+  <footer class="bg-themeDark text-light flex-grow-0">
     <div
       class="d-md-flex container justify-content-between"
     >

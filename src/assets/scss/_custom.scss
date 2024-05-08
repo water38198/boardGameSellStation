@@ -11,3 +11,18 @@ img {
 .pt-100 {
   padding-top: 100px;
 }
+
+.multi-text-truncate {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
+.card:hover img {
+  transform: scale(1.2);
+}
+
+div:has(>img) {
+  overflow: hidden;
+}
