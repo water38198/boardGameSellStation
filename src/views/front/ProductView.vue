@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { FreeMode, Navigation, Pagination } from 'swiper';
 import cartStore from '@/stores/cartStore';
-import RandomProducts from '../../components/front/RandomProducts.vue';
+import RandomProducts from '@/components/front/RandomProducts.vue';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/free-mode';
@@ -19,14 +19,13 @@ export default {
       product: {},
       qty: 1,
       isLoading: false,
-      category: '',
       modules: [FreeMode, Navigation, Pagination],
     };
   },
   methods: {
     getProduct() {
       this.isLoading = true;
-      this.$http
+      this.axios
         .get(`${VITE_URL}/v2/api/${VITE_PATH}/product/${this.id}`)
         .then((res) => {
           this.product = res.data.product;
@@ -84,11 +83,11 @@ export default {
           >
         </li>
         <li class="breadcrumb-item">
-          <RouterLink to="/products" class="text-decoration-none text-theme"
-            >全部商品</RouterLink
-          >
+          <RouterLink :to="`/products?category=${product.category}`"
+          class="text-decoration-none text-theme">
+            {{ product.category }}
+          </RouterLink>
         </li>
-
         <li class="breadcrumb-item active" aria-current="page">
           {{ product.title }}
         </li>
@@ -149,7 +148,7 @@ export default {
             </div>
           </div>
           <div class="pt-4">
-            <div class="input-group mb-3 w-75">
+            <div class="input-group w-75">
               <template v-if="cart.carts && product.stock">
                 <select
                   class="form-select" v-model="qty"
@@ -172,6 +171,7 @@ export default {
         </div>
       </div>
     </div>
+    <!-- 隨機推薦 -->
     <RandomProducts :current-product="product" />
   </div>
 </template>

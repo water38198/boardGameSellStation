@@ -1,13 +1,18 @@
 <script>
-import { mapActions, mapState } from 'pinia';
-import productStore from '@/stores/productStore';
 import ProductsNavbar from '@/components/front/products/ProductsNavbar.vue';
 import ProductCard from '@/components/front/products/ProductCard.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
+import Swal from 'sweetalert2';
 
 export default {
+  data() {
+    return {
+      products: [],
+      page: {},
+      isLoading: false,
+    };
+  },
   computed: {
-    ...mapState(productStore, ['products', 'page', 'productsLoading']),
     category() {
       return this.$route.query.category || '';
     },
@@ -16,7 +21,25 @@ export default {
     PaginationComponent, ProductsNavbar, ProductCard,
   },
   methods: {
-    ...mapActions(productStore, ['getProducts']),
+    getProducts(page = 1, category = '') {
+      const { VITE_URL, VITE_PATH } = import.meta.env;
+      this.isLoading = true;
+      this.axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/products?page=${page}&category=${category}`)
+        .then((res) => {
+          this.products = res.data.products;
+          this.page = res.data.pagination;
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
     changeCategory(category) {
       this.$router.push(`/products?category=${category}`);
       window.scrollTo(0, 0);
@@ -24,7 +47,9 @@ export default {
   },
   watch: {
     category() {
-      this.getProducts(1, this.category);
+      if (this.$route.path === '/products') {
+        this.getProducts(1, this.category);
+      }
     },
   },
   mounted() {
@@ -41,7 +66,7 @@ export default {
       </div>
       <div class="col-lg-9 position-relative">
         <VLoading
-          :active="productsLoading"
+          :active="isLoading"
           :is-full-page="false"
         />
         <div class="row g-3 align-items-stretch">

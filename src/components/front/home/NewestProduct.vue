@@ -1,10 +1,30 @@
 <script>
+import Swal from 'sweetalert2';
+
 export default {
-  props: {
-    products: {
-      type: Array,
-      required: true,
+  data() {
+    return {
+      products: [],
+    };
+  },
+  methods: {
+    getProducts() {
+      const { VITE_URL, VITE_PATH } = import.meta.env;
+      this.axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/products`)
+        .then((res) => {
+          this.products = res.data.products;
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          });
+        });
     },
+  },
+  mounted() {
+    this.getProducts();
   },
 };
 </script>
