@@ -6,11 +6,11 @@ const { VITE_URL, VITE_PATH } = import.meta.env;
 export default defineStore('articleStore', {
   state: () => ({
     articles: [],
-    isLoading: false,
+    articleLoading: false,
   }),
   actions: {
     getArticles(page = 1) {
-      this.isLoading = true;
+      this.articleLoading = true;
       axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/articles?page=${page}`)
         .then((res) => {
           // 因為沒辦法使用 all 與 category 所以先把全部文章抓出
@@ -30,7 +30,7 @@ export default defineStore('articleStore', {
           });
         })
         .finally(() => {
-          this.isLoading = false;
+          this.articleLoading = false;
         });
     },
   },

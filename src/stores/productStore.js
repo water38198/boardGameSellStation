@@ -7,14 +7,16 @@ const { VITE_URL, VITE_PATH } = import.meta.env;
 export default defineStore('productStore', {
   state: () => ({
     products: [],
-    isLoading: false,
+    productsLoading: false,
+    page: {},
   }),
   actions: {
-    getProducts(page = 1) {
-      this.isLoading = true;
-      axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/products?page=${page}`)
+    getProducts(page = 1, category = '') {
+      this.productsLoading = true;
+      axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/products?page=${page}&category=${category}`)
         .then((res) => {
           this.products = res.data.products;
+          this.page = res.data.pagination;
         })
         .catch((err) => {
           Swal.fire({
@@ -24,7 +26,7 @@ export default defineStore('productStore', {
           });
         })
         .finally(() => {
-          this.isLoading = false;
+          this.productsLoading = false;
         });
     },
   },

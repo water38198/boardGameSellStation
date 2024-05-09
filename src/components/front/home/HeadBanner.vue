@@ -4,7 +4,8 @@
       我的多餘<br />你來撿便宜
     </h1>
     <div class="text-center mt-5">
-      <RouterLink to="/products" class="btn btn-light fs-5">馬上去逛!</RouterLink>
+      <RouterLink to="/products" class="custom-btn position-relative
+      btn-border-pop fs-5 ">馬上去逛!</RouterLink>
     </div>
   </header>
 </template>
@@ -18,8 +19,31 @@
   padding-bottom: 280px;
   a{
     padding: 20px 60px;
-    box-shadow: 0px 0px 30px rgba(255, 255, 255, .5);
   }
+}
+.custom-btn{
+  text-decoration: none;
+  background-color: #f8f9fa;
+  color:#000;
+  border-radius: 4px;
+}
+.custom-btn::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border:2px solid #f8f9fa;
+  border-radius: 4px;
+  transition: top,bottom,left,right,100ms ease-in-out;
+}
+.custom-btn:hover::before,
+.custom-btn:focus::before{
+  top: -4px;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
 }
 
 @media (min-width: 576px) {
