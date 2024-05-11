@@ -1,5 +1,5 @@
 <script>
-import ProductsNavbar from '@/components/front/products/ProductsNavbar.vue';
+import CategoryNavbar from '@/components/front/CategoryNavbar.vue';
 import ProductCard from '@/components/front/products/ProductCard.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import Swal from 'sweetalert2';
@@ -10,6 +10,7 @@ export default {
       products: [],
       page: {},
       isLoading: false,
+      categoryList: ['全部', '策略', '家庭', '派對', '雙人', '合作', '劇情'],
     };
   },
   computed: {
@@ -18,7 +19,7 @@ export default {
     },
   },
   components: {
-    PaginationComponent, ProductsNavbar, ProductCard,
+    PaginationComponent, ProductCard, CategoryNavbar,
   },
   methods: {
     getProducts(page = 1, category = '') {
@@ -48,7 +49,8 @@ export default {
   watch: {
     category() {
       if (this.$route.path === '/products') {
-        this.getProducts(1, this.category);
+        if (this.category === '全部') this.getProducts(1, '');
+        else { this.getProducts(1, this.category); }
       }
     },
   },
@@ -62,7 +64,12 @@ export default {
   <div class="container bg-white pt-100 pb-5">
     <div class="row g-3">
       <div class="col-lg-3">
-        <ProductsNavbar  @change-category="changeCategory" :category="category"/>
+        <CategoryNavbar @change-category="changeCategory" :category="category"
+        :category-list="categoryList">
+        <template #header>
+          <h3 class="text-theme text-center h3">商品類別</h3>
+        </template>
+        </CategoryNavbar>
       </div>
       <div class="col-lg-9 position-relative">
         <VLoading

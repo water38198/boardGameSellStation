@@ -1,7 +1,7 @@
 <script>
 import { mapState } from 'pinia';
 import articleStore from '@/stores/articleStore';
-import ArticlesNavbar from '@/components/front/articles/ArticlesNavbar.vue';
+import CategoryNavbar from '@/components/front/CategoryNavbar.vue';
 import ArticleCard from '@/components/front/articles/ArticleCard.vue';
 import ArticlesPagination from '@/components/front/articles/ArticlesPagination.vue';
 
@@ -13,6 +13,7 @@ export default {
         total_pages: 0,
         current_page: 1,
       },
+      categoryList: ['全部', '新聞', '心得', '開箱'],
     };
   },
   computed: {
@@ -44,7 +45,9 @@ export default {
       window.scrollTo(0, 0);
     },
   },
-  components: { ArticlesNavbar, ArticleCard, ArticlesPagination },
+  components: {
+    CategoryNavbar, ArticleCard, ArticlesPagination,
+  },
   watch: {
     category(newValue, oldValue) {
       if (newValue !== oldValue) {
@@ -63,10 +66,16 @@ export default {
   <div class="container bg-white article-container pt-100 pb-5">
     <div class="row g-3">
       <div class="col-lg-3">
-        <ArticlesNavbar @change-category="changeCategory" :category="category"/>
+        <!-- <ArticlesNavbar @change-category="changeCategory" :category="category"/> -->
+        <CategoryNavbar @change-category="changeCategory" :category="category"
+        :category-list="categoryList">
+        <template #header>
+          <h3 class="text-theme text-center h3">文章類別</h3>
+        </template>
+        </CategoryNavbar>
       </div>
       <div class="col-lg-9">
-        <h2 class="fs-2 bg-theme py-4 py-md-7 ps-4 text-white mb-0 rounded-top">
+        <h2 class="fs-2 bg-theme py-4  ps-4 text-white mb-0 rounded-top">
           <i class="bi bi-card-list me-2"></i>{{ transformCategoryText }}
         </h2>
         <ol class="list-group list-group-flush">
@@ -75,45 +84,6 @@ export default {
           </template>
         </ol>
         <ArticlesPagination :pagination="pagination" @change-page="changePage"/>
-        <!-- <nav aria-label="Page navigation" class="mt-5"
-          v-if="pagination.total_pages > 1"
-        >
-          <ul class="pagination justify-content-center">
-            <li class="page-item" :class="{ disabled: pagination.current_page === 1 }">
-              <a
-                class="page-link"
-                href="#"
-                aria-label="Previous"
-                @click.prevent="changePage(pagination.current_page - 1)"
-              >
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li
-              class="page-item"
-              :class="{
-                active: page === pagination.current_page,
-              }"
-              v-for="page in pagination.total_pages"
-              :key="page + 'page'"
-            >
-              <a class="page-link" href="#" @click.prevent="changePage(page)">{{
-                page
-              }}</a>
-            </li>
-            <li class="page-item"
-            :class="{ disabled: pagination.current_page === pagination.total_pages }">
-              <a
-                class="page-link"
-                href="#"
-                aria-label="Next"
-                @click.prevent="changePage(pagination.current_page + 1)"
-              >
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav> -->
       </div>
     </div>
   </div>
