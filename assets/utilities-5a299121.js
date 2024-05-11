@@ -1,1 +1,0 @@
-import{J as i}from"./index-288619d3.js";const s=i("utilities",{actions:{timeTransform(n){let e=n;e&&e.toString().length<13&&(e*=1e3);const t=new Date(n),o=t.getMonth()+1<10?`0${t.getMonth()+1}`:t.getMonth()+1,a=t.getDate()<10?`0${t.getDate()}`:t.getDate();return`${o}.${a}.${t.getFullYear()}`}}});export{s as u};

@@ -1,0 +1,1 @@
+function g(){function o(n){let e=n;e&&e.toString().length<13&&(e*=1e3);const t=new Date(n),r=t.getMonth()+1<10?`0${t.getMonth()+1}`:t.getMonth()+1,a=t.getDate()<10?`0${t.getDate()}`:t.getDate();return`${r}.${a}.${t.getFullYear()}`}return{timeTransform:o}}export{g as u};
