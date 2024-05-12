@@ -1,6 +1,6 @@
 <script>
-import { RouterView, RouterLink } from 'vue-router';
 import Swal from 'sweetalert2';
+import DashboardNavbar from '@/components/dashboard/DashboardNavbar.vue';
 
 const { VITE_URL } = import.meta.env;
 
@@ -12,8 +12,7 @@ export default {
     };
   },
   components: {
-    RouterView,
-    RouterLink,
+    DashboardNavbar,
   },
   methods: {
     logout() {
@@ -59,39 +58,7 @@ export default {
   <VLoading :active="isLoading" />
   <h1 class="text-center">後台</h1>
   <hr />
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">桌遊販電</a>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
-          <li class="nav-item">
-            <RouterLink to="/admin/products" class="me-3 nav-link">產品管理</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink to="/admin/orders" class="me-3 nav-link"
-              >訂單管理</RouterLink
-            >
-          </li>
-          <li class="nav-item">
-            <RouterLink to="/admin/coupons" class="me-3 nav-link"
-              >優惠券管理</RouterLink
-            >
-          </li>
-          <li class="nav-item">
-            <RouterLink to="/admin/articles" class="me-3 nav-link"
-              >文章管理</RouterLink
-            >
-          </li>
-          <li class="nav-item ms-auto">
-            <RouterLink to="/" class="me-3 nav-link">前台</RouterLink>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="me-3 nav-link" @click.prevent="logout">登出</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <DashboardNavbar @logout="logout"/>
   <hr />
   <div class="container">
     <RouterView v-if="isChecked" />

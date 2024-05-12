@@ -36,6 +36,7 @@ export default {
       <div class="bg-white px-lg-4">
         <h3 class="text-center text-theme h3 mb-4">購物車</h3>
         <div class="d-none d-sm-block">
+        <!-- PC Table -->
           <table class="table mt-5 align-middle">
             <thead>
               <tr>
@@ -91,14 +92,14 @@ export default {
             </tfoot>
           </table>
         </div>
-        <!-- 購物車RWD -->
+        <!-- Mobile List -->
         <ul class="d-sm-none list-unstyled cart-list">
           <li class="card mb-3" v-for="item in cart.carts" :key="item.id">
             <div class="row g-0">
               <div class="col-6">
                 <img
                   :src="item.product.imageUrl"
-                  class="rounded-start"
+                  class="rounded-start w-100"
                   :alt="item.product.title + ' image'"/>
               </div>
               <div class="col-6">
@@ -222,7 +223,7 @@ export default {
 }
 .cart-list{
   img{
-    max-height: 200px;
+    max-height: 160px;
     height: 100%;
   }
 

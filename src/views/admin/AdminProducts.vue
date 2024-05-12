@@ -113,101 +113,85 @@ export default {
 
 <template>
   <VLoading :active="isLoading" />
-  <div class="row justify-content-center">
-    <!-- 產品列表 -->
-    <div class="col">
-      <div class="text-end">
-        <button type="button" class="btn btn-primary" @click="openModal('new')">
-          建立新的產品
-        </button>
-      </div>
-      <h2 class="h2 text-center">產品列表</h2>
-      <table class="table table-hover align-middle">
-        <thead>
-          <tr>
-            <th scope="col">圖片</th>
-            <th scope="col">產品名稱</th>
-            <th scope="col">類型</th>
-            <th scope="col">語言</th>
-            <th scope="col">盒況</th>
-            <th scope="col">原價</th>
-            <th scope="col">售價</th>
-            <th scope="col">庫存</th>
-            <th scope="col">是否啟用</th>
-            <th scope="col" class="text-center">編輯</th>
-          </tr>
-        </thead>
-        <tbody>
-          <template v-if="products">
-            <tr v-for="product in products" :key="product.id">
-              <td>
-                <img
-                  :src="product.imageUrl"
-                  alt="productImage"
-                  class="product-image"
-                  onerror="this.src='../../../public/no_image_icon.png'"
-                />
-              </td>
-              <td>{{ product.title }}</td>
-              <td>{{ product.category }}</td>
-              <td>{{ product.language }}</td>
-              <td>{{ product.condition }}</td>
-              <td>{{ product.origin_price }}</td>
-              <td>{{ product.stock }}</td>
-              <td>{{ product.price }}</td>
-              <td>
-                <span class="text-success" v-if="product.is_enabled">啟用</span>
-                <span class="text-danger" v-else>未啟用</span>
-              </td>
-              <td class="text-center">
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm me-2"
-                  @click="openModal('edit', product)"
-                >
-                  編輯
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-danger btn-sm"
-                  @click="deleteProduct(product.title, product.id)"
-                >
-                  刪除
-                </button>
-              </td>
-            </tr>
-          </template>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="9" class="text-center">
-              本頁有{{ products.length }}項產品
+  <div class="py-4">
+    <h2 class="h2 text-center">產品列表</h2>
+    <div class="text-end">
+      <button type="button" class="btn btn-theme text-white" @click="openModal('new')">
+        建立新的產品
+      </button>
+    </div>
+        <!-- 產品列表 -->
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th scope="col">圖片</th>
+          <th scope="col">產品名稱</th>
+          <th scope="col">類型</th>
+          <th scope="col">語言</th>
+          <th scope="col">盒況</th>
+          <th scope="col">原價</th>
+          <th scope="col">售價</th>
+          <th scope="col">庫存</th>
+          <th scope="col">是否啟用</th>
+          <th scope="col" class="text-center">編輯</th>
+        </tr>
+      </thead>
+      <tbody>
+        <template v-if="products">
+          <tr v-for="product in products" :key="product.id">
+            <td>
+              <img
+                :src="product.imageUrl"
+                alt="productImage"
+                class="product-image"
+                onerror="this.src='../../../public/no_image_icon.png'"
+              />
+            </td>
+            <td>{{ product.title }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.language }}</td>
+            <td>{{ product.condition }}</td>
+            <td>{{ product.origin_price }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.stock }}</td>
+            <td>
+              <span class="text-success" v-if="product.is_enabled">啟用</span>
+              <span class="text-danger" v-else>未啟用</span>
+            </td>
+            <td class="text-center">
+              <button
+                type="button"
+                class="btn btn-outline-theme btn-sm me-2"
+                @click="openModal('edit', product)"
+              >
+                編輯
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger btn-sm"
+                @click="deleteProduct(product.title, product.id)"
+              >
+                刪除
+              </button>
             </td>
           </tr>
-        </tfoot>
-      </table>
-      <PaginationComponent
-        :pages="page"
-        :get-Method="getProducts"
-      ></PaginationComponent>
-    </div>
+        </template>
+      </tbody>
+    </table>
+    <PaginationComponent
+      :pages="page"
+      :get-Method="getProducts"
+    ></PaginationComponent>
   </div>
+
   <!-- productModal -->
-  <div
-    class="modal fade"
-    id="productModal"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="productModalLabel"
-    aria-hidden="true"
-  >
+
     <ProductModal
       :temp-product="tempProduct"
       :is-new="isNew"
-      :close-Modal="closeModal"
-      :get-Products="getProducts"
+      @close-Modal="closeModal"
+      @get-Products="getProducts"
     ></ProductModal>
-  </div>
 </template>
 
 <style scoped>
