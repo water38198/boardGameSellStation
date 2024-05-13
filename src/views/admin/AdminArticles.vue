@@ -1,8 +1,6 @@
 <script>
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import * as bootstrap from 'bootstrap';
-import { mapActions } from 'pinia';
-import utilities from '@/stores/utilities';
 import Swal from 'sweetalert2';
 import notFound from '@/assets/image-not-found.svg';
 import ArticleModal from '../../components/dashboard/ArticleModal.vue';
@@ -93,7 +91,6 @@ export default {
       this.isNew = true;
       articleModal.hide();
     },
-    ...mapActions(utilities, ['timeTransform']),
   },
   mounted() {
     articleModal = new bootstrap.Modal('#articleModal');
@@ -142,7 +139,7 @@ export default {
             </p>
           </td>
           <td>{{ article.author }}</td>
-          <td>{{ timeTransform(article.create_at) }}</td>
+          <td>{{ this.$timeTransform(article.create_at) }}</td>
           <td>
             <span v-if="article.isPublic" class="text-success">公開</span>
             <span v-else class="text-danger">隱藏</span>

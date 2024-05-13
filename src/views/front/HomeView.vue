@@ -8,16 +8,8 @@ import NewsList from '@/components/front/home/NewsList.vue';
 import NewestProduct from '@/components/front/home/NewestProduct.vue';
 import ArticleList from '@/components/front/home/ArticleList.vue';
 import FAQ from '@/components/front/home/FAQ.vue';
-// composables
-import useTimeTransform from '@/composables/useTimeTransform';
 
 export default {
-  setup() {
-    const { timeTransform } = useTimeTransform();
-    return {
-      timeTransform,
-    };
-  },
   methods: {
     filterArticles(category, number) {
       const array = [...this.articles];

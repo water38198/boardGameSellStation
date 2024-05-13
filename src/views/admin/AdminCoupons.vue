@@ -1,8 +1,6 @@
 <script>
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import CouponModal from '@/components/dashboard/CouponModal.vue';
-import { mapActions } from 'pinia';
-import utilities from '@/stores/utilities';
 import * as bootstrap from 'bootstrap';
 import Swal from 'sweetalert2';
 
@@ -54,7 +52,6 @@ export default {
       this.couponModal.hide();
       this.tempCoupon = {};
     },
-    ...mapActions(utilities, ['timeTransform']),
     deleteCoupon(coupon) {
       Swal.fire({
         title: `確定刪除 ${coupon.title} 嗎?`,
@@ -128,7 +125,7 @@ export default {
             <span class="text-danger" v-else>未啟用</span>
           </td>
           <td>{{ coupon.percent }}</td>
-          <td>{{ timeTransform(coupon.due_date) }}</td>
+          <td>{{ this.$timeTransform(coupon.due_date) }}</td>
           <td>{{ coupon.code }}</td>
           <td>
             <button type="button" class="btn btn-outline-primary btn-sm me-2"

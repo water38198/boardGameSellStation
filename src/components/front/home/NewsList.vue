@@ -1,18 +1,10 @@
 <script>
-import useTimeTransform from '@/composables/useTimeTransform';
-
 export default {
   props: {
     articles: {
       type: Array,
       required: true,
     },
-  },
-  setup() {
-    const { timeTransform } = useTimeTransform();
-    return {
-      timeTransform,
-    };
   },
 };
 </script>
@@ -37,7 +29,7 @@ export default {
                     {{ index + 1 }}
                   </span>
                   <span class="text-b60 fs-6 me-2 me-sm-3">
-                    {{timeTransform(article.create_at) }}
+                    {{this.$timeTransform(article.create_at) }}
                   </span>
                   <span class="w-50 fs-4 text-truncate" :title="article.description">
                     {{ article.title }}

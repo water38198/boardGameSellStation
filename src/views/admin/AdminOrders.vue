@@ -3,8 +3,6 @@ import PaginationComponent from '@/components/PaginationComponent.vue';
 import OrderModal from '@/components/dashboard/OrderModal.vue';
 import * as bootstrap from 'bootstrap';
 import Swal from 'sweetalert2';
-import { mapActions } from 'pinia';
-import utilities from '@/stores/utilities';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 // let orderModal = {};
@@ -81,7 +79,6 @@ export default {
         }
       });
     },
-    ...mapActions(utilities, ['timeTransform']),
   },
   mounted() {
     this.getOrders();
@@ -114,7 +111,7 @@ export default {
           <template v-if="orders">
             <tr v-for="order in orders" :key="order.id">
               <td>
-                {{ timeTransform(order.create_at * 1000) }}
+                {{ this.$timeTransform(order.create_at * 1000) }}
               </td>
               <td>{{ order.id }}</td>
               <td>{{ order.user.name }}</td>

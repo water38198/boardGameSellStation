@@ -1,13 +1,6 @@
 <script>
-import useTimeTransform from '@/composables/useTimeTransform';
 
 export default {
-  setup() {
-    const { timeTransform } = useTimeTransform();
-    return {
-      timeTransform,
-    };
-  },
   props: {
     article: {
       type: Object,
@@ -33,7 +26,7 @@ export default {
         onerror="this.onerror=null;this.src='/src/assets/no_image_icon.png'"/>
       <div class="ms-3 overflow-hidden">
         <h3 class="fs-4 text-truncate pe-3">{{ article.title }}</h3>
-        <span class="text-b60">{{timeTransform(article.create_at)}}</span>
+        <span class="text-b60">{{ this.$timeTransform(article.create_at) }}</span>
         <p class="mb-0 pe-3 text-truncate">{{ article.description }}</p>
       </div>
     </RouterLink>

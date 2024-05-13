@@ -1,7 +1,6 @@
 <script>
 import cartStore from '@/stores/cartStore';
 import { mapActions } from 'pinia';
-import utilities from '@/stores/utilities';
 
 export default {
   data() {
@@ -15,7 +14,6 @@ export default {
       const phoneNumber = /^(09)[0-9]{8}$/;
       return phoneNumber.test(value) ? true : '需要09開頭的手機號碼十碼';
     },
-    ...mapActions(utilities, ['timeTransform']),
     ...mapActions(cartStore, ['sendOrder']),
   },
   props: ['getCarts', 'cart'],

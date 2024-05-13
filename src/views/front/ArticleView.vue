@@ -1,6 +1,4 @@
 <script>
-import { mapActions } from 'pinia';
-import utilities from '@/stores/utilities';
 import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
@@ -34,7 +32,6 @@ export default {
           this.isLoading = false;
         });
     },
-    ...mapActions(utilities, ['timeTransform']),
   },
   mounted() {
     this.getArticle();
@@ -65,7 +62,7 @@ export default {
     </nav>
     <h2 class="h2">{{ article.title }}</h2>
     <div class="text-b60">
-      <span class="me-4">日期: {{ timeTransform(article.create_at) }}</span>
+      <span class="me-4">日期: {{ this.$timeTransform(article.create_at) }}</span>
       <span>作者: {{ article.author }}</span>
     </div>
     <div class="my-4 text-center">

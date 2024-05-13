@@ -1,7 +1,5 @@
 <script>
-import { mapActions } from 'pinia';
 import Swal from 'sweetalert2';
-import utilities from '@/stores/utilities';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
@@ -60,7 +58,6 @@ export default {
           });
         });
     },
-    ...mapActions(utilities, ['timeTransform']),
   },
   watch: {
     tempOrder() {
@@ -93,7 +90,7 @@ export default {
                 <span class="input-group-text" id="create_at">建立時間</span>
                 <input type="text" class="form-control"
                   aria-label="createdTime" aria-describedby="create_at"
-                  disabled :value="timeTransform(newOrder.create_at)"/>
+                  disabled :value="this.$timeTransform(newOrder.create_at)"/>
               </div>
             </div>
             <div class="col-4">

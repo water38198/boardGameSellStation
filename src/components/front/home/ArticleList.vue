@@ -1,6 +1,4 @@
 <script>
-import useTimeTransform from '@/composables/useTimeTransform';
-
 export default {
   props: {
     articles: {
@@ -11,12 +9,6 @@ export default {
       type: String,
       required: true,
     },
-  },
-  setup() {
-    const { timeTransform } = useTimeTransform();
-    return {
-      timeTransform,
-    };
   },
 };
 </script>
@@ -41,7 +33,7 @@ export default {
                     <h5 class="card-title fs-2">
                       {{ article.title }}
                     </h5>
-                    <span class="text-b60">{{timeTransform(article.create_at)}}</span>
+                    <span class="text-b60">{{this.$timeTransform(article.create_at)}}</span>
                     <p class="card-text mt-3 fs-5 multi-text-truncate">
                       {{ article.description }}
                     </p>
