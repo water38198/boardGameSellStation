@@ -64,70 +64,36 @@ export default {
           <span v-if="isNew">新增優惠券</span>
           <span v-else>編輯優惠券</span>
         </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close"
+          data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <VForm
-          @submit="updateCoupon"
-          class="row g-2"
-          id="CouponModal"
-          v-slot="{ errors }"
-        >
+        <VForm @submit="updateCoupon" class="row g-2"
+          id="CouponModal" v-slot="{ errors }">
           <div class="col-4">
             <label for="title" class="form-label">優惠券名稱:</label>
-            <VField
-              id="title"
-              name="優惠券名稱"
-              type="text"
-              class="form-control"
-              :class="{ 'is-invalid': errors['優惠券名稱'] }"
-              placeholder="請輸入 優惠券名稱"
-              rules="required"
-              v-model="newCoupon.title"
-            ></VField>
-            <ErrorMessage
-              name="優惠券名稱"
-              class="invalid-feedback"
-            ></ErrorMessage>
+            <VField id="title" name="優惠券名稱" type="text"
+              class="form-control" :class="{ 'is-invalid': errors['優惠券名稱'] }"
+              placeholder="請輸入 優惠券名稱" rules="required" v-model="newCoupon.title"></VField>
+            <ErrorMessage name="優惠券名稱" class="invalid-feedback"></ErrorMessage>
           </div>
           <div class="col-4">
             <label for="percent" class="form-label">折扣比例:</label>
-            <VField
-              id="percent"
-              name="折扣比例"
-              type="number"
-              class="form-control"
-              :class="{ 'is-invalid': errors['折扣比例'] }"
-              placeholder="請輸入 折扣比例"
-              :rules="{ min_value: 0, max_value: 99, required: true }"
-              v-model="newCoupon.percent"
-            ></VField>
-            <ErrorMessage
-              name="折扣比例"
-              class="invalid-feedback"
-            ></ErrorMessage>
+            <VField id="percent" name="折扣比例" type="number"
+              class="form-control" :class="{ 'is-invalid': errors['折扣比例'] }"
+              placeholder="請輸入 折扣比例" :rules="{ min_value: 0, max_value: 99, required: true }"
+              v-model="newCoupon.percent"></VField>
+            <ErrorMessage name="折扣比例" class="invalid-feedback"></ErrorMessage>
           </div>
           <div class="col-4">
             <label for="is_enabled" class="form-label">狀態:</label>
-            <VField
-              id="is_enabled"
-              name="狀態"
-              class="form-control"
+            <VField id="is_enabled" name="狀態" class="form-control"
               :class="{
                 'is-invalid': errors['狀態'],
                 'text-success': newCoupon.is_enabled,
                 'text-danger': newCoupon.is_enabled === '0',
               }"
-              placeholder="請輸入 狀態"
-              rules="required"
-              v-model="newCoupon.is_enabled"
-              as="select"
-            >
+              placeholder="請輸入 狀態" rules="required" v-model="newCoupon.is_enabled" as="select">
               <option value="0" selected class="text-danger">未啟用</option>
               <option value="1" class="text-success">啟用</option>
             </VField>
@@ -135,30 +101,16 @@ export default {
           </div>
           <div class="col-4">
             <label for="code" class="form-label">折扣碼:</label>
-            <VField
-              id="code"
-              name="折扣碼"
-              type="text"
-              class="form-control"
-              :class="{ 'is-invalid': errors['折扣碼'] }"
-              placeholder="請輸入折扣碼，如:Test123"
-              rules="required"
-              v-model="newCoupon.code"
-            ></VField>
+            <VField id="code" name="折扣碼" type="text"
+              class="form-control" :class="{ 'is-invalid': errors['折扣碼'] }"
+              placeholder="請輸入折扣碼，如:Test123" rules="required" v-model="newCoupon.code"></VField>
             <ErrorMessage name="折扣碼" class="invalid-feedback"></ErrorMessage>
           </div>
           <div class="col-4">
             <label for="due_date" class="form-label">到期日:</label>
-            <VueDatePicker
-              v-model="newCoupon.due_date"
-              model-type="timestamp"
-              required
-              :min-date="new Date()"
-              :enable-time-picker="false"
-              cancelText="取消"
-              selectText="選擇"
-              auto-apply
-            ></VueDatePicker>
+            <VueDatePicker v-model="newCoupon.due_date" model-type="timestamp" required
+            :min-date="new Date()" :enable-time-picker="false" cancelText="取消"
+              selectText="選擇" auto-apply></VueDatePicker>
           </div>
         </VForm>
       </div>
@@ -166,12 +118,8 @@ export default {
         <button type="button" class="btn btn-secondary" @click="closeModal">
           取消
         </button>
-        <button
-          type="submit"
-          class="btn btn-primary"
-          form="CouponModal"
-          :disabled="loadingItem === 'confirmButton'"
-        >
+        <button type="submit" class="btn btn-primary" form="CouponModal"
+        :disabled="loadingItem === 'confirmButton'">
           確認
         </button>
       </div>

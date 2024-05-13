@@ -46,121 +46,90 @@ export default {
       <RouterLink to="/" class="btn btn-theme me-3 navbar-brand link-light"
         ><i class="bi bi-dice-5-fill me-2"></i>桌遊販電</RouterLink
       >
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div
-        class="collapse navbar-collapse"
-        ref="navbarCollapse"
-        id="navbarSupportedContent"
-      >
+      <div class="collapse navbar-collapse" ref="navbarCollapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-3 mb-lg-0 w-100 d-none d-lg-flex">
           <li class="nav-item">
-            <RouterLink to="/products" class="me-3 nav-link link-light"
-              ><i class="bi bi-border-all me-2"></i>所有商品</RouterLink
-            >
+            <RouterLink to="/products" class="me-3 nav-link link-light">
+              <i class="bi bi-border-all me-2"></i>所有商品
+            </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/articles?category=新聞"
-            class="me-3 nav-link link-light article-link"
-            :class="{'article-link-active':query.category==='新聞'}"
-              ><i class="bi bi-newspaper me-2"></i>最新消息
-            </RouterLink
-            >
+            <RouterLink to="/articles?category=新聞" class="me-3 nav-link link-light article-link"
+            :class="{'article-link-active':query.category==='新聞'}">
+              <i class="bi bi-newspaper me-2"></i>最新消息
+            </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/articles?category=心得"
-            class="me-3 nav-link link-light article-link"
-            :class="{'article-link-active':query.category==='心得'}"
-            >
+            <RouterLink to="/articles?category=心得" class="me-3 nav-link link-light article-link"
+            :class="{'article-link-active':query.category==='心得'}">
               <i class="bi bi-card-text me-2"></i>心得評價
-            </RouterLink
-            >
+            </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink
-              to="/articles?category=開箱"
-              class="me-3 nav-link link-light article-link"
-              :class="{'article-link-active':query.category==='開箱'}"
-              ><i class="bi bi-box-seam-fill me-2"></i>開箱文章</RouterLink
-            >
+            <RouterLink to="/articles?category=開箱" class="me-3 nav-link link-light article-link"
+              :class="{'article-link-active':query.category==='開箱'}">
+              <i class="bi bi-box-seam-fill me-2"></i>開箱文章
+            </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/about" class="me-3 nav-link link-light"
-              ><i class="bi bi-file-earmark-person me-2"></i
-              >關於我們</RouterLink
-            >
+            <RouterLink to="/about" class="me-3 nav-link link-light">
+              <i class="bi bi-file-earmark-person me-2"></i>關於我們
+            </RouterLink>
           </li>
           <li class="nav-item mx-lg-3 ms-lg-auto navbar-expand">
-            <RouterLink
-              to="/cart"
-              class="text-theme position-relative d-block px-2"
-            >
+            <RouterLink to="/cart" class="text-theme position-relative d-block px-2">
               <i class="bi bi-cart fs-3 link-light"></i>
-              <span
-                class="position-absolute bottom-0 end-0 bg-theme badge rounded-pill"
-                v-if="cartNum"
-                >{{ cartNum }}</span
-              >
+              <span class="position-absolute bottom-0 end-0 bg-theme badge rounded-pill"
+              v-if="cartNum">
+                {{ cartNum }}
+              </span>
             </RouterLink>
           </li>
         </ul>
         <!-- collapseContent -->
-        <ul
-          class="navbar-nav me-auto mb-3 mb-lg-0 px-3 w-100 d-lg-none bg-white"
-        >
+        <ul class="navbar-nav me-auto mb-3 mb-lg-0 px-3 w-100 d-lg-none bg-white">
           <li class="nav-item border-bottom">
-            <RouterLink to="/" class="my-2 nav-link text-theme"
-              ><i class="bi bi-house me-2"></i>首頁</RouterLink
-            >
+            <RouterLink to="/" class="my-2 nav-link text-theme">
+              <i class="bi bi-house me-2"></i>首頁
+            </RouterLink >
           </li>
           <li class="nav-item border-bottom">
-            <RouterLink to="/products" class="my-2 nav-link text-theme"
-              ><i class="bi bi-border-all me-2"></i>所有商品</RouterLink
-            >
+            <RouterLink to="/products" class="my-2 nav-link text-theme">
+              <i class="bi bi-border-all me-2"></i>所有商品
+            </RouterLink>
           </li>
           <li class="nav-item border-bottom">
-            <RouterLink to="/articles?category=新聞" class="my-2 nav-link text-theme"
-              ><i class="bi bi-newspaper me-2"></i>最新消息</RouterLink
-            >
+            <RouterLink to="/articles?category=新聞" class="my-2 nav-link text-theme">
+            <i class="bi bi-newspaper me-2"></i>最新消息
+            </RouterLink>
           </li>
           <li class="nav-item border-bottom">
-            <RouterLink to="/articles?category=心得" class="my-2 nav-link text-theme"
-              ><i class="bi bi-card-text me-2"></i>心得評價</RouterLink
-            >
+            <RouterLink to="/articles?category=心得" class="my-2 nav-link text-theme">
+              <i class="bi bi-card-text me-2"></i>心得評價
+              </RouterLink>
           </li>
           <li class="nav-item border-bottom">
-            <RouterLink
-              to="/articles?category=心得"
-              class="my-2 nav-link text-theme"
-              ><i class="bi bi-box-seam-fill me-2"></i>開箱文章</RouterLink
-            >
+            <RouterLink to="/articles?category=心得" class="my-2 nav-link text-theme">
+              <i class="bi bi-box-seam-fill me-2"></i>開箱文章
+            </RouterLink>
           </li>
           <li class="nav-item border-bottom">
-            <RouterLink to="/about" class="my-2 nav-link text-theme"
-              ><i class="bi bi-file-earmark-person me-2"></i
-              >關於我們</RouterLink
-            >
+            <RouterLink to="/about" class="my-2 nav-link text-theme">
+              <i class="bi bi-file-earmark-person me-2"></i>關於我們
+            </RouterLink>
           </li>
           <li class="nav-item mx-lg-3 ms-lg-auto navbar-expand">
-            <RouterLink
-              to="/cart"
-              class="text-dark position-relative d-inline-block pe-12px my-3"
-            >
+            <RouterLink to="/cart" class="text-dark position-relative d-inline-block pe-12px my-3">
               <i class="bi bi-cart fs-3"></i>
-              <span
-                class="position-absolute bottom-0 end-0 bg-theme badge rounded-pill"
-                v-if="cartNum"
-                >{{ cartNum }}</span
-              >
+              <span v-if="cartNum"
+              class="position-absolute bottom-0 end-0 bg-theme badge rounded-pill">
+                {{ cartNum }}
+              </span>
             </RouterLink>
           </li>
         </ul>

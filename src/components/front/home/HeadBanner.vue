@@ -20,6 +20,10 @@
   a{
     padding: 20px 60px;
   }
+  @media (min-width: 576px) {
+    padding-top: 230px;
+    padding-bottom: 280px;
+}
 }
 .custom-btn{
   text-decoration: none;
@@ -44,12 +48,5 @@
   bottom: -4px;
   left: -4px;
   right: -4px;
-}
-
-@media (min-width: 576px) {
-  .banner {
-    padding-top: 230px;
-    padding-bottom: 280px;
-  }
 }
 </style>

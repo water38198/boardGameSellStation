@@ -64,12 +64,14 @@ export default {
 
 <style scoped lang="scss">
 .article-banner {
-  background-image: url(@/assets/home/section-image.jpg);
-  background-color: rgba(0, 0, 0, 0.6);
-  background-blend-mode: multiply;
+  background: {
+    image: url(@/assets/home/section-image.jpg);
+    color: rgba(0, 0, 0, 0.6);
+    blend-mode: multiply;
+    position: center;
+    size: cover;
+  };
   padding-top: 100px;
   padding-bottom: 100px;
-  background-size: cover;
-  background-position: center;
 }
 </style>

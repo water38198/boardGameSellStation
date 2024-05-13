@@ -140,12 +140,8 @@ export default {
         <template v-if="products">
           <tr v-for="product in products" :key="product.id">
             <td>
-              <img
-                :src="product.imageUrl"
-                alt="productImage"
-                class="product-image"
-                onerror="this.src='../../../public/no_image_icon.png'"
-              />
+              <img :src="product.imageUrl" alt="productImage" class="product-image"
+              onerror="this.src='../../../public/no_image_icon.png'"/>
             </td>
             <td>{{ product.title }}</td>
             <td>{{ product.category }}</td>
@@ -159,18 +155,12 @@ export default {
               <span class="text-danger" v-else>未啟用</span>
             </td>
             <td class="text-center">
-              <button
-                type="button"
-                class="btn btn-outline-theme btn-sm me-2"
-                @click="openModal('edit', product)"
-              >
+              <button type="button" class="btn btn-outline-theme btn-sm me-2"
+                @click="openModal('edit', product)">
                 編輯
               </button>
-              <button
-                type="button"
-                class="btn btn-outline-danger btn-sm"
-                @click="deleteProduct(product.title, product.id)"
-              >
+              <button type="button" class="btn btn-outline-danger btn-sm"
+                @click="deleteProduct(product.title, product.id)">
                 刪除
               </button>
             </td>
@@ -178,14 +168,9 @@ export default {
         </template>
       </tbody>
     </table>
-    <PaginationComponent
-      :pages="page"
-      @get-Method="getProducts"
-    ></PaginationComponent>
+    <PaginationComponent :pages="page" @get-Method="getProducts"></PaginationComponent>
   </div>
-
   <!-- productModal -->
-
     <ProductModal
       :temp-product="tempProduct"
       :is-new="isNew"
@@ -198,6 +183,5 @@ export default {
 .product-image {
   width: 50px;
   height: 50px;
-  object-fit: cover;
 }
 </style>

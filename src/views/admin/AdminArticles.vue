@@ -131,12 +131,8 @@ export default {
         <tr v-for="article in articles" :key="article.key">
           <th scope="row">{{ article.num }}</th>
           <td>
-            <img
-              :src="article.image"
-              alt="articleImage"
-              @error="defaultSrc"
-              class="article-image"
-            />
+            <img :src="article.image" alt="articleImage"
+              @error="defaultSrc" class="article-image"/>
           </td>
           <td>{{ article.title }}</td>
           <td>{{ article.category }}</td>
@@ -162,20 +158,11 @@ export default {
     </table>
     <PaginationComponent :pages="page" @get-Method="getArticles"></PaginationComponent>
     <!-- ArticleModal -->
-    <div
-      class="modal fade"
-      id="articleModal"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="articleModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="articleModal" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="articleModalLabel" aria-hidden="true">
       <ArticleModal
-        :temp-Article-Id="tempArticleId"
-        :is-new="isNew"
-        :close-Modal="closeModal"
-        :get-Articles="getArticles"
-      ></ArticleModal>
+        :temp-Article-Id="tempArticleId" :is-new="isNew" :close-Modal="closeModal"
+        :get-Articles="getArticles"></ArticleModal>
     </div>
   </template>
 </template>

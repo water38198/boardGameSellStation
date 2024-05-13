@@ -142,20 +142,9 @@ export default {
   </table>
   <PaginationComponent :pages="page" @get-Method="getCoupons"></PaginationComponent>
   <!-- couponModal -->
-  <div
-    class="modal fade"
-    id="couponModal"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="couponModalLabel"
-    aria-hidden="true"
-  >
-    <CouponModal
-      :is-new="isNew"
-      :temp-Coupon="tempCoupon"
-      :close-modal="closeModal"
-      :get-coupons="getCoupons"
-    ></CouponModal>
+  <div class="modal fade" id="couponModal" data-bs-backdrop="static" data-bs-keyboard="false"
+  tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">
+    <CouponModal :is-new="isNew" :temp-Coupon="tempCoupon"
+      :close-modal="closeModal" :get-coupons="getCoupons"></CouponModal>
   </div>
 </template>

@@ -11,9 +11,8 @@
       <div>
         <h3 class="accordion-header" id="flush-headingOne">
           <button class="accordion-button collapsed bg-b20 ps-0 border-bottom fs-2"
-          type="button"
-            data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false"
-            aria-controls="flush-collapseOne">
+          type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+          aria-expanded="false" aria-controls="flush-collapseOne">
             可以貨到付款嗎?
           </button>
         </h3>
@@ -73,10 +72,8 @@
     margin-bottom: 20px;
     font-size: 60px;
   }
-}
 
-@media (min-width: 992px) {
-  .faq {
+  @media (min-width:992px) {
     padding-top: 80px;
     padding-bottom: 100px;
 

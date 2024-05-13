@@ -35,9 +35,7 @@ export default {
       <RouterView />
     </div>
     <FrontFooter />
-    <!-- Button trigger modal -->
-
-    <!-- Modal -->
+    <!-- 優惠券小遊戲 -->
     <DiceRollGame />
   </div>
 </template>

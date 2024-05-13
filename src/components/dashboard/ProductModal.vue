@@ -134,11 +134,8 @@ export default {
                   </template>
                   <div v-if="newProduct.imagesUrl[newProduct.imagesUrl.length - 1] ||
                       !newProduct.imagesUrl.length">
-                    <button
-                      class="btn btn-outline-primary w-100 mb-3" type="button"
-                      @click="newProduct.imagesUrl.push('')">
-                      新增圖片網址
-                    </button>
+                    <button class="btn btn-outline-primary w-100 mb-3" type="button"
+                      @click="newProduct.imagesUrl.push('')">新增圖片網址</button>
                     <p class="text-center">或</p>
                     <div class="mb-3">
                       <input class="form-control" type="file" id="formFile"
@@ -154,16 +151,14 @@ export default {
                   <label for="productTitle" class="form-label">商品名稱:</label>
                   <VField id="productTitle" name="商品名稱" type="text"
                     class="form-control" :class="{ 'is-invalid': errors['商品名稱'] }"
-                    placeholder="請輸入 商品名稱" rules="required"
-                    v-model="newProduct.title"></VField>
+                    placeholder="請輸入 商品名稱" rules="required" v-model="newProduct.title"></VField>
                   <ErrorMessage name="商品名稱" class="invalid-feedback"></ErrorMessage>
                 </div>
                 <div class="col-6">
                   <label for="productCategory" class="form-label">分類:</label>
                   <VField id="productCategory" name="分類"
                     class="form-control" :class="{ 'is-invalid': errors['分類'] }"
-                    placeholder="請輸入 分類" rules="required"
-                    v-model="newProduct.category" as="select">
+                    placeholder="請輸入 分類" rules="required" v-model="newProduct.category" as="select">
                     <option selected value="策略">策略</option>
                     <option value="家庭">家庭</option>
                     <option value="派對">派對</option>
@@ -286,7 +281,6 @@ export default {
       background-color: #fff;
       box-shadow: 0 2px 5px rgb(0,0,0,.2);
       left: 0;
-
       transform: scale(1.1);
       transition: left .3s ease-in-out;
   }

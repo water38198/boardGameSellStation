@@ -36,17 +36,14 @@ export default {
         <RouterLink :to="`/products`" class="btn btn-be4 text-b60 fs-4">更多商品</RouterLink>
       </h2>
       <div class="row g-3">
-        <div class="col-12 col-lg-4"
-        v-for="(product, index) in products.slice(0, 3)"
-        :key="product.id"
-        data-aos="zoom-in" :data-aos-duration="1000 + 250 * index">
+        <div class="col-12 col-lg-4" v-for="(product, index) in products.slice(0, 3)"
+        :key="product.id" data-aos="zoom-in" :data-aos-duration="1000 + 250 * index">
           <RouterLink :to="`/product/${product.id}`" class="text-decoration-none text-black">
             <div class="card">
               <div class="row">
                 <div class="col-md-6 col-lg-12">
                   <div>
-                    <img :src="product.imageUrl"
-                    class="card-img-top img-fluid home-product-image"
+                    <img :src="product.imageUrl" class="card-img-top img-fluid home-product-image"
                     :alt="product.title" />
                   </div>
                 </div>
@@ -88,9 +85,7 @@ export default {
   .home-product-image {
   height: 250px;
   object-position: 50% top;
-}
-@media (min-width: 992px) {
-  .home-product-image {
+  @media (min-width: 992px) {
     height: 400px;
     object-fit: cover;
   }

@@ -30,11 +30,10 @@ export default {
             <ul class="list-group list-group-flush">
               <li v-for="(article, index) in articles"
               :key="article.id" class="list-group-item py-3"
-                data-aos="fade-up" :data-aos-duration="1000 + 250 * index">
+              data-aos="fade-up" :data-aos-duration="1000 + 250 * index">
                 <RouterLink :to="`/article/${article.id}`"
                 class="link-theme text-decoration-none fs-4 d-block">
-                  <span
-                  class="me-2 me-sm-4 bg-theme text-white fw-bold list-number">
+                  <span class="me-2 me-sm-4 bg-theme text-white fw-bold list-number">
                     {{ index + 1 }}
                   </span>
                   <span class="text-b60 fs-6 me-2 me-sm-3">

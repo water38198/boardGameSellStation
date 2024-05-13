@@ -25,27 +25,18 @@ export default {
 };
 </script>
 <template>
-  <RouterLink
-    :to="`/product/${product.id}`"
-    class="text-reset text-decoration-none product-card" href="#"
-  >
+  <RouterLink :to="`/product/${product.id}`"
+  class="text-reset text-decoration-none product-card" href="#">
     <div class="card h-100">
       <div class="product-image">
-        <img
-          :src="product.imageUrl"
-          class="card-img-top"
-          :alt="`${product.title}圖片`"
-        />
+        <img :src="product.imageUrl" class="card-img-top" :alt="`${product.title}圖片`"/>
       </div>
       <div class="card-body">
         <h4 class="card-title">{{ product.title }}</h4>
         <p class="card-text text-truncate my-3">
           {{ product.description }}
         </p>
-        <div
-          class="h4 text-end"
-          v-if="product.origin_price === product.price"
-        >
+        <div class="h4 text-end" v-if="product.origin_price === product.price">
           {{ product.price }}元
         </div>
         <div v-else class="d-flex justify-content-between">
@@ -58,21 +49,11 @@ export default {
         </div>
         <div class="text-center mt-2 text-center">
           <template v-if="cart.carts">
-            <button
-              type="button"
-              class="btn btn-outline-danger"
-              disabled
-              v-if="isInStock(product)"
-            >
+            <button v-if="isInStock(product)" type="button" class="btn btn-outline-danger" disabled>
               目前無庫存
             </button>
-            <button
-              type="button"
-              class="btn btn-outline-danger"
-              :disabled="loadingItem === product.id"
-              @click.self.prevent="addToCart(product)"
-              v-else
-            >
+            <button v-else type="button" class="btn btn-outline-danger"
+            :disabled="loadingItem === product.id" @click.self.prevent="addToCart(product)">
               加入購物車
             </button>
           </template>

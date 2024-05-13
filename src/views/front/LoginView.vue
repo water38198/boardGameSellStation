@@ -84,38 +84,21 @@ export default {
         <VForm v-slot="{ errors }" @submit="login" class="my-5">
           <div class="mb-3">
             <label for="account" class="h5">帳號:</label>
-            <VField
-              id="account"
-              name="帳號"
-              type="text"
-              class="form-control"
-              :class="{ 'is-invalid': errors['帳號'] }"
-              placeholder="請輸入 帳號"
-              rules="required|email"
-              v-model="user.account"
-            ></VField>
+            <VField id="account" name="帳號" type="text"
+              class="form-control" :class="{ 'is-invalid': errors['帳號'] }"
+              placeholder="請輸入 帳號" rules="required|email" v-model="user.account"></VField>
             <ErrorMessage name="帳號" class="invalid-feedback"></ErrorMessage>
           </div>
           <div class="mb-4">
             <label for="password" class="h5">密碼:</label>
-            <VField
-              id="password"
-              name="密碼"
-              type="password"
-              class="form-control"
-              :class="{ 'is-invalid': errors['密碼'] }"
-              placeholder="請輸入 密碼"
-              rules="required"
-              v-model="user.password"
-            ></VField>
+            <VField id="password" name="密碼" type="password"
+              class="form-control" :class="{ 'is-invalid': errors['密碼'] }"
+              placeholder="請輸入 密碼" rules="required" v-model="user.password">
+            </VField>
             <ErrorMessage name="密碼" class="invalid-feedback"></ErrorMessage>
           </div>
           <div class="text-center">
-            <button
-              type="submit"
-              class="btn btn-theme text-white w-100 py-2"
-              :disabled="isLoading"
-            >
+            <button type="submit" class="btn btn-theme text-white w-100 py-2" :disabled="isLoading">
               登入
             </button>
           </div>

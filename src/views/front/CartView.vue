@@ -214,18 +214,16 @@ export default {
   width: 100%;
   height: 150px;
   object-fit: contain;
-}
-@media (max-width: 768px) {
-  .cart-product-image {
+  @media (max-width: 768px) {
     width: 150px;
     height: 100px;
   }
 }
+
 .cart-list{
   img{
     max-height: 160px;
     height: 100%;
   }
-
 }
 </style>

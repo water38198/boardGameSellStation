@@ -80,7 +80,7 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 @media (max-width: 375px) {
   .breadcrumb {
     font-size: 12px;

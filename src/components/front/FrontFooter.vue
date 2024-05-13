@@ -1,8 +1,6 @@
 <template>
   <footer class="bg-themeDark text-light flex-grow-0">
-    <div
-      class="d-md-flex container justify-content-between"
-    >
+    <div class="d-md-flex container justify-content-between">
       <p class="fs-2 d-none d-md-block" style="line-height: 70px">
         買桌遊不必買全新<br />二手價格更貼心
       </p>
@@ -34,14 +32,13 @@
   </footer>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 footer div:first-child{
-    padding-block: 30px;
-}
-
-@media (min-width: 576px) {
-  footer div:first-child{
-    padding-block: 50px;
-}
+  padding-block: 30px;
+  @media (min-width: 576px) {
+    footer div:first-child{
+      padding-block: 50px;
+    }
+  }
 }
 </style>
