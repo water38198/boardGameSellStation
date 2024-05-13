@@ -115,7 +115,7 @@ export default {
   <VLoading :active="isLoading" />
   <div class="py-4">
     <h2 class="h2 text-center">產品列表</h2>
-    <div class="text-end">
+    <div class="text-end mb-4">
       <button type="button" class="btn btn-theme text-white" @click="openModal('new')">
         建立新的產品
       </button>
