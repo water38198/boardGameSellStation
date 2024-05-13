@@ -101,14 +101,7 @@ export default {
 </script>
 
 <template>
-  <!-- Loading Layout -->
-  <div class="vl-parent">
-    <VLoading
-      v-model:active="isLoading"
-      :can-cancel="false"
-      :is-full-page="true"
-    />
-  </div>
+  <VLoading v-model:active="isLoading"/>
   <h2 class="text-center">優惠券</h2>
   <div class="text-end">
     <button type="button" class="btn btn-primary" @click="openModal('new')">
@@ -138,29 +131,16 @@ export default {
           <td>{{ timeTransform(coupon.due_date) }}</td>
           <td>{{ coupon.code }}</td>
           <td>
-            <button
-              type="button"
-              class="btn btn-outline-primary btn-sm me-2"
-              @click="openModal('edit', coupon)"
-            >
-              編輯
-            </button>
-            <button
-              type="button"
-              class="btn btn-outline-danger btn-sm"
-              @click="deleteCoupon(coupon)"
-            >
-              刪除
-            </button>
+            <button type="button" class="btn btn-outline-primary btn-sm me-2"
+              @click="openModal('edit', coupon)">編輯</button>
+            <button type="button" class="btn btn-outline-danger btn-sm"
+              @click="deleteCoupon(coupon)">刪除</button>
           </td>
         </tr>
       </template>
     </tbody>
   </table>
-  <PaginationComponent
-    :pages="page"
-    :get-Method="getCoupons"
-  ></PaginationComponent>
+  <PaginationComponent :pages="page" @get-Method="getCoupons"></PaginationComponent>
   <!-- couponModal -->
   <div
     class="modal fade"

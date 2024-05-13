@@ -5,7 +5,8 @@ export default {
       currentPage: 1,
     };
   },
-  props: ['pages', 'getMethod'],
+  props: ['pages'],
+  emits: ['getMethod'],
 };
 </script>
 
@@ -17,7 +18,7 @@ export default {
           class="page-link"
           href="#"
           aria-label="Previous"
-          @click.prevent="getMethod(pages.current_page - 1)"
+          @click.prevent="$emit('getMethod', pages.current_page - 1)"
         >
           <span aria-hidden="true">&laquo;</span>
         </a>
@@ -30,7 +31,7 @@ export default {
         v-for="page in pages.total_pages"
         :key="page + 'page'"
       >
-        <a class="page-link" href="#" @click.prevent="getMethod(page)">{{
+        <a class="page-link" href="#" @click.prevent="$emit('getMethod', page)">{{
           page
         }}</a>
       </li>
@@ -39,7 +40,7 @@ export default {
           class="page-link"
           href="#"
           aria-label="Next"
-          @click.prevent="getMethod(pages.current_page + 1)"
+          @click.prevent="$emit('getMethod', pages.current_page + 1)"
         >
           <span aria-hidden="true">&raquo;</span>
         </a>

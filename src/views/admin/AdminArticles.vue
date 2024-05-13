@@ -105,13 +105,7 @@ export default {
 
 <template>
   <!-- Loading Layout -->
-  <div class="vl-parent">
-    <VLoading
-      v-model:active="isLoading"
-      :can-cancel="false"
-      :is-full-page="true"
-    ></VLoading>
-  </div>
+  <VLoading :active="isLoading"></VLoading>
   <h2 class="h2 text-center">文章管理</h2>
   <div class="text-end">
     <button type="button" class="btn btn-primary" @click="openModal('new')">
@@ -158,28 +152,15 @@ export default {
             <span v-else class="text-danger">隱藏</span>
           </td>
           <td>
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-primary me-2"
-              @click="openModal('edit', article.id)"
-            >
-              修改
-            </button>
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-danger"
-              @click="deleteArticle(article)"
-            >
-              刪除
-            </button>
+            <button type="button" class="btn btn-sm btn-outline-primary me-2"
+              @click="openModal('edit', article.id)">修改</button>
+            <button type="button" class="btn btn-sm btn-outline-danger"
+              @click="deleteArticle(article)">刪除</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <PaginationComponent
-      :pages="page"
-      :get-Method="getArticles"
-    ></PaginationComponent>
+    <PaginationComponent :pages="page" @get-Method="getArticles"></PaginationComponent>
     <!-- ArticleModal -->
     <div
       class="modal fade"

@@ -180,7 +180,7 @@ export default {
     </table>
     <PaginationComponent
       :pages="page"
-      :get-Method="getProducts"
+      @get-Method="getProducts"
     ></PaginationComponent>
   </div>
 

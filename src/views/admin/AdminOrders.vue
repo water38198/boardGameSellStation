@@ -125,15 +125,9 @@ export default {
               <td>{{ order.total }}</td>
               <td>
                 <button type="button" class="btn btn-outline-primary btn-sm me-2"
-                @click="openModal(order)"
-                >
-                  編輯
-                </button>
+                @click="openModal(order)">編輯</button>
                 <button type="button" class="btn btn-outline-danger btn-sm"
-                  @click="deleteOrder(order)"
-                >
-                  刪除
-                </button>
+                  @click="deleteOrder(order)">刪除</button>
               </td>
             </tr>
           </template>
@@ -146,21 +140,13 @@ export default {
           </tr>
         </tfoot>
       </table>
-      <PaginationComponent
-        :pages="page"
-        :get-Method="getOrders"
-      ></PaginationComponent>
+      <PaginationComponent :pages="page" @get-Method="getOrders"></PaginationComponent>
     </div>
   </div>
   <!-- orderModal -->
   <div class="modal fade" id="orderModal" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="orderModalLabel"
-    aria-hidden="true"
-  >
-    <OrderModal
-      :temp-Order="tempOrder"
-      :close-Modal="closeModal"
-      :get-Orders="getOrders"
-    ></OrderModal>
+  aria-labelledby="orderModalLabel" aria-hidden="true">
+    <OrderModal :temp-Order="tempOrder" :close-Modal="closeModal" :get-Orders="getOrders">
+    </OrderModal>
   </div>
 </template>

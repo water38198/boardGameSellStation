@@ -72,39 +72,25 @@ export default {
         </CategoryNavbar>
       </div>
       <div class="col-lg-9 position-relative">
-        <VLoading
-          :active="isLoading"
-          :is-full-page="false"
-        />
+        <VLoading :active="isLoading" :is-full-page="false"/>
         <div class="row g-3 align-items-stretch">
           <h3 class="h3 text-theme text-center">{{ category||'全部' }}</h3>
           <template v-if="products.length">
-            <div
-              class="col-md-6 col-xl-4"
-              v-for="(product, i) in products"
-              :key="product.id"
-              data-aos="fade-up"
-              :data-aos-duration="`${1000 + i * 200}`"
-            >
+            <div class="col-md-6 col-xl-4" v-for="(product, i) in products" :key="product.id"
+              data-aos="fade-up" :data-aos-duration="`${1000 + i * 200}`">
               <ProductCard :product="product"/>
             </div>
           </template>
           <template v-else>
             <div class="text-center">
-              <img
-                src="https://images.unsplash.com/photo-1660922771242-c598e0808188?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80"
-                alt="sorry, there is no items in this category"
-                class="w-50"
-              />
+              <img src="https://images.unsplash.com/photo-1660922771242-c598e0808188?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" alt="sorry, there is no items in this category" class="w-50"/>
             </div>
             <div class="text-center fs-4">
               很抱歉，目前沒有此類商品，近期將會新增!
             </div>
           </template>
-          <PaginationComponent
-            :pages="page"
-            :get-Method="getProducts" v-if="page.total_pages > 1"
-          ></PaginationComponent>
+          <PaginationComponent v-if="page.total_pages > 1" :pages="page" @get-Method="getProducts">
+          </PaginationComponent>
         </div>
       </div>
     </div>
