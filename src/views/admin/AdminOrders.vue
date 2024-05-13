@@ -144,9 +144,6 @@ export default {
     </div>
   </div>
   <!-- orderModal -->
-  <div class="modal fade" id="orderModal" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="orderModalLabel" aria-hidden="true">
-    <OrderModal :temp-Order="tempOrder" :close-Modal="closeModal" :get-Orders="getOrders">
+    <OrderModal :temp-Order="tempOrder" @close-Modal="closeModal" @get-Orders="getOrders">
     </OrderModal>
-  </div>
 </template>
