@@ -1,15 +1,21 @@
-import { fileURLToPath, URL } from 'node:url';
+import { fileURLToPath, URL } from 'node:url'
 
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  define: {
+    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__ : 'true',
+  },
+  plugins: [
+    vue(),
+  ],
+  /* global process */
   base: process.env.NODE_ENV === 'production' ? '/boardGameSellStation/' : '/',
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
-});
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  }
+})

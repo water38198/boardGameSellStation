@@ -1,9 +1,11 @@
-import { defineStore, mapActions } from 'pinia';
+import { defineStore, } from 'pinia';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import utilities from '@/stores/utilities';
+import useTimeTransform from '@/composables/timeTransform.js'
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
+const { timeTransform } = useTimeTransform();
+
 export default defineStore('cartStore', {
   state: () => ({
     cart: [],
@@ -12,25 +14,22 @@ export default defineStore('cartStore', {
     coupon: '',
   }),
   actions: {
-    ...mapActions(utilities, ['timeTransform']),
-    getCarts() {
+    async getCarts() {
       this.cartLoading = true;
-      axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/cart`).then((res) => {
+      try {
+        const res = await axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/cart`);
         this.cart = res.data.data;
-        this.cartLoading = false;
-      })
-        .catch((err) => {
-          Swal.fire({
-            title: '錯誤發生',
-            icon: 'error',
-            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
-          });
-        })
-        .finally(() => {
-          this.cartLoading = false;
+      } catch (err) {
+        Swal.fire({
+          title: '錯誤發生',
+          icon: 'error',
+          text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
         });
+      } finally {
+        this.cartLoading = false;
+      }
     },
-    addToCart(product, qty = 1) {
+    async addToCart(product, qty = 1) {
       this.loadingItem = product.id;
       const data = { product_id: product.id, qty };
       // 找到購物車裡面的相同產品
@@ -52,82 +51,86 @@ export default defineStore('cartStore', {
         }
       }
       this.loadingItem = product.id;
-      axios
-        .post(`${VITE_URL}/v2/api/${VITE_PATH}/cart`, { data })
-        .then(() => {
-          this.getCarts();
-          this.loadingItem = '';
-          Swal.fire({
-            position: 'bottom-right',
-            icon: 'success',
-            title: '成功加入購物車!',
-            showConfirmButton: false,
-            toast: true,
-            timer: 1500,
-          });
-        })
-        .catch((err) => {
-          Swal.fire({
-            title: '錯誤發生',
-            icon: 'error',
-            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
-          });
+      try {
+        const res = await axios.post(`${VITE_URL}/v2/api/${VITE_PATH}/cart`, { data });
+        Swal.fire({
+          position: 'bottom-right',
+          icon: 'success',
+          title: `${res.data.message}`,
+          showConfirmButton: false,
+          toast: true,
+          timer: 1500,
         });
+      } catch (err) {
+        Swal.fire({
+          title: '錯誤發生',
+          icon: 'error',
+          text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+        });
+      } finally {
+        this.getCarts();
+        this.loadingItem = '';
+      }
     },
-    updateItemNum(item) {
+    async updateItemNum(item) {
       this.cartLoading = true;
       const data = {
         product_id: item.product.id,
         qty: item.qty,
       };
-      axios
-        .put(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${item.id}`, {
-          data,
-        })
-        .then(() => {
-          Swal.fire({
-            icon: 'success',
-            title: '更新成功',
-            showConfirmButton: false,
-            timer: 1500,
-            didClose: () => {
-              this.getCarts();
-            },
-          });
-        })
-        .catch((err) => {
-          Swal.fire({
-            title: '錯誤發生',
-            icon: 'error',
-            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
-          });
-        })
-        .finally(() => {
-          this.cartLoading = false;
+      try {
+        const res = await axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${item.id}`, { data })
+        this.cartLoading = false;
+        Swal.fire({
+          icon: 'success',
+          title: `${res.data.message}`,
+          showConfirmButton: false,
+          timer: 1500,
+          didClose: () => {
+            this.getCarts();
+          },
         });
+      } catch (err) {
+        Swal.fire({
+          title: '錯誤發生',
+          icon: 'error',
+          text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+        });
+      } finally {
+        this.cartLoading = false;
+      }
     },
     deleteCartItem(id) {
       this.loadingItem = id;
-      axios
-        .delete(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${id}`)
-        .then(() => {
-          Swal.fire({
-            icon: 'success',
-            title: '刪除成功',
-            showConfirmButton: false,
-            timer: 1500,
-            didClose: () => {
-              this.getCarts();
-            },
-          });
-        })
-        .catch((err) => {
-          Swal.fire({
-            title: '錯誤發生',
-            icon: 'error',
-            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
-          });
-        });
+      Swal.fire({
+        icon: 'question',
+        title: '確定要刪除嗎',
+        showCancelButton: true,
+        confirmButtonText: "確定刪除",
+        confirmButtonColor: 'red',
+        cancelButtonText: "我再想想",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const res = await axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${id}`);
+            Swal.fire({
+              icon: 'success',
+              title: `${res.data.message}`,
+              showConfirmButton: false,
+              timer: 1500,
+              didClose: () => {
+                this.getCarts();
+              }
+            })
+          } catch (err) {
+            Swal.fire({
+              title: '錯誤發生',
+              icon: 'error',
+              text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+            })
+          }
+        }
+      })
     },
     deleteCartAll() {
       this.loadingItem = 'all';
@@ -136,8 +139,7 @@ export default defineStore('cartStore', {
         text: '你確定要清空購物車嗎?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#0FB99B',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: 'red',
         confirmButtonText: '確定',
         cancelButtonText: '取消',
         didClose: () => {
@@ -189,7 +191,7 @@ export default defineStore('cartStore', {
       </div>
       <div class="col-8">
         <p>${res.data.orderId}</p>
-        <p>${this.timeTransform(res.data.create_at)}</p>
+        <p>${timeTransform(res.data.create_at)}</p>
         <p>$${res.data.total}</p>
       </div>
     </div></div>  

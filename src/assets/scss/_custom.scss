@@ -1,15 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap');
+
 body {
   font-family: "Noto Sans TC", sans-serif;
 }
 
-img {
+img,
+svg {
   max-width: 100%;
   object-fit: cover;
-  transition: all .5s ease-in-out;
-}
-
-.pt-100 {
-  padding-top: 100px;
+  display: block;
 }
 
 .multi-text-truncate {
@@ -19,10 +18,6 @@ img {
   overflow: hidden;
 }
 
-.card:hover img {
-  transform: scale(1.2);
-}
-
-div:has(>img) {
-  overflow: hidden;
+a {
+  text-decoration: none;
 }

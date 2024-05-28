@@ -1,6 +1,6 @@
 <script>
 import cartStore from '@/stores/cartStore';
-import { mapActions, mapState } from 'pinia';
+import { mapState, mapActions } from 'pinia';
 
 export default {
   props: {
@@ -10,44 +10,41 @@ export default {
     },
   },
   computed: {
-    ...mapState(cartStore, ['loadingItem', 'cart']),
+    ...mapState(cartStore,['loadingItem', 'cart']),
   },
   methods: {
     ...mapActions(cartStore, ['addToCart']),
     isInStock(product) {
-      const isInCart = this.cart.carts.find((el) => el.product.id === product.id);
-      if (isInCart) {
-        return isInCart.product.stock === isInCart.qty;
-      }
-      return false;
-    },
-  },
-};
+      const isInCart = this.cart.carts.find(el => el.product.id === product.id);
+      return isInCart ? isInCart.product.stock === isInCart.qty : false;
+    }
+  }
+}
 </script>
+
 <template>
-  <RouterLink :to="`/product/${product.id}`"
-  class="text-reset text-decoration-none product-card" href="#">
-    <div class="card h-100">
+  <RouterLink :to="`/product/${product.id}`" class="text-reset text-decoration-none product-card">
+    <div class="card w-100">
       <div class="product-image">
-        <img :src="product.imageUrl" class="card-img-top" :alt="`${product.title}圖片`"/>
+        <img :src="product.imageUrl" class="card-img-top" :alt="`${product.title}圖片`">
       </div>
       <div class="card-body">
         <h4 class="card-title">{{ product.title }}</h4>
         <p class="card-text text-truncate my-3">
           {{ product.description }}
         </p>
-        <div class="h4 text-end" v-if="product.origin_price === product.price">
-          {{ product.price }}元
+        <div v-if="product.origin_price === product.price" class="h4 text-end">
+          {{ product.price }} 元
         </div>
-        <div v-else class="d-flex justify-content-between">
+        <div v-else class="d-flex justify-content-between mb-4">
           <div>
-            <del class="h6 text-secondary">原價{{ product.origin_price }}元</del>
+            <del class="text-secondary">原價 {{ product.origin_price }} 元</del>
           </div>
-          <div class="h4">
-            特價 <span class="text-danger"> {{product.price}}</span> 元
+          <div>
+            特價 <span class="text-danger h4">{{ product.price }}</span> 元
           </div>
         </div>
-        <div class="text-center mt-2 text-center">
+        <div class="text-center mt-4">
           <template v-if="cart.carts">
             <button v-if="isInStock(product)" type="button" class="btn btn-outline-danger" disabled>
               目前無庫存
@@ -60,18 +57,20 @@ export default {
         </div>
       </div>
     </div>
-    </RouterLink>
+
+  </RouterLink>
 </template>
 
 <style scoped lang="scss">
 .product-image{
   img{
-    height: 250px;
+    height: 300px;
     object-position: top;
   }
 }
 
-.product-card:hover .card-title {
+.product-card:hover .card-title,
+.product-card:focus-visible .card-title {
   color: #0fb99b;
 }
 </style>

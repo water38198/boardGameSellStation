@@ -1,26 +1,38 @@
+<script>
+export default {
+  methods: {
+    logout() {
+      // 值設為空，且設定為過期
+      document.cookie = 'myToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+      this.$router.push('/login');
+    }
+  }
+}
+</script>
+
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand bg-dark" data-bs-theme="dark">
     <div class="container">
-      <a class="navbar-brand" href="#">桌遊販電</a>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
-          <li class="nav-item">
-            <RouterLink to="/admin/products" class="me-3 nav-link">產品管理</RouterLink>
+      <RouterLink class="navbar-brand" to="/">桌遊販電</RouterLink>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="w-100 navbar-nav gap-6 justify-content-end align-items-center">
+          <li class="nav-item link-light">
+            <RouterLink to="/dashboard/products" class="link-light">商品管理</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/admin/orders" class="me-3 nav-link">訂單管理</RouterLink>
+            <RouterLink to="/dashboard/orders" class="link-light">訂單管理</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/admin/coupons" class="me-3 nav-link">優惠券管理</RouterLink>
+            <RouterLink to="/dashboard/coupons" class="link-light">優惠券管理</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/admin/articles" class="me-3 nav-link">文章管理</RouterLink>
-          </li>
-          <li class="nav-item ms-auto">
-            <RouterLink to="/" class="me-3 nav-link">前台</RouterLink>
+            <RouterLink to="/dashboard/articles" class="link-light">文章管理</RouterLink>
           </li>
           <li class="nav-item">
-            <a href="#" class="me-3 nav-link" @click.prevent="$emit('logout')">登出</a>
+          <RouterLink to="/" class="link-light">回前台</RouterLink>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="btn btn-light" @click="logout">登出</button>
           </li>
         </ul>
       </div>

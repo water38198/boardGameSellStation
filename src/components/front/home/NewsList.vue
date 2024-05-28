@@ -6,7 +6,7 @@ export default {
       required: true,
     },
   },
-};
+}
 </script>
 
 <template>
@@ -29,7 +29,7 @@ export default {
                     {{ index + 1 }}
                   </span>
                   <span class="text-b60 fs-6 me-2 me-sm-3">
-                    {{this.$timeTransform(article.create_at) }}
+                    {{ $timeTransform(article.create_at) }}
                   </span>
                   <span class="w-50 fs-4 text-truncate" :title="article.description">
                     {{ article.title }}
@@ -38,7 +38,7 @@ export default {
               </li>
             </ul>
             <div class="text-center mt-4 mt-xl-5">
-              <RouterLink :to="`/articles/news`" class="btn btn-be4 text-b60 fs-4">
+              <RouterLink :to="`/articles?category=新聞`" class="btn btn-be4 text-b60 fs-4">
               更多消息
               </RouterLink>
             </div>
@@ -54,8 +54,9 @@ export default {
   min-height: 450px;
   background: linear-gradient(90deg, white 50%, transparent 50%);
   &-image{
-    background-image: url(@/assets/home/home-news.jpg);
+    background-image: url(@/assets/images/front/homepage/home-news.jpg);
     background-size: cover;
+    border-radius: .5rem;
   }
   > div{
     margin-top: -100px;

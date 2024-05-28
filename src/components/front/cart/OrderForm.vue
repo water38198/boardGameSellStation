@@ -16,7 +16,7 @@ export default {
     },
     ...mapActions(cartStore, ['sendOrder']),
   },
-  props: ['getCarts', 'cart'],
+
 };
 </script>
 
@@ -65,8 +65,7 @@ export default {
             </div>
           </div>
           <div class="text-center">
-            <button type="submit" class="btn btn-theme w-100 py-2 text-white"
-              :disabled="!cart.carts?.length">
+            <button type="submit" class="btn btn-theme w-100 py-2 text-white">
               送出
             </button>
           </div>

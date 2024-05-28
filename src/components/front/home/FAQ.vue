@@ -10,7 +10,7 @@
     <div class="accordion" id="faq">
       <div>
         <h3 class="accordion-header" id="flush-headingOne">
-          <button class="accordion-button collapsed bg-b20 ps-0 border-bottom fs-2"
+          <button class="accordion-button collapsed bg-gray200 border-bottom fs-2"
           type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
           aria-expanded="false" aria-controls="flush-collapseOne">
             可以貨到付款嗎?
@@ -26,7 +26,7 @@
       </div>
       <div>
         <h3 class="accordion-header" id="flush-headingTwo">
-          <button class="accordion-button collapsed bg-b20 ps-0 fs-2 border-bottom"
+          <button class="accordion-button collapsed bg-gray200 fs-2 border-bottom"
           type="button"
             data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false"
             aria-controls="flush-collapseTwo">
@@ -43,7 +43,7 @@
       </div>
       <div>
         <h3 class="accordion-header" id="flush-headingThree">
-          <button class="accordion-button collapsed bg-b20 ps-0 fs-2 border-bottom"
+          <button class="accordion-button collapsed bg-gray200 fs-2 border-bottom"
           type="button"
             data-bs-toggle="collapse" data-bs-target="#flush-collapseThree"
             aria-expanded="false"
@@ -62,6 +62,7 @@
     </div>
   </section>
 </template>
+
 
 <style scoped lang="scss">
 .faq {

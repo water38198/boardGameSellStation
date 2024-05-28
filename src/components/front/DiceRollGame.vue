@@ -6,6 +6,7 @@ export default {
     return {
       player: 1,
       computer: 1,
+      isAnimating: false,
     };
   },
   methods: {
@@ -14,7 +15,7 @@ export default {
       this.computer = Math.floor(Math.random() * 6 + 1);
     },
     startGame() {
-      // 骰子速度快 => 慢
+      this.isAnimating = true;
       const intervalFast = setInterval(() => {
         this.getRandomNumber();
       }, 50);
@@ -27,9 +28,11 @@ export default {
       }, 500);
       setTimeout(() => {
         clearInterval(intervalSlow);
+        this.isAnimating = false;
       }, 1400);
       setTimeout(() => {
         this.showResult();
+
       }, 2000);
     },
     showResult() {
@@ -59,16 +62,16 @@ export default {
           confirmButtonColor: '#0fb99b',
         });
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <template>
-<!-- Button trigger modal -->
-  <button type="button" class="btn active-button" data-bs-toggle="modal"
+<!-- 啟動遊戲按鈕 -->
+  <button type="button" class="btn active-button d-flex align-items-center" data-bs-toggle="modal"
   data-bs-target="#DiceGameModal">
-    <img src="@/assets/dice-icon.png" alt="dice" />
+    <img src="@/assets/images/front/dice-game/dice-icon.png" alt="dice" />
     <span class="text-white d-none d-md-inline"> 點我拿優惠券!!</span>
   </button>
 <!-- Modal -->
@@ -85,20 +88,24 @@ export default {
           <p>規則：只要擲出比對手大的骰子點數即可獲得優惠券代碼。</p>
           <div>
             你:
-            <div class="text-themeDark">
-              <i class="bi" :class="`bi-dice-${player}`"></i>
+            <div :class="{'jump':isAnimating}">
+              <div class="text-themeDark" :class="{'shake':isAnimating}">
+                <i class="bi" :class="`bi-dice-${player}`"></i>
+              </div>
             </div>
           </div>
           <div>
             對手:
-            <div class="text-danger">
-              <i class="bi" :class="`bi-dice-${computer}`"></i>
+            <div :class="{'jump':isAnimating}">
+              <div class="text-danger" :class="{'shake':isAnimating}"> 
+                <i class="bi" :class="`bi-dice-${computer}`"></i>
+              </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-          <button type="button" class="btn btn-theme text-white"
+          <button type="button" class="btn btn-theme text-white" :disabled="isAnimating"
           @click="startGame">投骰子</button>
         </div>
       </div>
@@ -123,5 +130,40 @@ export default {
 
 i.bi{
   font-size: 80px;
+}
+
+.shake{
+  animation:shake .2s infinite;
+}
+
+.jump{
+  animation:jump 1.2s 1;
+}
+
+@keyframes shake {
+  0%{
+    transform: rotate(8deg)
+  }
+  50%{
+    transform: rotate(-8deg)
+  }
+  100%{
+    transform: rotate(8deg)
+  }
+}
+
+@keyframes jump {
+  25%{
+    transform: translateY(-1rem);
+  }
+  50%{
+    transform: translateY(.5rem);
+  }
+  75%{
+    transform: translateY(-.25rem);
+  }
+  100%{
+    transform: translateY(0);
+  }
 }
 </style>

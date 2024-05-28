@@ -9,19 +9,19 @@
         <ul class="list-unstyled d-flex justify-content-center">
           <li class="mx-1">
             <a href="#"
-              ><img src="@/assets/footer/twitter.png" alt="twitter"
+              ><img src="@/assets/images/front/footer/twitter.png" alt="twitter"
             /></a>
           </li>
           <li class="mx-1">
-            <a href="#"><img src="@/assets/footer/FB.png" alt="facebook" /></a>
+            <a href="#"><img src="@/assets/images/front/footer/FB.png" alt="facebook" /></a>
           </li>
           <li class="mx-1">
             <a href="mailto:water38198@gmail.ocm"
-              ><img src="@/assets/footer/mail.png" alt="email"
+              ><img src="@/assets/images/front/footer/mail.png" alt="email"
             /></a>
           </li>
           <li class="mx-1">
-            <a href="#"><img src="@/assets/footer/IG.png" alt="instagram" /></a>
+            <a href="#"><img src="@/assets/images/front/footer/IG.png" alt="instagram" /></a>
           </li>
         </ul>
       </div>
@@ -33,12 +33,7 @@
 </template>
 
 <style scoped lang="scss">
-footer div:first-child{
+footer > div{
   padding-block: 30px;
-  @media (min-width: 576px) {
-    footer div:first-child{
-      padding-block: 50px;
-    }
-  }
 }
 </style>

@@ -3,13 +3,14 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
+
 export default defineStore('articleStore', {
   state: () => ({
     articles: [],
     articleLoading: false,
   }),
   actions: {
-    getArticles(page = 1) {
+    getAllArticles(page = 1) {
       this.articleLoading = true;
       axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/articles?page=${page}`)
         .then((res) => {
@@ -19,7 +20,7 @@ export default defineStore('articleStore', {
             res.data.pagination.total_pages > 1
             && res.data.pagination.current_page < res.data.pagination.total_pages
           ) {
-            this.getArticles(page + 1);
+            this.getAllArticles(page + 1);
           }
         })
         .catch((err) => {
