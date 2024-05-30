@@ -77,7 +77,6 @@ export default {
 
 <template>
   <div class="container-lg pt-100">
-    {{ id }}
     <VLoading :active="isLoading" />
     <nav aria-label="breadcrumb" class="my-3">
       <ol class="breadcrumb">

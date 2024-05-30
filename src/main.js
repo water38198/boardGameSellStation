@@ -26,8 +26,8 @@ setLocale('zh_TW');
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
 
-// 組合函數全域使用
-import useTimeTransform from '@/composables/timeTransform';
+// plugins
+import timeTransform from '@/plugins/timeTransform';
 
 // AOS
 import AOS from 'aos';
@@ -39,6 +39,7 @@ import router from './router'
 
 const app = createApp(App)
 
+app.use(timeTransform);
 app.use(createPinia())
 app.use(router)
 app.use(VueAxios, axios);
@@ -47,7 +48,5 @@ app.component('VField', Field);
 app.component('VForm', Form);
 app.component('ErrorMessage', ErrorMessage);
 app.component('VLoading', Loading);
-
-app.config.globalProperties.$timeTransform = useTimeTransform().timeTransform;
 
 app.mount('#app');
