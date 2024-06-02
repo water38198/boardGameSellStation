@@ -72,7 +72,7 @@ export default {
 </script>
 
 <template>
-  <div class="container min-vh-100 pt-100">
+  <div class="container pt-100">
     <VLoading :active="isLoading" />
     <div class="row justify-content-center pt-5">
       <div class="col-8 col-md-6 col-lg-4">

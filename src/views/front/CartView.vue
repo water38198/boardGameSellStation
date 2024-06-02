@@ -23,7 +23,7 @@ export default {
 </script>
 
 <template>
-  <div class="container-lg px-lg-5 pt-100">
+  <div class="container-lg px-lg-5">
     <VLoading :active="cartLoading" />
     <template v-if="cart.carts?.length">
       <div class="bg-white px-lg-4">

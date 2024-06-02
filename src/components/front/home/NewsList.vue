@@ -24,14 +24,14 @@ export default {
               :key="article.id" class="list-group-item py-3"
               data-aos="fade-up" :data-aos-duration="1000 + 250 * index">
                 <RouterLink :to="`/article/${article.id}`"
-                class="link-theme text-decoration-none fs-4 d-block">
+                class="link-theme text-decoration-none fs-4 d-block text-truncate">
                   <span class="me-2 me-sm-4 bg-theme text-white fw-bold list-number">
                     {{ index + 1 }}
                   </span>
                   <span class="text-b60 fs-6 me-2 me-sm-3">
                     {{ $timeTransform(article.create_at) }}
                   </span>
-                  <span class="w-50 fs-4 text-truncate" :title="article.description">
+                  <span class="fs-6 fs-md-4" :title="article.description">
                     {{ article.title }}
                   </span>
                 </RouterLink>
@@ -62,9 +62,10 @@ export default {
     margin-top: -100px;
   }
   .list-number{
-    font-size: 80%;
-    padding: 3px 8px;
-    border-radius: 3px;
+    display: inline-block;
+    font-size: 16px;
+    padding: 4px 8px;
+    border-radius: 5px;
   }
 }
 .list-group-item:has(a:hover) {

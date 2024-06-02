@@ -76,7 +76,7 @@ export default {
 </script>
 
 <template>
-  <div class="container-lg pt-100">
+  <div class="container-lg">
     <VLoading :active="isLoading" />
     <nav aria-label="breadcrumb" class="my-3">
       <ol class="breadcrumb">

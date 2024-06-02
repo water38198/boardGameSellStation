@@ -60,7 +60,7 @@ export default {
 </script>
 
 <template>
-  <div class="container bg-white article-container pt-100 pb-5">
+  <div class="container bg-white article-container pb-5">
     <div class="row g-3">
       <div class="col-lg-3">
         <CategoryNavbar @change-category="changeCategory" :current-category="category" :category-list="categoryList">

@@ -40,7 +40,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="article.title" class="container bg-white pt-100 pb-4 px-sm-5" >
+  <div v-if="article.title" class="container bg-white pb-4 px-sm-5" >
     <VLoading :active="isLoading" />
     <nav aria-label="breadcrumb" class="mb-4">
       <ol class="breadcrumb">

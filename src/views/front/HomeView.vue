@@ -25,7 +25,7 @@ export default {
 </script>
 
 <template>
-  <div class="bg-gray200">
+  <div class="home-wrapper">
     <HeadBanner />
     <main>
       <NewsList :articles="articles.slice(0,5)" />
@@ -44,6 +44,10 @@ export default {
 </template>
 
 <style scoped lang="scss">
+.home-wrapper{
+  background-color: var(--bs-gray200);
+  margin-top: -100px;
+}
 .article-banner {
   background: {
     image: linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)), url(@/assets/images/front/homepage/section-image.jpg);

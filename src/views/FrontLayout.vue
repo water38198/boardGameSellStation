@@ -20,7 +20,7 @@ export default {
 <template>
   <div class="min-vh-100 d-flex flex-column">  
   <FrontNavbar />
-  <RouterView class="flex-grow-1" />
+  <RouterView class="flex-grow-1 pt-5" />
   <FrontFooter />
   <DiceRollGame />
   </div>

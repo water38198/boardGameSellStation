@@ -1,5 +1,5 @@
 <template>
-  <div class="container pt-100">
+  <div class="container">
     <h2 class="mb-5 text-center text-theme fs-1">關於我們</h2>
     <section>
       <ul class="list-unstyled ps-0 pb-4">

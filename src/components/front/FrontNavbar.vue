@@ -32,7 +32,7 @@ export default {
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg nav-bg fixed-top" data-bs-theme="dark">
+  <nav class="navbar navbar-expand-lg nav-bg sticky-top" data-bs-theme="dark">
     <div class="container-fluid container-lg px-sm-5 px-lg-0 py-2">
       <RouterLink to="/home" class="btn btn-theme me-3 navbar-brand link-light">
         <i class="bi bi-dice-5-fill me-1"></i>
@@ -114,10 +114,10 @@ export default {
             </RouterLink>
           </li>
           <li class="nav-item mx-lg-3 ms-lg-auto navbar-expand">
-            <RouterLink to="/cart" class="text-theme position-relative d-inline-block my-3 cart">
-              <i class="bi bi-cart fs-3"></i>
-              <span v-if="cartTotalNum"
-              class="position-absolute  bg-theme badge rounded-pill cart-number">
+            <RouterLink to="/cart" class="text-theme d-inline-block my-3 cart">
+              <i class="bi bi-cart"></i>
+              購物車
+              <span v-if="cartTotalNum" class="bg-theme badge rounded-pill cart-number">
                 {{ cartTotalNum }}
               </span>
             </RouterLink>
