@@ -16,9 +16,9 @@ export default {
 <template>
   <div class="product-category">
     <slot name="title"></slot>
-    <div class="list-group text-center fs-5 flex-row flex-lg-column list-group-flush">
+    <div class="list-group text-center fs-5 flex-row flex-lg-column list-group-flush overflow-scroll">
       <template v-for="category in categoryList" :key="category">
-        <a class="list-group-item list-group-item-action list-group-item"
+        <a class="list-group-item list-group-item-action list-group-item text"
         :class="{'active':currentCategory=== category}" aria-current="true" data-bs-toggle="list"
         href="#" @click.prevent="$emit('changeCategory', category)">{{ category }}</a>
       </template>
@@ -33,7 +33,9 @@ export default {
   z-index: 1020;
 }
 
-
+.list-group-item{
+  text-wrap: nowrap;
+}
 .list-group-item.active{
   pointer-events: none;
 }
