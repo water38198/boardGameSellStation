@@ -124,3 +124,9 @@ export default {
   <PaginationComponent v-if="page.total_page>1" :pages="page" @get-Method="getCoupons" />
   <CouponModal :is-new="isNew" :temp-coupon="tempCoupon" @get-coupons="getCoupons"/>
 </template>
+
+<style scoped>
+table{
+  text-wrap: nowrap;
+}
+</style>

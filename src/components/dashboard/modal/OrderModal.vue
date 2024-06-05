@@ -78,21 +78,21 @@ export default {
         <div class="modal-body">
           <div class="mb-6">
             <h3 class="mb-4">基本資訊</h3>
-            <div class="row ">
-              <div class="col-4">
+            <div class="row gap-4">
+              <div class="col-md-4">
                 <div class="input-group">
                   <span class="input-group-text" id="create_at">建立時間</span>
                   <input type="text" class="form-control" aria-label="createdTime" aria-describedby="create_at" disabled :value="$timeTransform(modalOrder.create_at)">
                 </div>
               </div>
-              <div class="col-4">
+              <div class="col-md-4">
                 <div class="input-group">
                   <span class="input-group-text" id="id">ID</span>
                   <input type="text" class="form-control" aria-label="ID" aria-describedby="id"
                     disabled :value="modalOrder.id"/>
                 </div>
               </div>
-              <div class="col-4">
+              <div class="col-md-4">
                 <div class="d-flex align-items-center">
                   <span class="me-2">付款狀態: </span>
                   <input type="checkbox" class="btn-check" id="btn-check-outlined"
@@ -134,17 +134,17 @@ export default {
           <div>
             <h3 class="mb-4">顧客資訊</h3>
             <VForm v-slot="{ errors }" id="orderForm" class="row g-3" @submit="updateOrder">
-              <div class="col-4">
+              <div class="col-md-4">
                 <label for="username" class="form-label">姓名：</label>
                 <VField id="username" name="姓名" type="email" class="form-control" :class="{ 'is-invalid': errors['姓名'] }" placeholder="請輸入 姓名" rules="required" v-model="modalOrder.user.name"/>
                 <ErrorMessage name="姓名" class="invalid-feedback" />
               </div>
-              <div class="col-4">
+              <div class="col-md-4">
                 <label for="email" class="form-label">信箱：</label>
                 <VField id="email" name="信箱" type="email" class="form-control" :class="{ 'is-invalid': errors['信箱'] }" placeholder="請輸入 信箱" :rules="{required:true,email:true}" v-model="modalOrder.user.email" />
                 <ErrorMessage name="信箱" class="invalid-feedback" />
               </div>
-              <div class="col-4">
+              <div class="col-md-4">
                 <label for="tel" class="form-label">電話：</label>
                 <VField id="tel" type="tel" name="電話" class="form-control" :class="{'is-invalid':errors['電話']}" placeholder="請輸入電話" :rules="isPhone" v-model="modalOrder.user.tel"/>
                 <ErrorMessage name="電話" class="invalid-feedback" />

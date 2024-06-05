@@ -111,7 +111,7 @@ export default {
         <div class="modal-body">
           <VForm @submit="updateProduct" v-slot="{errors}" id="productForm">
             <div class="row">
-              <div class="col-4">
+              <div class="col-md-4">
                 <div class="mb-5">
                   <label for="productImage" class="form-label">主要圖片:</label>
                   <VField id="productImage" name="主要圖片" type="text"
@@ -151,7 +151,7 @@ export default {
                   </div>
                 </div>
               </div>
-              <div class="col-8">
+              <div class="col-md-8">
                 <div class="row gy-3">
                   <div class="col-12">
                     <label for="productTitle" class="form-label">商品名稱:</label>
@@ -160,7 +160,7 @@ export default {
                       placeholder="請輸入 商品名稱" rules="required" v-model="modalProduct.title"></VField>
                     <ErrorMessage name="商品名稱" class="invalid-feedback"></ErrorMessage>
                   </div>
-                  <div class="col-6">
+                  <div class="col-sm-6">
                     <label for="productCategory" class="form-label">分類:</label>
                     <VField id="productCategory" name="分類"
                       class="form-control" :class="{ 'is-invalid': errors['分類'] }"
@@ -175,14 +175,14 @@ export default {
                     </VField>
                     <ErrorMessage name="分類" class="invalid-feedback"></ErrorMessage>
                   </div>
-                  <div class="col-3">
+                  <div class="col-6 col-sm-3">
                     <label for="productUnit" class="form-label">單位:</label>
                     <VField id="productUnit" name="單位" type="text"
                       class="form-control" :class="{ 'is-invalid': errors['單位'] }"
                       placeholder="請輸入 單位" rules="required" v-model="modalProduct.unit"></VField>
                     <ErrorMessage name="單位" class="invalid-feedback"></ErrorMessage>
                   </div>
-                  <div class="col-3">
+                  <div class="col-6 col-sm-3">
                     <label for="productStock" class="form-label">數量：</label>
                     <VField id="productStock" name="數量" type="number"
                       class="form-control" :class="{ 'is-invalid': errors['數量'] }"
@@ -269,6 +269,14 @@ export default {
 </template>
 
 <style scoped lang="scss">
+.modal-dialog{
+  max-width: calc(100% - 16px);
+  width: 100%;
+  @media (width > 576px) {
+    max-width: 80%;
+  }
+}
+
 .custom-checkbox{
   input{
     -webkit-appearance: none;

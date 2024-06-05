@@ -90,16 +90,16 @@ export default {
         <div class="modal-body">
           <VForm @submit="updateCoupon" id="couponForm" v-slot="{errors}">
             <div class="row gy-4">
-              <div class="col-4">
+              <div class="col-md-6 col-lg-4">
                 <label for="title" class="form-label">優惠券名稱：</label>
                 <VField id="title" name="優惠券名稱" type="text" class="form-control" :class="{ 'is-invalid': errors['優惠券名稱'] }" placeholder="請輸入 優惠券名稱" rules="required" v-model.trim="modalCoupon.title"/>
                 <ErrorMessage name="優惠券名稱" class="invalid-feedback" />
               </div>
-              <div class="col-4">
+              <div class="col-md-6 col-lg-4">
                 <label for="percent" class="form-label">折扣比例：</label>
                 <VField id="percent" name="折扣比例" type="number" class="form-control" :class="{ 'is-invalid': errors['折扣比例'] }" placeholder="請輸入 折扣比例" :rules="{ min_value: 0, max_value: 99, required: true }" v-model.trim.number="modalCoupon.percent"/>
               </div>
-              <div class="col-4">
+              <div class="col-md-6 col-lg-4">
                 <label for="is_enabled" class="form-label">狀態:</label>
                 <VField id="is_enabled" name="狀態" class="form-control"
                   :class="{
@@ -113,14 +113,14 @@ export default {
                 </VField>
                 <ErrorMessage name="狀態" class="invalid-feedback"></ErrorMessage>
               </div>
-              <div class="col-4">
+              <div class="col-md-6 col-lg-4">
                 <label for="code" class="form-label">折扣碼:</label>
                 <VField id="code" name="折扣碼" type="text"
                   class="form-control" :class="{ 'is-invalid': errors['折扣碼'] }"
                   placeholder="請輸入折扣碼，如:Test123" rules="required" v-model="modalCoupon.code"></VField>
                 <ErrorMessage name="折扣碼" class="invalid-feedback"></ErrorMessage>
               </div>
-              <div class="col-4">
+              <div class="col-md-6 col-lg-4">
                 <label for="due_date" class="form-label">到期日:</label>
                 <input type="date" id="due_date" name="到期日" class="date-input" pattern="yyyy-MM-dd" :min="$timeTransform(new Date().getTime())" 
                 :value="$timeTransform(modalCoupon.due_date)" @input="changeDate">
@@ -142,6 +142,14 @@ export default {
 </template>
 
 <style scoped lang="scss">
+.modal-dialog{
+  max-width: calc(100% - 16px);
+  width: 100%;
+  @media (width > 576px) {
+    max-width: 80%;
+  }
+}
+
 .date-input{
   display: block;
   width: 100%;

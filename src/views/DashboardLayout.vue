@@ -62,7 +62,7 @@ export default {
     <hr>
     <DashboardNavbar></DashboardNavbar>
     <hr>
-    <div class="container">
+    <div class="container-lg">
       <RouterView v-if="isChecked" />
     </div>
   </div>

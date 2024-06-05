@@ -133,7 +133,7 @@ export default {
         <div class="modal-body">
           <VForm @submit="updateArticle" v-slot="{errors}" id="articleForm">
             <div class="row gy-10">
-              <div class="col-4">
+              <div class="col-lg-4">
                 <div class="mb-5">
                   <label for="articleImage" class="form-label">封面：</label>
                   <VField id="articleImage" name="封面" type="text" class="form-control" :class="{ 'is-invalid': errors['封面'] }" placeholder="請輸入封面網址" rules="required" v-model="modalArticle.image"/>
@@ -145,15 +145,15 @@ export default {
                 </div>
                 <img :src="modalArticle.image" alt="main product image" />
               </div>
-              <div class="col-8">
+              <div class="col-lg-8">
                 <div class="row gy-3">
-                  <div class="col-6">
+                  <div class="col-lg-6">
                     <label for="articleTitle" class="form-label">標題:</label>
                     <VField id="articleTitle" name="文章標題" type="text"
                       class="form-control" :class="{ 'is-invalid': errors['文章標題'] }" placeholder="請輸入 文章標題" rules="required" v-model="modalArticle.title" />
                     <ErrorMessage name="文章標題" class="invalid-feedback" />
                   </div>
-                  <div class="col-6">
+                  <div class="col-lg-6">
                     <label for="articleCategory" class="form-label">文章分類:</label>
                     <VField id="articleCategory" name="文章分類" class="form-select"
                       :class="{ 'is-invalid': errors['文章分類'] }" placeholder="請輸入 文章分類"
@@ -164,21 +164,21 @@ export default {
                     </VField>
                     <ErrorMessage name="文章分類" class="invalid-feedback" />
                   </div>
-                  <div class="col-4">
+                  <div class="col-lg-4">
                     <label for="articleAuthor" class="form-label">作者:</label>
                     <VField id="articleAuthor" name="作者" type="text" class="form-control"
                       :class="{ 'is-invalid': errors['作者'] }" placeholder="請輸入 作者"
                       rules="required" v-model="modalArticle.author"></VField>
                     <ErrorMessage name="作者" class="invalid-feedback"></ErrorMessage>
                   </div>
-                  <div class="col-8">
+                  <div class="col-lg-8">
                     <label for="articleDescription" class="form-label">敘述:</label>
                     <VField id="articleDescription" name="敘述" type="text" class="form-control"
                       :class="{ 'is-invalid': errors['敘述'] }" placeholder="請簡單描述本文目的"
                       v-model="modalArticle.description"></VField>
                     <ErrorMessage name="敘述" class="invalid-feedback"></ErrorMessage>
                   </div>
-                  <div class="col-4">
+                  <div class="col-lg-4">
                     <span class="fs-6">狀態:</span>
                     <div class="form-check form-switch d-flex align-items-center mb-4">
                       <input class="form-check-input me-2" type="checkbox" role="switch"
@@ -219,7 +219,10 @@ export default {
   min-height: 300px;
 }
 .modal-dialog{
-  max-width: 80%;
+  max-width: calc(100% - 16px);
   width: 100%;
+  @media (width > 576px) {
+    max-width: 80%;
+  }
 }
 </style>

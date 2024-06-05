@@ -149,6 +149,9 @@ export default {
 </template>
 
 <style scoped lang="scss">
+table{
+  text-wrap: nowrap;
+}
 img{
   width: 100px;
   aspect-ratio: 1;
