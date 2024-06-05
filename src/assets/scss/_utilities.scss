@@ -70,7 +70,7 @@ $utilities: map-merge(( // scss-docs-start utils-vertical-align
       values: map-loop($theme-colors-rgb, rgba-css-var, "$key", "focus-ring")),
     // scss-docs-end utils-focus-ring
     // scss-docs-start utils-position
-    "position": (property: position,
+    "position": (property: position, responsive: true,
       values: static relative absolute fixed sticky),
     "top": (property: top,
       values: $position-values),

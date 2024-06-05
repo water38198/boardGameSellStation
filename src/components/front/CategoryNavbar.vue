@@ -30,7 +30,7 @@ export default {
 .product-category {
   position: sticky;
   top: 90px;
-  z-index: 1020;
+  z-index: 5;
 }
 
 .list-group-item{
