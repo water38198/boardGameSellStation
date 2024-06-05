@@ -91,17 +91,18 @@ export default {
 <style scoped lang="scss">
 .navbar-collapse{
   position: absolute;
-  top:74px;
+  top:73px;
   left: 0;
   width: 100%;
-  background: linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%);
   backdrop-filter: blur(10px);
   padding-left: 1rem;
   z-index: 10;
 
   @media (width > 992px ) {
     position: static;
-    background-color: transparent;
+    background-image: none;
+    backdrop-filter: none;
   }
 }
 .nav-bg {
