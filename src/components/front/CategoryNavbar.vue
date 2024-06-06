@@ -16,7 +16,7 @@ export default {
 <template>
   <div class="product-category">
     <slot name="title"></slot>
-    <div class="list-group text-center fs-5 flex-row flex-lg-column list-group-flush overflow-scroll">
+    <div class="list-group text-center fs-5 flex-row flex-lg-column list-group-flush">
       <template v-for="category in categoryList" :key="category">
         <a class="list-group-item list-group-item-action list-group-item text"
         :class="{'active':currentCategory=== category}" aria-current="true" data-bs-toggle="list"
@@ -27,6 +27,9 @@ export default {
 </template>
 
 <style scoped lang="scss">
+.list-group{
+  overflow-x: auto;
+}
 .product-category {
   position: sticky;
   top: 90px;
