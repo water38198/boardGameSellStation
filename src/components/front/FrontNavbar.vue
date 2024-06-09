@@ -42,37 +42,37 @@ export default {
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" ref="navbarCollapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-3 mb-lg-0 w-100">
+        <ul class="navbar-nav gap-4 me-auto mb-3 mb-lg-0 w-100">
           <li class="nav-item">
-            <RouterLink to="/products?category=全部" class="me-3 nav-link link-light">
+            <RouterLink to="/products?category=全部" class="text-center me-3 nav-link link-light">
               <i class="bi bi-border-all me-2"></i>所有商品
             </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/articles?category=新聞" class="me-3 nav-link link-light article-link"
+            <RouterLink to="/articles?category=新聞" class="text-center me-3 nav-link link-light article-link"
             :class="{'article-link-active':articleCategory==='新聞'}">
               <i class="bi bi-newspaper me-2"></i>最新消息
             </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/articles?category=心得" class="me-3 nav-link link-light article-link"
+            <RouterLink to="/articles?category=心得" class="text-center me-3 nav-link link-light article-link"
             :class="{'article-link-active':articleCategory==='心得'}">
               <i class="bi bi-card-text me-2"></i>心得評價
             </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/articles?category=開箱" class="me-3 nav-link link-light article-link"
+            <RouterLink to="/articles?category=開箱" class="text-center me-3 nav-link link-light article-link"
               :class="{'article-link-active':articleCategory==='開箱'}">
               <i class="bi bi-box-seam-fill me-2"></i>開箱文章
             </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/about" class="me-3 nav-link link-light">
+            <RouterLink to="/about" class="text-center me-3 nav-link link-light">
               <i class="bi bi-file-earmark-person me-2"></i>關於我們
             </RouterLink>
           </li>
           <li class="nav-item mx-lg-3 ms-lg-auto navbar-expand">
-            <RouterLink to="/cart" class="text-theme position-relative d-block px-lg-2 cart">
+            <RouterLink to="/cart" class="text-center text-theme position-relative d-block px-lg-2 cart">
               <i class="bi bi-cart fs-lg-3 me-2 me-lg-0 link-light">
               </i>
               <span class="text-white d-lg-none">購物車</span>
@@ -109,8 +109,14 @@ export default {
   background: linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%);
 }
 
-.nav-item a:hover{
-  opacity: .7;
+.nav-item {
+  font-size: 1.25rem;
+  & a:hover{
+    opacity: .7;
+  }
+  @media (width > 992px) {
+    font-size: 1rem;
+  }
 }
 
 .router-link-active{
