@@ -1,1 +1,0 @@
-import{_ as o,c as n,e as s,w as c,a as e,r as a,o as r,b as _}from"./index-CLp7rXUj.js";const l={},d={class:"container text-center pt-100"},i=e("h1",null,"錯誤發生",-1),u=e("p",null,"您可能輸入了錯誤的網址",-1);function p(f,h){const t=a("RouterLink");return r(),n("div",d,[i,u,s(t,{to:"/",class:"link-theme"},{default:c(()=>[_("回首頁")]),_:1})])}const x=o(l,[["render",p]]);export{x as default};
