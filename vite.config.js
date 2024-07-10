@@ -13,8 +13,6 @@ export default defineConfig(({ mode }) => {
     vue(),
     ],
   base:mode === 'production' ? '/boardGameSellStation/' : '/',
-  
-  // base: process.env.NODE_ENV === 'production' ? '/boardGameSellStation/' : '/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
